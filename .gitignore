@@ -1776,3 +1776,11 @@ render();
 </script>
 </body>
 </html>
+grammar_check.db
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.env
+venv/
+.venv/
