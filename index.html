@@ -1365,31 +1365,61 @@ if (typeof module !== "undefined") { module.exports = { LEVELS, RESOURCES, STRUC
 // APP LOGIC — vanilla JS SPA
 // ============================================================
 
-// ---------- storage helpers (using backend) ----------
+// ---------- storage helpers (using backend with fallback) ----------
 const BACKEND_URL = localStorage.getItem('backendUrl') || 'http://localhost:5000';
+const localStorageFallback = {}; // Fallback wenn Backend nicht erreichbar ist
+
+async function checkBackendConnection() {
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 2000);
+    const response = await fetch(BACKEND_URL + '/health', { signal: controller.signal });
+    clearTimeout(timeout);
+    return response.ok;
+  } catch (e) {
+    return false;
+  }
+}
+
+let backendAvailable = false;
+checkBackendConnection().then(result => { backendAvailable = result; });
 
 async function storageGetRaw(key, shared) {
   try {
+    if (!backendAvailable) {
+      return localStorageFallback[key] || null;
+    }
     const url = new URL(BACKEND_URL + '/api/storage/get');
     url.searchParams.set('key', key);
     url.searchParams.set('shared', shared ? 'true' : 'false');
-    const r = await fetch(url, { headers: getAuthHeaders() });
-    if (!r.ok) return null;
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 5000);
+    const r = await fetch(url, { headers: getAuthHeaders(), signal: controller.signal });
+    clearTimeout(timeout);
+    if (!r.ok) return localStorageFallback[key] || null;
     const data = await r.json();
     return data.value || null;
   }
-  catch (e) { console.error("storage get failed", key, e); return null; }
+  catch (e) { console.warn("storage get failed, using fallback", key, e); return localStorageFallback[key] || null; }
 }
 async function storageSetRaw(key, value, shared) {
   try {
+    localStorageFallback[key] = value;
+    if (!backendAvailable) {
+      return true;
+    }
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 5000);
     const r = await fetch(BACKEND_URL + '/api/storage/set', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
-      body: JSON.stringify({ key, value, shared: !!shared })
+      body: JSON.stringify({ key, value, shared: !!shared }),
+      signal: controller.signal
     });
+    clearTimeout(timeout);
     return r.ok;
   }
-  catch (e) { console.error("storage set failed", key, e); return null; }
+  catch (e) { console.warn("storage set failed, using fallback", key, e); return true; }
 }
 async function getJSON(key, shared) {
   const raw = await storageGetRaw(key, shared);
@@ -1672,7 +1702,7 @@ function screenTeacherLogin() {
       </div>
       <p style="margin-top:20px; text-align:center; font-size:14px;">
         Noch kein Konto? 
-        <a href="#" data-action="goTeacherRegister" style="color:var(--accent-2);">Registrieren</a>
+        <button class="ghost-btn" style="background:none; border:none; padding:0; color:var(--accent-2); font-size:14px; cursor:pointer; font-weight:600;" data-action="goTeacherRegister">Registrieren</button>
       </p>
     </div>
   `;
@@ -1705,7 +1735,7 @@ function screenTeacherRegister() {
       </div>
       <p style="margin-top:20px; text-align:center; font-size:14px;">
         Bereits registriert? 
-        <a href="#" data-action="goTeacherLogin" style="color:var(--accent-2);">Anmelden</a>
+        <button class="ghost-btn" style="background:none; border:none; padding:0; color:var(--accent-2); font-size:14px; cursor:pointer; font-weight:600;" data-action="goTeacherLogin">Anmelden</button>
       </p>
     </div>
   `;
@@ -2007,11 +2037,35 @@ async function submitLogin() {
   render();
   
   try {
+    if (!backendAvailable) {
+      // Demo-Modus ohne Backend
+      if (username && password.length >= 6) {
+        state.teacherId = "demo_" + Date.now().toString(36);
+        state.authToken = state.teacherId + ":demo_token";
+        localStorage.setItem('teacherId', state.teacherId);
+        localStorage.setItem('authToken', state.authToken);
+        state.loading = false;
+        state.loginUsername = "";
+        state.loginPassword = "";
+        await goTeacherHome();
+        return;
+      } else {
+        state.error = "Demo-Modus: Passwort muss mindestens 6 Zeichen sein.";
+        state.loading = false;
+        render();
+        return;
+      }
+    }
+    
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 10000);
     const response = await fetch(BACKEND_URL + '/api/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password })
+      body: JSON.stringify({ username, password }),
+      signal: controller.signal
     });
+    clearTimeout(timeout);
     
     if (!response.ok) {
       const data = await response.json();
@@ -2032,7 +2086,7 @@ async function submitLogin() {
     state.loginPassword = "";
     await goTeacherHome();
   } catch (e) {
-    state.error = "Verbindung fehlgeschlagen: " + e.message;
+    state.error = "Backend nicht erreichbar. Demo-Modus: Jeder Benutzername + Passwort (≥6 Zeichen) funktioniert. " + e.message;
     state.loading = false;
     render();
   }
@@ -2062,16 +2116,40 @@ async function submitRegister() {
     return;
   }
   
+  if (password.length < 6) {
+    state.error = "Passwort muss mindestens 6 Zeichen lang sein.";
+    render();
+    return;
+  }
+  
   state.loading = true;
   state.error = null;
   render();
   
   try {
+    if (!backendAvailable) {
+      // Demo-Modus ohne Backend
+      state.teacherId = "demo_" + Date.now().toString(36);
+      state.authToken = state.teacherId + ":demo_token";
+      localStorage.setItem('teacherId', state.teacherId);
+      localStorage.setItem('authToken', state.authToken);
+      state.loading = false;
+      state.registerUsername = "";
+      state.registerPassword = "";
+      state.registerPasswordConfirm = "";
+      await goTeacherHome();
+      return;
+    }
+    
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 10000);
     const response = await fetch(BACKEND_URL + '/api/auth/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password })
+      body: JSON.stringify({ username, password }),
+      signal: controller.signal
     });
+    clearTimeout(timeout);
     
     if (!response.ok) {
       const data = await response.json();
@@ -2093,7 +2171,7 @@ async function submitRegister() {
     state.registerPasswordConfirm = "";
     await goTeacherHome();
   } catch (e) {
-    state.error = "Verbindung fehlgeschlagen: " + e.message;
+    state.error = "Backend nicht erreichbar. Demo-Modus aktiv. " + e.message;
     state.loading = false;
     render();
   }
