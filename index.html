@@ -19,7 +19,7 @@
     --text: #F1F3FF;
     --text-muted: #9AA3C9;
     --text-dim: #6B7299;
-
+ 
     --a2: #5EEAD4;
     --a2-dim: rgba(94,234,212,0.16);
     --b1: #8CF26B;
@@ -28,24 +28,24 @@
     --b2-dim: rgba(255,182,72,0.16);
     --c1: #FF6B8B;
     --c1-dim: rgba(255,107,139,0.16);
-
+ 
     --accent: #FFB648;
     --accent-2: #5EEAD4;
     --good: #8CF26B;
     --bad: #FF6B6B;
     --review: #C9A6FF;
-
+ 
     --radius-sm: 10px;
     --radius: 16px;
     --radius-lg: 24px;
-
+ 
     --font-display: 'Space Grotesk', sans-serif;
     --font-body: 'Inter', sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
-
+ 
     --shadow-card: 0 8px 30px rgba(0,0,0,0.35);
   }
-
+ 
   *{ box-sizing:border-box; }
   html,body{ margin:0; padding:0; }
   body{
@@ -57,17 +57,17 @@
     line-height: 1.5;
   }
   #app{ min-height:100vh; display:flex; flex-direction:column; }
-
+ 
   h1,h2,h3,h4{ font-family: var(--font-display); font-weight:700; margin:0; letter-spacing:-0.01em; }
   p{ margin:0; }
   a{ color: var(--accent-2); }
   button{ font-family: var(--font-body); }
   ::selection{ background: var(--accent); color:#12142A; }
-
+ 
   :focus-visible{ outline: 2px solid var(--accent-2); outline-offset: 2px; }
-
+ 
   .mono{ font-family: var(--font-mono); }
-
+ 
   /* ---------- layout helpers ---------- */
   .shell{ max-width: 1080px; margin: 0 auto; padding: 28px 20px 60px; width:100%; flex:1; }
   .shell-narrow{ max-width: 720px; margin:0 auto; padding: 28px 20px 60px; width:100%; flex:1; }
@@ -79,7 +79,7 @@
   .muted{ color:var(--text-muted); }
   .dim{ color:var(--text-dim); }
   .center-text{ text-align:center; }
-
+ 
   /* ---------- topbar ---------- */
   .topbar{
     display:flex; align-items:center; justify-content:space-between;
@@ -89,14 +89,14 @@
   .brand-mark{ width:30px; height:30px; border-radius:9px; background:conic-gradient(from 200deg, var(--a2), var(--b1), var(--b2), var(--c1), var(--a2)); position:relative; flex:none; }
   .brand-mark::after{ content:""; position:absolute; inset:5px; background:var(--bg); border-radius:6px; }
   .brand small{ display:block; font-family:var(--font-body); font-weight:500; font-size:11px; color:var(--text-dim); letter-spacing:0.03em; }
-
+ 
   .ghost-btn{
     background:transparent; border:1px solid var(--border-strong); color:var(--text);
     padding:9px 16px; border-radius:99px; font-size:14px; font-weight:600; cursor:pointer;
     transition:.15s;
   }
   .ghost-btn:hover{ border-color:var(--accent-2); color:var(--accent-2); }
-
+ 
   /* ---------- buttons ---------- */
   .btn{
     display:inline-flex; align-items:center; justify-content:center; gap:8px;
@@ -114,7 +114,7 @@
   .btn-icon{ width:38px; height:38px; padding:0; border-radius:10px; background:var(--surface-3); border:1px solid var(--border); color:var(--text); cursor:pointer; display:inline-flex; align-items:center; justify-content:center; }
   .btn-icon:hover{ border-color:var(--accent-2); }
   .btn-danger-ghost{ background:transparent; color:var(--bad); border:1px solid rgba(255,107,107,0.35); border-radius:99px; padding:9px 16px; font-weight:600; font-size:13px; cursor:pointer; }
-
+ 
   /* ---------- cards ---------- */
   .card{ background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); padding:26px; box-shadow:var(--shadow-card); }
   .card-flat{ background:var(--surface-2); border:1px solid var(--border); border-radius:var(--radius); padding:18px; }
@@ -123,7 +123,7 @@
   .tag-B1{ background:var(--b1-dim); color:var(--b1); }
   .tag-B2{ background:var(--b2-dim); color:var(--b2); }
   .tag-C1{ background:var(--c1-dim); color:var(--c1); }
-
+ 
   input[type=text], input[type=search], textarea, select{
     background:var(--surface-2); border:1px solid var(--border-strong); color:var(--text);
     border-radius:12px; padding:13px 15px; font-size:15px; font-family:var(--font-body); width:100%;
@@ -131,7 +131,7 @@
   textarea{ resize:vertical; min-height:80px; line-height:1.5; }
   input::placeholder, textarea::placeholder{ color:var(--text-dim); }
   label.field-label{ font-size:13px; font-weight:600; color:var(--text-muted); margin-bottom:7px; display:block; }
-
+ 
   /* ---------- landing ---------- */
   .hero{ text-align:center; padding: 40px 10px 10px; }
   .hero h1{ font-size:44px; line-height:1.05; }
@@ -147,7 +147,7 @@
   .role-card.student .role-icon{ background:var(--a2-dim); }
   .role-card.teacher .role-icon{ background:var(--c1-dim); }
   .role-card h3{ font-size:20px; margin-bottom:6px; }
-
+ 
   /* ---------- signal ladder (signature element) ---------- */
   .ladder-wrap{ position:relative; width:64px; flex:none; }
   .ladder-track{ position:absolute; left:31px; top:6px; bottom:6px; width:2px; background:var(--border); }
@@ -163,7 +163,7 @@
   .rung.done .rung-dot{ background:#0D0F20; }
   .rung-check{ font-size:11px; color:#0D0F20; font-weight:900; display:none; }
   .rung.done .rung-check{ display:block; } .rung.done .rung-dot{ display:none; }
-
+ 
   /* ---------- test top hud ---------- */
   .test-hud{ display:flex; align-items:center; gap:16px; padding:16px 22px; border-bottom:1px solid var(--border); background:rgba(18,20,42,0.7); backdrop-filter:blur(6px); position:sticky; top:0; z-index:10; }
   .hud-progress{ flex:1; height:8px; background:var(--surface-2); border-radius:99px; overflow:hidden; }
@@ -171,24 +171,24 @@
   .hud-stat{ font-family:var(--font-mono); font-size:14px; font-weight:600; display:flex; align-items:center; gap:6px; white-space:nowrap; }
   .streak-flame{ filter: grayscale(1); opacity:.4; transition:.2s; }
   .streak-flame.hot{ filter:none; opacity:1; }
-
+ 
   /* ---------- exercise area ---------- */
   .test-body{ display:flex; gap:28px; flex:1; }
   .test-main{ flex:1; min-width:0; padding: 30px 24px 60px; }
   @media (max-width:800px){ .test-body{ flex-direction:column-reverse; } .ladder-wrap{ width:100%; height:56px; } .ladder-track{ display:none; } .rung{ display:none; } }
-
+ 
   .structure-badge{ display:flex; align-items:center; gap:10px; margin-bottom:22px; }
   .exercise-kicker{ font-family:var(--font-mono); font-size:12px; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:10px; }
   .exercise-prompt{ font-family:var(--font-display); font-size:26px; font-weight:600; line-height:1.35; margin-bottom:26px; }
   .exercise-prompt .blank{ display:inline-block; min-width:60px; border-bottom:3px solid var(--accent); }
-
+ 
   .mc-options{ display:flex; flex-direction:column; gap:12px; max-width:520px; }
   .mc-opt{ background:var(--surface-2); border:2px solid var(--border); border-radius:14px; padding:15px 18px; text-align:left; font-size:16px; color:var(--text); cursor:pointer; transition:.15s; font-family:var(--font-body); }
   .mc-opt:hover{ border-color:var(--border-strong); }
   .mc-opt.selected{ border-color:var(--accent); background:var(--b2-dim); }
   .mc-opt.correct{ border-color:var(--good); background:var(--b1-dim); }
   .mc-opt.incorrect{ border-color:var(--bad); background:rgba(255,107,107,0.12); }
-
+ 
   .chip-zone{ display:flex; flex-wrap:wrap; gap:10px; min-height:52px; padding:14px; background:var(--surface-2); border:1.5px dashed var(--border-strong); border-radius:14px; }
   .slot{ min-width:70px; min-height:44px; border-radius:10px; background:rgba(255,255,255,0.03); display:flex; align-items:center; justify-content:center; }
   .word-chip{
@@ -199,11 +199,11 @@
   .word-chip.placed{ background: linear-gradient(135deg, var(--accent), #FF8F5E); color:#1A1400; border-color:transparent; }
   .word-chip.dragging{ opacity:0.4; }
   .bank-zone{ margin-top:14px; }
-
+ 
   .free-input{ max-width:560px; }
   .cue-words{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px; }
   .cue-word{ background:var(--surface-3); padding:6px 12px; border-radius:8px; font-family:var(--font-mono); font-size:13px; color:var(--accent-2); }
-
+ 
   .feedback-box{ margin-top:22px; padding:18px 20px; border-radius:14px; max-width:560px; animation: pop .25s ease; }
   @keyframes pop{ from{ transform:scale(0.96); opacity:0; } to{ transform:scale(1); opacity:1; } }
   .feedback-box.correct{ background:rgba(140,242,107,0.1); border:1px solid rgba(140,242,107,0.35); }
@@ -213,28 +213,28 @@
   .feedback-title.correct{ color:var(--good); } .feedback-title.incorrect{ color:var(--bad); } .feedback-title.review{ color:var(--review); }
   .model-answer{ margin-top:10px; font-size:14px; color:var(--text-muted); }
   .model-answer b{ color:var(--text); }
-
+ 
   .xp-pop{ position:fixed; top:20px; right:24px; background:var(--surface-3); border:1px solid var(--accent); color:var(--accent); font-family:var(--font-mono); font-weight:700; padding:10px 18px; border-radius:99px; z-index:100; animation: floatup 1.6s ease forwards; }
   @keyframes floatup{ 0%{ opacity:0; transform:translateY(8px);} 15%{opacity:1; transform:translateY(0);} 80%{opacity:1;} 100%{opacity:0; transform:translateY(-14px);} }
-
+ 
   .toast-banner{ position:fixed; top:20px; left:50%; transform:translateX(-50%); background:var(--surface-3); border:1px solid var(--border-strong); padding:14px 26px; border-radius:99px; z-index:100; font-weight:700; box-shadow:var(--shadow-card); animation: pop .3s ease; }
-
+ 
   .intro-card{ text-align:center; max-width:600px; margin: 40px auto; }
   .intro-card .icon-orb{ width:84px; height:84px; border-radius:24px; margin:0 auto 20px; display:flex; align-items:center; justify-content:center; font-size:34px; }
-
+ 
   /* ---------- teacher ---------- */
   .group-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(260px,1fr)); gap:18px; margin-top:20px; }
   .group-card{ cursor:pointer; transition:.15s; }
   .group-card:hover{ border-color:var(--border-strong); transform:translateY(-2px); }
   .code-pill{ font-family:var(--font-mono); background:var(--surface-3); padding:5px 12px; border-radius:8px; font-size:13px; letter-spacing:0.06em; }
-
+ 
   .level-picker{ display:flex; gap:10px; flex-wrap:wrap; }
   .level-opt{ flex:1; min-width:110px; border:2px solid var(--border); background:var(--surface-2); border-radius:14px; padding:14px; text-align:center; cursor:pointer; }
   .level-opt.sel-A2.active{ border-color:var(--a2); background:var(--a2-dim); }
   .level-opt.sel-B1.active{ border-color:var(--b1); background:var(--b1-dim); }
   .level-opt.sel-B2.active{ border-color:var(--b2); background:var(--b2-dim); }
   .level-opt.sel-C1.active{ border-color:var(--c1); background:var(--c1-dim); }
-
+ 
   .struct-pick-grid{ display:grid; grid-template-columns:1fr 1fr; gap:24px; align-items:start; }
   @media (max-width:760px){ .struct-pick-grid{ grid-template-columns:1fr; } }
   .struct-item{ display:flex; align-items:center; gap:12px; padding:12px 14px; border-radius:12px; border:1px solid var(--border); margin-bottom:8px; cursor:pointer; }
@@ -244,19 +244,19 @@
   .checkbox.on{ background:var(--accent); border-color:var(--accent); color:#1A1400; font-weight:900; font-size:12px; }
   .order-item{ display:flex; align-items:center; gap:10px; background:var(--surface-2); border:1px solid var(--border); border-radius:12px; padding:10px 12px; margin-bottom:8px; }
   .order-idx{ font-family:var(--font-mono); color:var(--text-dim); font-size:13px; width:20px; }
-
+ 
   table.data-table{ width:100%; border-collapse:collapse; }
   table.data-table th{ text-align:left; font-size:12px; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-dim); padding:10px 12px; border-bottom:1px solid var(--border); }
   table.data-table td{ padding:12px; border-bottom:1px solid var(--border); font-size:14px; }
   table.data-table tr.row-click{ cursor:pointer; }
   table.data-table tr.row-click:hover td{ background:rgba(255,255,255,0.02); }
-
+ 
   .bar-row{ display:flex; align-items:center; gap:12px; margin-bottom:12px; }
   .bar-label{ width:230px; flex:none; font-size:13px; }
   .bar-track{ flex:1; height:10px; background:var(--surface-2); border-radius:99px; overflow:hidden; }
   .bar-fill{ height:100%; border-radius:99px; transition:width .6s ease; }
   .bar-pct{ width:44px; text-align:right; font-family:var(--font-mono); font-size:13px; flex:none; }
-
+ 
   /* ---------- tuner dial ---------- */
   .dial-wrap{ display:flex; flex-direction:column; align-items:center; margin: 10px auto 30px; }
   .dial{ width:240px; height:150px; position:relative; }
@@ -266,13 +266,13 @@
   .dial-readout{ margin-top:14px; text-align:center; }
   .dial-level{ font-family:var(--font-display); font-size:40px; font-weight:700; }
   .dial-pct{ font-family:var(--font-mono); color:var(--text-muted); font-size:15px; }
-
+ 
   .rec-card{ border-left:4px solid var(--accent); padding-left:16px; margin-bottom:18px; }
   .rec-card.strong{ border-left-color:var(--good); }
   .rec-card ul{ margin:8px 0 0; padding-left:18px; color:var(--text-muted); font-size:14px; }
   .rec-card ul li{ margin-bottom:4px; }
   .rec-link{ display:inline-flex; align-items:center; gap:6px; margin-top:8px; font-size:13px; font-weight:600; text-decoration:none; }
-
+ 
   details.review-structure{ border:1px solid var(--border); border-radius:14px; margin-bottom:12px; overflow:hidden; }
   details.review-structure summary{ padding:16px 20px; cursor:pointer; list-style:none; display:flex; align-items:center; justify-content:space-between; }
   details.review-structure summary::-webkit-details-marker{ display:none; }
@@ -281,15 +281,15 @@
   .review-item .a-row{ display:flex; gap:8px; align-items:flex-start; font-size:14px; margin-bottom:4px; }
   .status-icon{ flex:none; width:20px; }
   .status-icon.ok{ color:var(--good); } .status-icon.bad{ color:var(--bad); } .status-icon.rev{ color:var(--review); }
-
+ 
   footer.app-foot{ text-align:center; padding:20px; color:var(--text-dim); font-size:12px; }
-
+ 
   .empty-state{ text-align:center; padding:50px 20px; color:var(--text-muted); }
   .empty-state .icon{ font-size:38px; margin-bottom:12px; }
-
+ 
   .modal-backdrop{ position:fixed; inset:0; background:rgba(10,11,24,0.72); backdrop-filter:blur(3px); display:flex; align-items:center; justify-content:center; z-index:200; padding:20px; }
   .modal{ background:var(--surface); border:1px solid var(--border-strong); border-radius:var(--radius-lg); padding:28px; max-width:440px; width:100%; box-shadow:var(--shadow-card); }
-
+ 
   @media (prefers-reduced-motion: reduce){
     *{ animation-duration:0.001ms !important; transition-duration:0.001ms !important; }
   }
@@ -305,21 +305,21 @@
 // Your English Pal grammar-by-level index, and Tracktest CEFR
 // grammar requirement lists.
 // ============================================================
-
+ 
 const LEVELS = [
   { id: "A2", label: "A2 – Elementary", color: "var(--a2)" },
   { id: "B1", label: "B1 – Intermediate", color: "var(--b1)" },
   { id: "B2", label: "B2 – Upper-Intermediate", color: "var(--b2)" },
   { id: "C1", label: "C1 – Advanced", color: "var(--c1)" }
 ];
-
+ 
 const RESOURCES = {
   bc: { name: "British Council – LearnEnglish Teens", url: "https://learnenglishteens.britishcouncil.org/grammar-vocabulary" },
   te: { name: "Test-English.com Grammatik-Übersicht", url: "https://test-english.com/grammar-points/contents/" },
   ego: { name: "ego4u.com Grammatik", url: "https://www.ego4u.com/en/cram-up/grammar" },
   eh: { name: "Englisch-hilfen.de Grammatik", url: "https://www.englisch-hilfen.de/en/grammar_list/alle.htm" }
 };
-
+ 
 // helper to keep item objects short to write
 function mc(prompt, options, answerIndex, explanation) {
   return { type: "mc", prompt, options, answerIndex, explanation };
@@ -336,7 +336,7 @@ function transform(prompt, accepted, explanation) {
 function sentence(prompt, cueWords, regex, modelAnswer, explanation) {
   return { type: "sentence", prompt, cueWords: cueWords || null, regex, modelAnswer, explanation };
 }
-
+ 
 const STRUCTURES = [
 // ---------------- A2 ----------------
 {
@@ -423,7 +423,239 @@ const STRUCTURES = [
     sentence("Triff eine spontane Entscheidung mit 'will' (z.B. jemandem helfen).", null, /\b(will|'ll)\b/i, "I'll help you carry that bag.", "will für spontane Entscheidungen im Moment des Sprechens.")
   ]
 },
-
+ 
+{
+  id: "a2-modal-ability-permission",
+  level: "A2",
+  name: "Modalverben: Fähigkeit & Erlaubnis (can/could/be able to)",
+  rule: "'can' für Fähigkeiten und Erlaubnis in der Gegenwart, 'could' für die Vergangenheit oder höfliche Bitten, 'be able to' wenn 'can' grammatisch nicht möglich ist (z.B. in der Zukunft).",
+  example: "I can swim, but I couldn't swim when I was five. Could you help me, please?",
+  tips: [
+    "'can' hat keine Infinitivform – für die Zukunft oder Perfect-Formen brauchst du 'be able to' (will be able to).",
+    "'could' für höfliche Bitten klingt freundlicher als 'can'."
+  ],
+  resource: { hub: "bc", term: "can could be able to" },
+  items: [
+    mc("___ you speak three languages?", ["Can", "Do", "Are", "Does"], 0, "Fähigkeit ausdrücken: can + Grundform des Verbs."),
+    mc("I ___ finish the marathon next year if I train hard.", ["can", "will can", "will be able to", "am able"], 2, "'can' hat keine Zukunftsform – dafür braucht man 'will be able to'."),
+    gap("She ___ (can) speak Japanese fluently.", ["can speak"], "Fähigkeit in der Gegenwart: can + Grundform."),
+    order(["I", "could", "run", "very", "fast"], "I could run very fast.", "Vergangene Fähigkeit: could + Grundform des Verbs."),
+    transform("She can to speak French.", ["she can speak french"], "Nach Modalverben wie 'can' folgt kein 'to': can speak, nicht can to speak."),
+    sentence("Beschreibe etwas, das du als Kind konntest (could).", ["child", "could"], /\bcould\b/i, "When I was a child, I could climb trees very well.", "Vergangene Fähigkeit: could + Grundform."),
+    sentence("Bitte jemanden höflich um Hilfe mit 'Could you ...?'.", null, /^could\s+you\b/i, "Could you open the window, please?", "Höfliche Bitte: Could you + Grundform + ...?")
+  ]
+},
+{
+  id: "a2-modal-obligation",
+  level: "A2",
+  name: "Modalverben: Verpflichtung & Verbot (must/have to/mustn't)",
+  rule: "'must'/'have to' = Verpflichtung (etwas ist nötig). 'mustn't' = Verbot (etwas ist verboten). 'don't have to' = keine Verpflichtung (nicht nötig, aber erlaubt).",
+  example: "You must wear a seatbelt. You mustn't smoke here. You don't have to come if you're busy.",
+  tips: [
+    "'mustn't' und 'don't have to' werden oft verwechselt: mustn't = verboten, don't have to = nicht nötig.",
+    "'have to' passt in alle Zeitformen (had to, will have to), 'must' meist nur in der Gegenwart."
+  ],
+  resource: { hub: "eh", term: "must have to mustn't" },
+  items: [
+    mc("You ___ wear a helmet on a motorbike – it's the law.", ["must", "mustn't", "don't have to", "could"], 0, "Verpflichtung/Vorschrift: must."),
+    mc("You ___ pay for the museum – it's free today.", ["must", "have to", "don't have to", "mustn't"], 2, "Keine Verpflichtung, aber erlaubt: don't have to."),
+    gap("You ___ (mustn't) touch that – it's dangerous!", ["mustn't touch"], "Verbot: mustn't + Grundform."),
+    order(["to", "she", "early", "had", "get", "up"], "She had to get up early.", "Vergangenheit von 'have to': had to + Grundform."),
+    transform("You mustn't to park here, it's forbidden.", ["you mustn't park here it's forbidden", "you mustn't park here, it's forbidden"], "Nach Modalverben (mustn't) folgt kein 'to': mustn't park."),
+    sentence("Schreibe eine Regel, die an deiner Schule gilt (must/mustn't).", ["school", "rule"], /\b(must|mustn't)\b/i, "At my school, you mustn't use your phone during lessons.", "Regeln/Verpflichtung: must/mustn't + Grundform."),
+    sentence("Beschreibe etwas, das nicht nötig ist, aber erlaubt (don't have to).", null, /\bdon't have to\b|\bdoesn't have to\b/i, "You don't have to bring your own lunch, the school provides it.", "Keine Verpflichtung: don't have to / doesn't have to + Grundform.")
+  ]
+},
+{
+  id: "a2-quantifiers",
+  level: "A2",
+  name: "Quantifiers (some/any/much/many/a lot of)",
+  rule: "'some' in positiven Sätzen, 'any' in Verneinungen/Fragen. 'many/few' für zählbare Nomen, 'much/little' für unzählbare Nomen. 'a lot of' passt zu beidem.",
+  example: "I have some apples but I don't have any bananas. There isn't much time, but there are a few minutes left.",
+  tips: [
+    "Zählbar (Plural, z.B. apples) → many/a few. Unzählbar (z.B. time, water) → much/a little.",
+    "'a few/a little' = eine kleine, aber positive Menge. 'few/little' (ohne 'a') = fast keine, negativ."
+  ],
+  resource: { hub: "eh", term: "quantifiers some any much many" },
+  items: [
+    mc("I don't have ___ money with me.", ["some", "any", "many", "a few"], 1, "Verneinung → 'any', nicht 'some'."),
+    mc("There are ___ students in this class than in mine.", ["much", "many", "a little", "less"], 1, "'students' ist zählbar (Plural) → many."),
+    gap("How ___ (much/many) water do you drink every day?", ["much"], "'water' ist unzählbar → much."),
+    order(["a", "we", "few", "have", "minutes", "left"], "We have a few minutes left.", "'minutes' ist zählbar → a few."),
+    transform("I have much friends in this city.", ["i have a lot of friends in this city", "i have many friends in this city"], "'friends' ist zählbar → many/a lot of, nicht much."),
+    sentence("Beschreibe, was du heute noch tun musst, mit 'a few' oder 'a little'.", ["today"], /\b(a few|a little)\b/i, "I still have a little homework to finish today.", "'a few' (zählbar) / 'a little' (unzählbar) für eine kleine, positive Menge."),
+    sentence("Beschreibe etwas, das du NICHT hast, mit 'any'.", null, /\bany\b/i, "I don't have any plans for the weekend yet.", "'any' in verneinten Sätzen und Fragen.")
+  ]
+},
+{
+  id: "a2-articles",
+  level: "A2",
+  name: "Artikel (a/an/the/kein Artikel)",
+  rule: "'a/an' für ein unbestimmtes, erstmals genanntes Ding (an vor Vokal-Laut). 'the' für etwas Bestimmtes/bereits Bekanntes. Kein Artikel bei Pluralen/unzählbaren Nomen im allgemeinen Sinn.",
+  example: "I saw a dog. The dog was brown. Dogs are loyal animals.",
+  tips: [
+    "'an' steht vor einem VOKAL-LAUT, nicht nur vor Vokal-Buchstaben (an hour, aber a university).",
+    "Bei allgemeinen Aussagen über eine ganze Gruppe (Plural/unzählbar) steht meist KEIN Artikel."
+  ],
+  resource: { hub: "eh", term: "articles a an the" },
+  items: [
+    mc("I need ___ umbrella, it's raining.", ["a", "an", "the", "-"], 1, "'umbrella' beginnt mit Vokal-Laut → an."),
+    mc("___ Moon orbits ___ Earth.", ["A / an", "The / the", "A / the", "- / -"], 1, "Einzigartige, bekannte Dinge → the Moon, the Earth."),
+    gap("She works as ___ (a/an) engineer.", ["an"], "Vokal-Laut am Anfang von 'engineer' → an."),
+    order(["book", "the", "on", "table", "the", "is", "mine"], "The book on the table is mine.", "'the' für ein bereits bekanntes, bestimmtes Buch/Tisch."),
+    transform("I want to be an teacher when I grow up.", ["i want to be a teacher when i grow up"], "'teacher' beginnt mit Konsonanten-Laut → a teacher, nicht an teacher."),
+    sentence("Beschreibe einen Beruf, den du gerne hättest, mit 'a' oder 'an'.", ["job", "career"], /\b(a|an)\s+\w+/i, "I would like to be a doctor one day.", "'a/an' vor einem unbestimmten Beruf/Ding, das zum ersten Mal genannt wird."),
+    sentence("Schreibe einen allgemeinen Satz über eine ganze Gruppe/Kategorie OHNE Artikel (z.B. über Tiere, Musik, Sport).", null, /^[a-z]+\s+(are|is)\b/i, "Cats are very independent animals.", "Bei allgemeinen Aussagen über eine ganze Kategorie im Plural/unzählbar steht meist kein Artikel.")
+  ]
+},
+{
+  id: "a2-there-is-are",
+  level: "A2",
+  name: "There is / There are",
+  rule: "'There is/There's' + Singular/unzählbar. 'There are' + Plural. Verneinung: there isn't/there aren't. Frage: Is there...? / Are there...?",
+  example: "There is a cat in the garden. There are three cats in the garden. Is there any milk left?",
+  tips: [
+    "'There is' verkürzt sich oft zu 'There's' in der gesprochenen Sprache.",
+    "Bei unzählbaren Nomen (milk, time, money) immer 'There is', auch wenn es 'viel' klingt."
+  ],
+  resource: { hub: "eh", term: "there is there are" },
+  items: [
+    mc("___ a spider in the bathroom!", ["There is", "There are", "Is there", "There's are"], 0, "Singular Nomen 'spider' → There is."),
+    mc("___ any tickets left for the concert?", ["Is there", "Are there", "There is", "There are"], 1, "Plural 'tickets' + Frage → Are there."),
+    gap("___ (there / not) any milk in the fridge.", ["there isn't", "there is not"], "Unzählbares Nomen 'milk', verneint → there isn't."),
+    order(["are", "students", "many", "there", "school", "in", "the"], "There are many students in the school.", "Plural Nomen 'students' → There are."),
+    transform("There is three books on the table.", ["there are three books on the table"], "Plural Nomen 'books' → There are, nicht There is."),
+    sentence("Beschreibe, was es in deinem Klassenzimmer gibt (There is/are).", ["classroom"], /\bthere (is|are|'s)\b/i, "There are twenty desks in my classroom.", "There is/are + Nomen zur Beschreibung von Existenz."),
+    sentence("Stelle eine Frage mit 'Is there' oder 'Are there' über deine Stadt/Schule.", null, /^(is there|are there)\b/i, "Is there a swimming pool near your house?", "Fragen mit Is there/Are there + Nomen.")
+  ]
+},
+{
+  id: "a2-question-formation",
+  level: "A2",
+  name: "Fragebildung (yes/no- und wh-Fragen)",
+  rule: "Yes/No-Fragen mit do/does/did + Subjekt + Grundform. Wh-Fragen mit Fragewort + do/does/did + Subjekt + Grundform (außer bei Subjektfragen: Who/What + Verb direkt).",
+  example: "Do you like pizza? Where does she live? Who called you?",
+  tips: [
+    "Bei Subjektfragen (Who/What als Subjekt) KEIN 'do/does': Who called you? nicht Who did call you?",
+    "Bei 'be' und Modalverben kein 'do': Are you tired? Can you help?"
+  ],
+  resource: { hub: "bc", term: "question formation wh questions" },
+  items: [
+    mc("___ you like chocolate?", ["Do", "Does", "Are", "Did"], 0, "'you' + Present Simple Frage → Do."),
+    mc("___ your sister live?", ["Do", "Where do", "Where does", "Does where"], 2, "Wh-Frage mit 'sister' (3. Person Singular) → Where does."),
+    gap("___ (who / call) you last night?", ["Who called"], "Subjektfrage: Who + Verb direkt, kein 'did'."),
+    order(["you", "did", "go", "where", "yesterday"], "Where did you go yesterday?", "Wh-Frage in der Vergangenheit: Where + did + Subjekt + Grundform."),
+    transform("What means this word?", ["what does this word mean"], "Objektfrage braucht 'does': What does this word mean?"),
+    sentence("Stelle eine Ja/Nein-Frage über die Hobbys einer Freundin/eines Freundes.", ["hobby", "friend"], /^(do|does)\b.*\?$/i, "Does your best friend play any instruments?", "Ja/Nein-Frage: Do/Does + Subjekt + Grundform + ?"),
+    sentence("Stelle eine Subjektfrage mit 'Who' (kein 'do/does' nötig).", null, /^who\s+\w+(s)?\b/i, "Who wrote this book?", "Subjektfrage: Who + Verb direkt (kein zusätzliches do/does).")
+  ]
+},
+{
+  id: "a2-possessives",
+  level: "A2",
+  name: "Possessivbegleiter & Possessiv-'s",
+  rule: "Possessivbegleiter (my, your, his, her, its, our, their) stehen vor dem Nomen. Possessiv-'s zeigt Besitz bei Personen (Tom's book). Bei Pluralen auf -s nur Apostroph.",
+  example: "This is my book. That is Anna's car. The children's toys are here.",
+  tips: [
+    "'its' (Possessiv, kein Apostroph) vs. 'it's' (= it is/it has) – ein häufiger Fehler!",
+    "Bei Pluralnomen, die schon auf -s enden, kommt nur ein Apostroph ohne weiteres s: the girls' room."
+  ],
+  resource: { hub: "eh", term: "possessive adjectives possessive s" },
+  items: [
+    mc("This is ___ car, not mine.", ["her", "hers", "she", "she's"], 0, "Possessivbegleiter vor Nomen: her car."),
+    mc("The dog wagged ___ tail happily.", ["it's", "its", "it is", "its'"], 1, "Possessiv ohne Apostroph: its tail (nicht it's = it is)."),
+    gap("That is ___ (Tom) bike over there.", ["Tom's"], "Possessiv-'s bei Personen: Tom's bike."),
+    order(["are", "keys", "these", "sister's", "my"], "These are my sister's keys.", "Possessivkette: my sister's keys."),
+    transform("This is the book of Anna.", ["this is anna's book"], "Bei Personen üblicherweise Possessiv-'s statt 'of': Anna's book."),
+    sentence("Beschreibe etwas, das jemandem in deiner Familie gehört (Possessiv-'s).", ["family"], /\b\w+'s\b/i, "My brother's room is always messy.", "Possessiv-'s zeigt Besitz bei Personen."),
+    sentence("Beschreibe etwas mit einem Possessivbegleiter (his/her/their/our).", null, /\b(my|your|his|her|its|our|their)\b/i, "Their house has a huge garden.", "Possessivbegleiter stehen direkt vor dem Nomen.")
+  ]
+},
+{
+  id: "a2-prepositions-time-place",
+  level: "A2",
+  name: "Präpositionen von Zeit & Ort (in/on/at)",
+  rule: "'at' für genaue Zeitpunkte/Orte (at 5 o'clock, at the bus stop). 'on' für Tage/Daten und Oberflächen (on Monday, on the table). 'in' für längere Zeiträume/Räume (in July, in the box).",
+  example: "I wake up at 7 am. The meeting is on Friday. She was born in 2008.",
+  tips: [
+    "Merksatz: AT für den Punkt (Zeitpunkt/Ort), ON für die Fläche/den Tag, IN für den Raum/Zeitraum.",
+    "Feste Ausdrücke merken: at night, on time, in time, at the weekend."
+  ],
+  resource: { hub: "eh", term: "prepositions of time and place" },
+  items: [
+    mc("I have an appointment ___ 3 o'clock.", ["in", "on", "at", "by"], 2, "Genauer Zeitpunkt → at."),
+    mc("Her birthday is ___ May.", ["at", "on", "in", "by"], 2, "Monat (längerer Zeitraum) → in."),
+    gap("The book is ___ (on) the shelf.", ["on"], "Oberfläche → on."),
+    order(["meeting", "is", "monday", "the", "on"], "The meeting is on Monday.", "Wochentag → on."),
+    transform("I was born at 2009.", ["i was born in 2009"], "Jahr (Zeitraum) → in, nicht at."),
+    sentence("Beschreibe, wann du normalerweise aufstehst (at + Uhrzeit).", ["morning"], /\bat\s+\d/i, "I usually get up at 7 o'clock.", "Genaue Uhrzeit → at."),
+    sentence("Beschreibe, wo sich etwas in deinem Zimmer befindet (in/on).", null, /\b(in|on)\s+(my|the)\b/i, "My phone is on my desk.", "'on' für Oberflächen, 'in' für Räume/Behälter.")
+  ]
+},
+{
+  id: "a2-present-perfect-basic",
+  level: "A2",
+  name: "Present Perfect (Grundlagen: ever, just, already, yet)",
+  rule: "have/has + Partizip II für Erfahrungen ohne genauen Zeitpunkt. 'ever/never' = jemals/nie, 'just' = gerade eben, 'already' = schon, 'yet' = noch (meist verneint/Frage).",
+  example: "Have you ever been to Spain? I have just finished my homework. She hasn't arrived yet.",
+  tips: [
+    "'already' steht meist VOR dem Partizip II, 'yet' meist am SATZENDE.",
+    "'ever' nur in Fragen, 'never' nur in positiven Sätzen (mit negativer Bedeutung)."
+  ],
+  resource: { hub: "bc", term: "present perfect ever just already yet" },
+  items: [
+    mc("Have you ___ eaten sushi?", ["ever", "never", "already", "yet"], 0, "'ever' in Fragen: Have you ever...?"),
+    mc("I've ___ finished my homework, so I can go out now.", ["yet", "already", "ever", "never"], 1, "'already' = schon, meist in positiven Sätzen."),
+    gap("She ___ (not / arrive) ___ (yet).", ["hasn't arrived yet"], "Verneinung + yet: hasn't arrived yet."),
+    order(["seen", "have", "just", "I", "him"], "I have just seen him.", "'just' zwischen have/has und Partizip II."),
+    transform("I have ate breakfast already.", ["i have already eaten breakfast", "i have eaten breakfast already"], "Partizip II von 'eat' ist 'eaten', nicht 'ate'."),
+    sentence("Beschreibe eine Erfahrung, die du noch NIE gemacht hast (never).", ["never"], /\bnever\b/i, "I have never eaten octopus.", "'never' in positiven Sätzen mit negativer Bedeutung (= zu keinem Zeitpunkt)."),
+    sentence("Frage jemanden, ob er/sie schon einmal etwas Bestimmtes getan hat (Have you ever...?).", null, /^have you ever\b/i, "Have you ever ridden a horse?", "Have you ever + Partizip II...? für Erfahrungsfragen.")
+  ]
+},
+{
+  id: "a2-zero-conditional",
+  level: "A2",
+  name: "Zero Conditional",
+  rule: "If + Present Simple, ... Present Simple – für allgemeingültige Wahrheiten und wissenschaftliche Fakten, die IMMER wahr sind.",
+  example: "If you heat water to 100°C, it boils. If it rains, the ground gets wet.",
+  tips: [
+    "Das Zero Conditional beschreibt etwas, das IMMER passiert – nicht nur manchmal.",
+    "Man kann 'if' oft durch 'when' ersetzen, ohne die Bedeutung zu ändern."
+  ],
+  resource: { hub: "te", term: "zero conditional" },
+  items: [
+    mc("If you ___ ice, it melts.", ["heat", "heats", "will heat", "heated"], 0, "Zero Conditional: If + Present Simple (heat), ... Present Simple (melts)."),
+    mc("Plants die if they ___ water.", ["don't get", "won't get", "didn't get", "not get"], 0, "Zero Conditional, verneint: if + don't/doesn't + Grundform."),
+    gap("If you ___ (mix) red and blue, you get purple.", ["mix"], "Zero Conditional: Present Simple im if-Satz."),
+    order(["heat", "if", "water", "you", "it", "boils"], "If you heat water, it boils.", "Zero Conditional: If + Present Simple, Present Simple."),
+    transform("If you will heat ice, it melts.", ["if you heat ice it melts", "if you heat ice, it melts"], "Kein 'will' im if-Satz beim Zero Conditional – beide Satzteile stehen im Present Simple."),
+    sentence("Beschreibe eine wissenschaftliche Tatsache mit dem Zero Conditional.", ["science", "always"], /^if\b(?!.*\bwill\b).+/i, "If you don't water plants, they die.", "Zero Conditional: If + Present Simple, ... Present Simple, ohne 'will'."),
+    sentence("Schreibe einen eigenen Zero-Conditional-Satz über etwas, das immer passiert.", null, /^if\b(?!.*\bwill\b).+/i, "If the sun sets, it gets dark.", "Zero Conditional beschreibt einen allgemeingültigen Zusammenhang, keine einmalige Zukunftsvorhersage.")
+  ]
+},
+{
+  id: "a2-imperative",
+  level: "A2",
+  name: "Imperativ (Aufforderungen)",
+  rule: "Der Imperativ nutzt die Grundform des Verbs ohne Subjekt für Befehle, Anweisungen und Ratschläge. Verneinung: Don't + Grundform.",
+  example: "Open the window, please. Don't touch that! Be careful!",
+  tips: [
+    "Der Imperativ hat kein Subjekt – man beginnt direkt mit der Grundform des Verbs.",
+    "'Let's' + Grundform wird für Vorschläge benutzt, an denen der Sprecher selbst teilnimmt (Let's go!)."
+  ],
+  resource: { hub: "eh", term: "imperative" },
+  items: [
+    mc("___ the door, please. It's cold.", ["Close", "Closes", "Closing", "To close"], 0, "Imperativ: Grundform ohne Subjekt."),
+    mc("___ run in the hallway!", ["Not", "No", "Don't", "Doesn't"], 2, "Verneinter Imperativ: Don't + Grundform."),
+    gap("___ (be) careful, the floor is wet!", ["Be"], "Imperativ von 'be': Be careful."),
+    order(["let's", "the", "watch", "tonight", "film"], "Let's watch the film tonight.", "Vorschlag mit 'Let's' + Grundform."),
+    transform("You don't touch that plate, it's hot!", ["don't touch that plate it's hot", "don't touch that plate, it's hot"], "Verneinter Imperativ braucht kein Subjekt: Don't touch..., nicht You don't touch."),
+    sentence("Gib eine Anweisung für ein einfaches Rezept (Imperativ).", ["recipe", "first"], /^(?!(i|you|he|she|we|they|it)\b)[a-z]+/i, "Add two eggs and mix well.", "Der Imperativ beginnt direkt mit der Grundform des Verbs, ohne Subjekt davor."),
+    sentence("Schreibe einen Vorschlag mit 'Let's' für eine Aktivität mit Freunden.", null, /^let's\b/i, "Let's go to the cinema this weekend.", "Let's + Grundform für Vorschläge, an denen man selbst teilnimmt.")
+  ]
+},
+ 
 // ---------------- B1 ----------------
 {
   id: "b1-present-perfect",
@@ -509,7 +741,176 @@ const STRUCTURES = [
     sentence("Beschreibe eine Person, die du kennst, mit einem defining relative clause (who).", null, /\bwho\b/i, "I have a neighbour who plays the guitar every evening.", "Relativsatz mit 'who' für Personen, ohne Komma.")
   ]
 },
-
+ 
+{
+  id: "b1-present-perfect-continuous",
+  level: "B1",
+  name: "Present Perfect Continuous",
+  rule: "have/has been + Verb-ing für Handlungen, die in der Vergangenheit begonnen haben und noch andauern oder gerade eben aufgehört haben (Fokus auf Dauer).",
+  example: "I have been studying for three hours. She's tired because she has been running.",
+  tips: [
+    "Oft mit 'for' (Dauer) oder 'since' (Startpunkt) benutzt: for two hours, since Monday.",
+    "Fokus liegt auf der DAUER/dem Prozess, nicht auf dem Ergebnis (vgl. Present Perfect Simple)."
+  ],
+  resource: { hub: "te", term: "present perfect continuous" },
+  items: [
+    mc("I ___ for two hours. My legs hurt!", ["have run", "have been running", "am running", "run"], 1, "Present Perfect Continuous betont die Dauer der Handlung: have been running."),
+    mc("How long ___ you ___ English?", ["have / studied", "have / been studying", "are / studying", "do / study"], 1, "Frage nach Dauer: How long have you been studying...?"),
+    gap("She ___ (wait) for the bus for twenty minutes.", ["has been waiting"], "Present Perfect Continuous: has been + Verb-ing."),
+    order(["since", "raining", "morning", "has", "been", "it"], "It has been raining since morning.", "have/has been + Verb-ing + since + Zeitpunkt."),
+    transform("I have been study French for six months.", ["i have been studying french for six months"], "Nach 'have been' folgt die -ing-Form: been studying, nicht been study."),
+    sentence("Beschreibe eine Aktivität, die du schon seit einer Weile machst (for/since).", ["hobby"], /\b(have|has|'ve|'s)\s+been\s+\w+ing\b/i, "I have been playing the guitar for four years.", "Present Perfect Continuous: have/has been + Verb-ing, oft mit for/since."),
+    sentence("Erkläre, warum jemand müde/schmutzig/außer Atem ist – mit Present Perfect Continuous.", null, /\b(have|has|'ve|'s)\s+been\s+\w+ing\b/i, "He's out of breath because he has been running.", "Present Perfect Continuous erklärt eine sichtbare Auswirkung einer andauernden Handlung.")
+  ]
+},
+{
+  id: "b1-past-perfect",
+  level: "B1",
+  name: "Past Perfect",
+  rule: "had + Partizip II für eine Handlung, die VOR einer anderen Handlung in der Vergangenheit abgeschlossen war.",
+  example: "When I arrived, the train had already left. She had never seen snow before she moved to Canada.",
+  tips: [
+    "Past Perfect zeigt die 'Vergangenheit der Vergangenheit' – die zuerst passierte Handlung.",
+    "Oft mit 'already, just, never, before' benutzt, um die Reihenfolge zu verdeutlichen."
+  ],
+  resource: { hub: "eh", term: "past perfect" },
+  items: [
+    mc("When we arrived at the cinema, the film ___ already ___.", ["has / started", "had / started", "was / starting", "did / start"], 1, "Zwei vergangene Handlungen, eine zuerst → had started."),
+    mc("She was upset because she ___ her keys.", ["lost", "has lost", "had lost", "was losing"], 2, "Handlung vor einer anderen Vergangenheit → had lost."),
+    gap("I ___ (never / see) snow before that winter.", ["had never seen"], "Past Perfect, verneint mit never: had never seen."),
+    order(["left", "we", "had", "already", "when", "arrived", "they"], "We had already left when they arrived.", "had + Partizip II für die zuerst abgeschlossene Handlung."),
+    transform("When I got home, my brother has eaten all the pizza.", ["when i got home my brother had eaten all the pizza", "when i got home, my brother had eaten all the pizza"], "Die Handlung davor braucht Past Perfect: had eaten, nicht has eaten."),
+    sentence("Beschreibe zwei Handlungen in der Vergangenheit, von denen eine zuerst passierte.", ["before"], /\bhad\s+(\w+\s+)?(\w+ed\b|been|gone|seen|done|made|met|written|read|left|come|taken|found|got|begun)/i, "By the time I got to the station, the train had already left.", "Past Perfect für die zuerst abgeschlossene Handlung, Simple Past für die zweite."),
+    sentence("Beschreibe eine Erfahrung, die du vor einem bestimmten Ereignis noch nie gemacht hattest.", null, /\bhad never\b/i, "I had never flown in a plane before that trip.", "had never + Partizip II für eine Erfahrung, die vor einem Zeitpunkt in der Vergangenheit fehlte.")
+  ]
+},
+{
+  id: "b1-used-to-would",
+  level: "B1",
+  name: "used to / would (vergangene Gewohnheiten)",
+  rule: "'used to' + Grundform für vergangene Gewohnheiten/Zustände, die jetzt nicht mehr so sind. 'would' funktioniert ähnlich, aber nur für wiederholte Handlungen (nicht für Zustände wie have, be, like).",
+  example: "I used to live in Berlin. When I was young, I would visit my grandma every summer.",
+  tips: [
+    "'used to' funktioniert für Gewohnheiten UND Zustände. 'would' nur für wiederholte Handlungen, nicht für Zustände.",
+    "Verwechsle nicht 'used to' (Gewohnheit) mit 'be used to' (an etwas gewöhnt sein) – zwei verschiedene Strukturen!"
+  ],
+  resource: { hub: "bc", term: "used to would past habits" },
+  items: [
+    mc("I ___ play football every weekend when I was a kid.", ["use to", "used to", "was used to", "would used"], 1, "Vergangene Gewohnheit: used to + Grundform."),
+    mc("She ___ shy, but now she's very confident.", ["would be", "used to be", "would used to be", "was used"], 1, "Zustand in der Vergangenheit → used to (NICHT would, da 'be' ein Zustand ist)."),
+    gap("We ___ (used to) go camping every summer.", ["used to go"], "Wiederholte vergangene Handlung: used to + Grundform."),
+    order(["visit", "would", "every", "grandparents", "my", "sunday", "I"], "I would visit my grandparents every Sunday.", "Wiederholte Handlung in der Vergangenheit: would + Grundform."),
+    transform("When I was a child, I would have a dog.", ["when i was a child i had a dog", "when i was a child, i had a dog", "when i was a child i used to have a dog", "when i was a child, i used to have a dog"], "'have' ist ein Zustand, kein 'would' – nutze Simple Past oder 'used to have'."),
+    sentence("Beschreibe eine Gewohnheit aus deiner Kindheit mit 'used to'.", ["child"], /\bused to\b/i, "I used to collect stickers when I was little.", "used to + Grundform für eine vergangene Gewohnheit, die jetzt nicht mehr existiert."),
+    sentence("Beschreibe eine wiederholte Handlung aus deiner Kindheit mit 'would'.", null, /\bwould\s+\w+/i, "Every summer, we would go to the beach with my cousins.", "would + Grundform für wiederholte Handlungen (nicht für Zustände) in der Vergangenheit.")
+  ]
+},
+{
+  id: "b1-question-tags",
+  level: "B1",
+  name: "Question Tags (Bestätigungsfragen)",
+  rule: "Question Tags bestehen aus Hilfsverb + Pronomen am Satzende. Positiver Hauptsatz → negatives Tag. Negativer Hauptsatz → positives Tag.",
+  example: "You're coming, aren't you? She doesn't like coffee, does she? Let's go, shall we?",
+  tips: [
+    "Positiv + negativ, negativ + positiv – das Tag 'spiegelt' den Hauptsatz.",
+    "Bei 'I am' lautet das Tag ungewöhnlich 'aren't I?'."
+  ],
+  resource: { hub: "te", term: "question tags" },
+  items: [
+    mc("You like pizza, ___?", ["do you", "don't you", "aren't you", "doesn't you"], 1, "Positiver Hauptsatz → negatives Tag: don't you?"),
+    mc("She isn't coming, ___?", ["is she", "isn't she", "does she", "doesn't she"], 0, "Negativer Hauptsatz → positives Tag: is she?"),
+    gap("They can swim, ___ (can)?", ["can't they"], "Positiver Hauptsatz mit Modalverb → negatives Tag: can't they?"),
+    order(["you", "you're", "tired", "aren't"], "You're tired, aren't you?", "Positiver Hauptsatz ('re) → negatives Tag: aren't you?"),
+    transform("He works hard, does he?", ["he works hard doesn't he", "he works hard, doesn't he"], "Positiver Hauptsatz → negatives Tag: doesn't he, nicht does he."),
+    sentence("Bilde eine Bestätigungsfrage über eine positive Aussage (positiv + negatives Tag).", ["tag question"], /,\s*(don't|doesn't|didn't|isn't|aren't|wasn't|weren't|won't|can't|couldn't|shouldn't|haven't|hasn't|hadn't)\s+\w+\?$/i, "Your sister plays tennis, doesn't she?", "Positiver Hauptsatz + negatives Tag am Satzende."),
+    sentence("Bilde eine Bestätigungsfrage über eine negative Aussage (negativ + positives Tag).", null, /,\s*(do|does|did|is|are|was|were|will|can|could|should|have|has|had)\s+\w+\?$/i, "You don't eat meat, do you?", "Negativer Hauptsatz + positives Tag am Satzende.")
+  ]
+},
+{
+  id: "b1-too-enough",
+  level: "B1",
+  name: "too / enough",
+  rule: "'too' + Adjektiv = mehr als nötig/gewünscht (negativ). 'enough' nach dem Adjektiv/Adverb = ausreichend. 'enough' VOR einem Nomen.",
+  example: "This coffee is too hot. I'm not tall enough to reach the shelf. We don't have enough time.",
+  tips: [
+    "'too' steht VOR dem Adjektiv, 'enough' steht NACH dem Adjektiv/Adverb, aber VOR einem Nomen.",
+    "'too' hat immer eine negative Bedeutung (= ein Problem), 'very' ist neutral."
+  ],
+  resource: { hub: "eh", term: "too enough" },
+  items: [
+    mc("This box is ___ heavy for me to lift.", ["too", "enough", "very", "so"], 0, "Negative Konsequenz (kann nicht heben) → too + Adjektiv."),
+    mc("She isn't old ___ to watch this film.", ["too", "enough", "so", "very"], 1, "'enough' steht NACH dem Adjektiv: old enough."),
+    gap("We don't have ___ (enough) time to finish this.", ["enough"], "'enough' vor einem Nomen: enough time."),
+    order(["to", "drive", "he's", "old", "enough"], "He's old enough to drive.", "enough NACH dem Adjektiv + to-Infinitiv."),
+    transform("This soup is enough hot for me.", ["this soup is too hot for me"], "'too' steht VOR dem Adjektiv: too hot, nicht enough hot davor gestellt."),
+    sentence("Beschreibe etwas, das zu [Adjektiv] für dich ist (too + Adjektiv).", ["too"], /\btoo\s+\w+/i, "This exercise is too difficult for me.", "'too' + Adjektiv = mehr als gewünscht/möglich, negative Bedeutung."),
+    sentence("Beschreibe, ob du genug von etwas hast (enough + Nomen ODER Adjektiv + enough).", null, /\benough\b/i, "I don't have enough money to buy that phone.", "'enough' nach Adjektiven/Adverbien, aber vor Nomen.")
+  ]
+},
+{
+  id: "b1-reported-statements",
+  level: "B1",
+  name: "Reported Speech: Aussagen (say & tell)",
+  rule: "Bei der indirekten Rede von Aussagen verschiebt sich die Zeitform meist eine Stufe zurück (Backshift). 'say' + (that), 'tell' + Person + (that).",
+  example: "'I am tired,' she said. → She said (that) she was tired. 'I'll call you,' he told me. → He told me (that) he would call me.",
+  tips: [
+    "'say' braucht kein Objekt (say something), 'tell' braucht immer ein Objekt (tell someone something).",
+    "Present → Past, Past Simple → Past Perfect, will → would (Backshift der Zeitformen)."
+  ],
+  resource: { hub: "te", term: "reported speech statements" },
+  items: [
+    mc("'I live in Paris,' she said. → She said she ___ in Paris.", ["lives", "lived", "live", "has lived"], 1, "Present Simple → Past Simple im Backshift: lived."),
+    mc("'I'll help you,' he ___ me.", ["said", "told", "said to", "tells"], 1, "Mit einem Objekt (me) braucht man 'tell', nicht 'say'."),
+    gap("'I have finished,' she said. → She said she ___ (finish).", ["had finished"], "Present Perfect → Past Perfect: had finished."),
+    order(["was", "he", "said", "tired", "he"], "He said he was tired.", "said + (that) + Subjekt + Backshift-Verb."),
+    transform("She said me that she was busy.", ["she told me that she was busy", "she told me she was busy"], "'say' braucht kein Objekt – mit einem Objekt (me) muss es 'tell' heißen: told me."),
+    sentence("Gib eine Aussage wieder, die dir gestern jemand gesagt hat, mit 'said'.", ["yesterday"], /\bsaid\b.*\b(that)?\b/i, "My teacher said that the test would be on Friday.", "say (that) + Backshift der Zeitform in der indirekten Rede."),
+    sentence("Gib eine Aussage wieder, die dir jemand ERZÄHLT hat, mit 'told'.", null, /\btold\s+\w+/i, "She told me she was moving to another city.", "tell + Person + (that) + Backshift der Zeitform.")
+  ]
+},
+{
+  id: "b1-phrasal-verbs",
+  level: "B1",
+  name: "Phrasal Verbs (trennbar & untrennbar)",
+  rule: "Phrasal Verbs bestehen aus Verb + Partikel und haben oft eine übertragene Bedeutung. Trennbare Phrasal Verbs können das Objekt zwischen Verb und Partikel aufnehmen (bei Pronomen zwingend).",
+  example: "Turn off the light. / Turn the light off. / Turn it off. (nicht: Turn off it.) He looked after his little brother.",
+  tips: [
+    "Bei Pronomen als Objekt (it, them, her...) MUSS das Pronomen zwischen Verb und Partikel stehen: turn it off, nicht turn off it.",
+    "Manche Phrasal Verbs sind untrennbar (look after, look for, get on) – das Objekt steht immer danach."
+  ],
+  resource: { hub: "bc", term: "phrasal verbs" },
+  items: [
+    mc("Can you ___ the TV? I can't find the remote.", ["turn on", "turn it on", "turn on it", "turned on"], 0, "Mit einem Nomen als Objekt kann man trennen oder nicht: turn on the TV."),
+    mc("Please turn it ___, it's too loud.", ["down off", "off", "off it", "away"], 1, "Bei Pronomen (it) MUSS das Pronomen zwischen Verb und Partikel stehen: turn it off."),
+    gap("She ___ (look after) her little brother every afternoon.", ["looks after"], "Untrennbares Phrasal Verb: look after + Objekt."),
+    order(["up", "give", "smoking", "should", "you"], "You should give up smoking.", "Phrasal Verb 'give up' + Gerund/Nomen als Objekt."),
+    transform("I need to pick up it from the station.", ["i need to pick it up from the station"], "Bei Pronomen (it) muss es 'pick it up' heißen, nicht 'pick up it'."),
+    sentence("Beschreibe etwas, das du aufgegeben hast oder aufgeben solltest (give up).", ["habit"], /\bgive(s|n)?\s+up\b|\bgave up\b/i, "I gave up eating sweets last month.", "give up + Gerund/Nomen = etwas beenden/aufgeben."),
+    sentence("Beschreibe, wie gut du mit jemandem auskommst (get on with / get along with).", null, /\bget(s)?\s+(on|along)\b.*\bwith\b|\bgot\s+(on|along)\b.*\bwith\b/i, "I get on really well with my neighbours.", "get on with / get along with = sich gut verstehen mit jemandem.")
+  ]
+},
+{
+  id: "b1-gerund-infinitive-basic",
+  level: "B1",
+  name: "Gerund und Infinitiv (Grundmuster)",
+  rule: "Manche Verben stehen nur mit to-Infinitiv (want, decide, hope, plan, promise), manche nur mit Gerund (enjoy, finish, avoid, suggest, mind). Diese Grundmuster muss man einfach lernen.",
+  example: "I want to travel. She enjoys reading. They decided to leave early. He finished writing the essay.",
+  tips: [
+    "Lerne diese Verben in kleinen Gruppen: want/hope/plan/decide/promise + to-Infinitiv; enjoy/finish/avoid/suggest/mind + Gerund.",
+    "Nach Präpositionen steht IMMER die Gerund-Form, nie der Infinitiv (good at swimming, nicht good at to swim)."
+  ],
+  resource: { hub: "ego", term: "gerund infinitive verb patterns" },
+  items: [
+    mc("I want ___ a new bike for my birthday.", ["get", "getting", "to get", "got"], 2, "'want' + to-Infinitiv: want to get."),
+    mc("She enjoys ___ in her free time.", ["paint", "to paint", "painting", "painted"], 2, "'enjoy' + Gerund: enjoys painting."),
+    gap("They finished ___ (build) the treehouse yesterday.", ["building"], "'finish' + Gerund: finished building."),
+    order(["leave", "early", "decided", "we", "to"], "We decided to leave early.", "'decide' + to-Infinitiv: decided to leave."),
+    transform("She is interested in to learn Japanese.", ["she is interested in learning japanese"], "Nach Präpositionen (in) steht immer die Gerund-Form: interested in learning."),
+    sentence("Beschreibe einen Plan, den du für die Zukunft hast (plan/hope/promise + to-Infinitiv).", ["future", "plan"], /\b(plan(s|ned)?|hopes?|promised?|decided?|wants?)\s+to\s+\w+/i, "I hope to visit Japan one day.", "plan/hope/promise/decide/want + to-Infinitiv."),
+    sentence("Beschreibe etwas, das du vermeidest zu tun oder gerade beendet hast (avoid/finish + Gerund).", null, /\b(avoid(s|ed)?|finish(es|ed)?|enjoy(s|ed)?|suggest(s|ed)?)\s+\w+ing\b/i, "I try to avoid eating fast food during the week.", "avoid/finish/enjoy/suggest + Gerund (-ing-Form).")
+  ]
+},
+ 
 // ---------------- B2 ----------------
 {
   id: "b2-conditional-3-mixed",
@@ -595,7 +996,155 @@ const STRUCTURES = [
     sentence("Schreibe einen Satz über etwas, das du kürzlich entschieden hast zu tun (decide + to-Infinitiv).", null, /\bdecided?\s+to\s+\w+/i, "I decided to join the school football team.", "'decide' steht mit to-Infinitiv.")
   ]
 },
-
+ 
+{
+  id: "b2-passive-all-tenses",
+  level: "B2",
+  name: "Passiv in allen Zeitformen & mit Modalverben",
+  rule: "Das Passiv kann in jeder Zeitform gebildet werden: be (in der jeweiligen Zeitform) + Partizip II. Nach Modalverben: modal + be + Partizip II.",
+  example: "The report is being written. The results will be announced tomorrow. This problem should be solved quickly.",
+  tips: [
+    "Für jede Zeitform gibt es eine passende Form von 'be': is/are (Präsens), was/were (Vergangenheit), will be (Zukunft), has/have been (Perfekt).",
+    "Nach Modalverben (can, must, should, will) immer 'be' + Partizip II, nie eine konjugierte Form."
+  ],
+  resource: { hub: "te", term: "passive voice all tenses" },
+  items: [
+    mc("The new bridge ___ next year.", ["will open", "will be opened", "is opened", "opens"], 1, "Passiv Zukunft: will be + Partizip II."),
+    mc("This problem ___ as soon as possible.", ["must solve", "must be solved", "must solved", "must being solved"], 1, "Nach Modalverben: must be + Partizip II."),
+    gap("The documents ___ (currently / prepare) for the meeting.", ["are currently being prepared", "are being prepared currently"], "Passiv Present Continuous: are being + Partizip II."),
+    order(["been", "the", "cancelled", "flight", "has"], "The flight has been cancelled.", "Passiv Present Perfect: has been + Partizip II."),
+    transform("The project should have finish by now.", ["the project should have been finished by now"], "Passiv mit Modalverb + Perfekt: should have been finished, nicht should have finish."),
+    sentence("Beschreibe etwas, das gerade jetzt gemacht wird (Passiv, Present Continuous).", ["now"], /\b(is|are)\s+being\s+\w+ed\b|\b(is|are)\s+being\s+(made|done|built|written|sold|used)\b/i, "The new stadium is being built right now.", "Passiv Present Continuous: is/are being + Partizip II."),
+    sentence("Beschreibe etwas mit einem Modalverb im Passiv.", null, /\b(must|should|can|could|will|would|may|might)\s+be\s+\w+ed\b|\b(must|should|can|could|will|would|may|might)\s+be\s+(done|made|sent|solved|found|given|taken|written)\b/i, "This issue must be reported to the teacher immediately.", "Modalverb + be + Partizip II im Passiv.")
+  ]
+},
+{
+  id: "b2-wish-if-only",
+  level: "B2",
+  name: "Wish / If Only",
+  rule: "'wish/if only' + Past Simple für einen Wunsch über die Gegenwart. 'wish/if only' + Past Perfect für Bedauern über die Vergangenheit. 'wish' + would für eine Beschwerde über das Verhalten anderer.",
+  example: "I wish I had more money. If only I had studied harder for the exam! I wish you would stop interrupting me.",
+  tips: [
+    "wish + Past Simple = Wunsch über JETZT. wish + Past Perfect = Bedauern über die VERGANGENHEIT.",
+    "'wish + would' benutzt man nur, um sich über das Verhalten von ANDEREN zu beschweren, nicht über sich selbst."
+  ],
+  resource: { hub: "te", term: "wish if only" },
+  items: [
+    mc("I wish I ___ taller.", ["am", "was", "were", "will be"], 2, "wish + Past Simple, formell 'were' für alle Personen: I wish I were."),
+    mc("If only I ___ harder for the test – I failed it.", ["studied", "had studied", "study", "would study"], 1, "Bedauern über die Vergangenheit → wish/if only + Past Perfect: had studied."),
+    gap("I wish you ___ (stop) making so much noise!", ["would stop"], "Beschwerde über das Verhalten anderer: wish + would + Grundform."),
+    order(["a", "wish", "car", "had", "I", "I"], "I wish I had a car.", "wish + Past Simple für einen Wunsch über die Gegenwart."),
+    transform("I wish I have more free time.", ["i wish i had more free time"], "wish + Past Simple (nicht Present) für einen Wunsch über die Gegenwart: wish I had."),
+    sentence("Formuliere einen Wunsch über deine aktuelle Situation (wish + Past Simple).", ["now"], /\bwish\b.+\b(was|were|had|could|did|knew|lived)\b/i, "I wish I lived closer to my friends.", "wish + Past Simple für einen unerfüllten Wunsch über die Gegenwart."),
+    sentence("Formuliere Bedauern über etwas, das in der Vergangenheit passiert ist (wish/if only + Past Perfect).", null, /\b(wish|if only)\b.+\bhad\b/i, "If only I had listened to my parents' advice.", "wish/if only + Past Perfect für Bedauern über die Vergangenheit.")
+  ]
+},
+{
+  id: "b2-advanced-relative-clauses",
+  level: "B2",
+  name: "Erweiterte Relativsätze (nicht-notwendig, whose, Präpositionen)",
+  rule: "Nicht-notwendige (non-defining) Relativsätze geben ZUSÄTZLICHE Infos (mit Kommas). 'whose' zeigt Besitz. Präpositionen können vor dem Relativpronomen stehen (in which, to whom).",
+  example: "My brother, who lives in Spain, is visiting next week. This is the woman whose car was stolen. That's the hotel in which we stayed.",
+  tips: [
+    "Nicht-notwendige Relativsätze IMMER mit Kommas – sie können weggelassen werden, ohne den Sinn zu verändern.",
+    "'that' kann NIE in nicht-notwendigen Relativsätzen oder nach Präpositionen benutzt werden (nie 'in that', nur 'in which')."
+  ],
+  resource: { hub: "te", term: "non-defining relative clauses whose" },
+  items: [
+    mc("My father, ___ works as a pilot, travels a lot.", ["that", "which", "who", "whose"], 2, "Person, nicht-notwendiger Relativsatz → who (mit Kommas)."),
+    mc("This is the author ___ book won an award.", ["who", "which", "whose", "that"], 2, "Besitz → whose + Nomen."),
+    gap("That's the restaurant ___ (where) we celebrated her birthday.", ["where"], "Relativsatz für Orte: where."),
+    order(["visiting", "who", "in", "spain", "lives", "is", "brother", "my"], "My brother, who lives in Spain, is visiting.", "Nicht-notwendiger Relativsatz mit Kommas: who lives in Spain."),
+    transform("This is the hotel that we stayed in it.", ["this is the hotel we stayed in", "this is the hotel in which we stayed"], "Entweder das Relativpronomen weglassen (that we stayed in) oder 'in which' nutzen – nicht beides mit 'it' am Ende."),
+    sentence("Beschreibe eine Person mit einem nicht-notwendigen Relativsatz (mit Kommas).", ["comma"], /,\s*who\s+.+,/i, "My teacher, who studied in London, speaks perfect English.", "Nicht-notwendiger Relativsatz: Person, who ..., Rest des Satzes."),
+    sentence("Beschreibe etwas mit 'whose', um Besitz auszudrücken.", null, /\bwhose\b/i, "That's the boy whose dog won the competition.", "whose + Nomen zeigt Besitz in einem Relativsatz.")
+  ]
+},
+{
+  id: "b2-contrast-clauses",
+  level: "B2",
+  name: "Adverbialsätze des Kontrasts (although/despite/in spite of)",
+  rule: "'although/even though' + Satz (Subjekt+Verb). 'despite/in spite of' + Nomen/Gerund (kein ganzer Satz!).",
+  example: "Although it was raining, we went for a walk. Despite the rain, we went for a walk. In spite of being tired, she finished the race.",
+  tips: [
+    "Nach although/even though folgt ein VOLLSTÄNDIGER SATZ. Nach despite/in spite of folgt ein NOMEN oder eine -ing-Form, NIEMALS ein ganzer Satz.",
+    "Häufiger Fehler: 'despite of' existiert nicht – entweder 'despite' ODER 'in spite of'."
+  ],
+  resource: { hub: "te", term: "although despite in spite of" },
+  items: [
+    mc("___ it was raining, we still went to the beach.", ["Despite", "In spite of", "Although", "Because of"], 2, "Vollständiger Satz danach → although."),
+    mc("She passed the exam ___ being sick.", ["although", "despite", "because", "so"], 1, "Nomen/-ing-Form danach → despite."),
+    gap("___ (despite) the traffic, we arrived on time.", ["Despite"], "Nomen danach → despite (nicht despite of)."),
+    order(["tired", "she", "although", "finished", "was", "the", "race", "she"], "Although she was tired, she finished the race.", "although + vollständiger Satz."),
+    transform("Despite of the noise, I fell asleep quickly.", ["despite the noise i fell asleep quickly", "in spite of the noise i fell asleep quickly"], "'despite of' existiert nicht: entweder despite ODER in spite of."),
+    sentence("Beschreibe einen Kontrast mit 'although' (+ vollständiger Satz).", ["contrast"], /\balthough\b.+,/i, "Although he studied hard, he didn't pass the test.", "although + vollständiger Satz (Subjekt + Verb), Komma vor dem Hauptsatz."),
+    sentence("Beschreibe einen Kontrast mit 'despite' oder 'in spite of' (+ Nomen/-ing-Form).", null, /\b(despite|in spite of)\b(?!\s+of\b)/i, "Despite the bad weather, the match continued.", "despite/in spite of + Nomen oder -ing-Form (kein vollständiger Satz).")
+  ]
+},
+{
+  id: "b2-so-such-that",
+  level: "B2",
+  name: "so...that / such...that (Ergebnissätze)",
+  rule: "'so' + Adjektiv/Adverb + that. 'such' + (a/an) + Adjektiv + Nomen + that. Beide drücken ein Ergebnis/eine Konsequenz aus.",
+  example: "The film was so boring that I fell asleep. It was such a boring film that I fell asleep.",
+  tips: [
+    "'so' steht direkt vor einem Adjektiv/Adverb OHNE Nomen. 'such' steht vor einem (Adjektiv +) NOMEN.",
+    "Merksatz: so + Adjektiv, such + a/an + Adjektiv + Nomen."
+  ],
+  resource: { hub: "eh", term: "so that such that" },
+  items: [
+    mc("The music was ___ loud that we couldn't talk.", ["such", "so", "too", "very"], 1, "Adjektiv ohne Nomen danach → so."),
+    mc("It was ___ difficult exam that many students failed.", ["so", "such a", "too", "very"], 1, "Adjektiv + Nomen danach → such a."),
+    gap("She was ___ (so) tired that she fell asleep on the sofa.", ["so"], "Adjektiv ohne Nomen → so."),
+    order(["that", "we", "so", "hot", "swimming", "went", "it", "was"], "It was so hot that we went swimming.", "so + Adjektiv + that + Konsequenz."),
+    transform("It was so a good film that I watched it twice.", ["it was such a good film that i watched it twice"], "Adjektiv + Nomen (good film) → such a, nicht so a."),
+    sentence("Beschreibe ein Ergebnis mit 'so + Adjektiv + that'.", ["result"], /\bso\s+\w+\s+that\b/i, "The test was so hard that nobody finished it in time.", "so + Adjektiv/Adverb + that + Konsequenz."),
+    sentence("Beschreibe ein Ergebnis mit 'such (a/an) + Nomen + that'.", null, /\bsuch\s+(a|an)?\s*\w+\s+\w*\s*that\b|\bsuch\s+\w+\s+that\b/i, "It was such a funny movie that everyone was laughing.", "such (a/an) + Adjektiv + Nomen + that + Konsequenz.")
+  ]
+},
+{
+  id: "b2-reported-commands",
+  level: "B2",
+  name: "Reported Speech: Aufforderungen & Bitten",
+  rule: "Befehle/Bitten werden mit tell/ask + Person + (not) + to-Infinitiv wiedergegeben (kein Backshift von Zeitformen nötig).",
+  example: "'Close the door,' she said. → She told me to close the door. 'Please don't be late,' he said. → He asked me not to be late.",
+  tips: [
+    "Bei Aufforderungen gibt es KEINEN Zeiten-Backshift, weil man einfach den to-Infinitiv benutzt.",
+    "Verneinte Aufforderungen: tell/ask + Person + NOT + to-Infinitiv (die Verneinung steht vor 'to')."
+  ],
+  resource: { hub: "te", term: "reported commands requests" },
+  items: [
+    mc("'Close the window,' she said. → She told me ___ the window.", ["close", "to close", "closing", "closed"], 1, "Aufforderung in indirekter Rede: tell + Person + to-Infinitiv."),
+    mc("'Please don't be late,' he said. → He asked me ___ late.", ["to not be", "not to be", "don't be", "not be"], 1, "Verneinte Aufforderung: not + to-Infinitiv (nicht to not be)."),
+    gap("'Sit down!' the teacher said. → The teacher told the students ___ (sit down).", ["to sit down"], "Aufforderung: tell + Person + to-Infinitiv."),
+    order(["me", "help", "to", "asked", "she", "her"], "She asked me to help her.", "ask + Person + to-Infinitiv."),
+    transform("She told to me to wait outside.", ["she told me to wait outside"], "Nach 'tell' folgt die Person DIREKT (told me), ohne 'to' davor."),
+    sentence("Gib eine Aufforderung wieder, die dir jemand gegeben hat (tell + Person + to-Infinitiv).", ["order"], /\btold\s+\w+\s+(not\s+)?to\s+\w+/i, "My mum told me to clean my room.", "tell + Person + (not) + to-Infinitiv für wiedergegebene Aufforderungen."),
+    sentence("Gib eine Bitte wieder, die dir jemand gestellt hat (ask + Person + to-Infinitiv).", null, /\basked\s+\w+\s+(not\s+)?to\s+\w+/i, "She asked me to turn down the music.", "ask + Person + (not) + to-Infinitiv für wiedergegebene Bitten.")
+  ]
+},
+{
+  id: "b2-emphatic-do",
+  level: "B2",
+  name: "Betonung mit do/does/did (Emphatic do)",
+  rule: "do/does/did + Grundform betont eine Aussage besonders stark (oft im Widerspruch zu einer Erwartung/einem Zweifel).",
+  example: "I do like your new haircut! She did call, but you were busy. He does work hard, even though his grades don't show it.",
+  tips: [
+    "Emphatic do wird oft benutzt, um jemandem zu widersprechen oder eine Aussage zu bekräftigen.",
+    "Das Hauptverb bleibt in der Grundform – die Betonung liegt auf do/does/did."
+  ],
+  resource: { hub: "eh", term: "emphatic do does did" },
+  items: [
+    mc("I ___ enjoy your cooking, even if I don't always say it!", ["am", "do", "did", "have"], 1, "Betonung der Gegenwart: do + Grundform."),
+    mc("She ___ call you – maybe you missed it.", ["did", "does", "was", "has"], 0, "Betonung der Vergangenheit: did + Grundform."),
+    gap("He ___ (do / work) hard, even if his results don't show it.", ["does work"], "Betonung der Gegenwart, 3. Person: does + Grundform."),
+    order(["like", "your", "I", "do", "idea"], "I do like your idea.", "Betonung: do + Grundform des Verbs."),
+    transform("I do liked your present very much.", ["i did like your present very much", "i do like your present very much"], "Nach 'do/did' folgt die Grundform des Verbs, nicht die -ed-Form."),
+    sentence("Widerspreche einer Erwartung mit emphatischem 'do/does' (Gegenwart).", ["contradiction"], /\b(do|does)\s+\w+/i, "I do care about the environment, I just don't talk about it much.", "Emphatic do/does + Grundform betont eine Aussage im Widerspruch zu einer Erwartung."),
+    sentence("Widerspreche einer Erwartung mit emphatischem 'did' (Vergangenheit).", null, /\bdid\s+\w+/i, "I did finish my homework, I just forgot to bring it.", "Emphatic did + Grundform betont eine vergangene Handlung im Widerspruch zu einer Erwartung.")
+  ]
+},
+ 
 // ---------------- C1 ----------------
 {
   id: "c1-inversion",
@@ -680,16 +1229,142 @@ const STRUCTURES = [
     sentence("Beschreibe etwas, das kürzlich jemand anderes für dich erledigt hat (Causative).", ["had", "got"], /\b(had|got)\b.+\b\w+ed\b/i, "I had my bike repaired at the shop.", "Causative: have/get + Objekt + Partizip II."),
     sentence("Schreibe einen Satz über ein Gerücht oder eine allgemeine Meinung mit 'It is said/believed that ...'.", null, /^it\s+is\s+(\w+\s+)?(said|believed|thought|reported|known)\s+that\b/i, "It is widely believed that the ancient city was destroyed by an earthquake.", "Erweitertes, formelles Passiv mit Berichtsverben: It is said/believed/reported that ...")
   ]
+},
+{
+  id: "c1-subjunctive",
+  level: "C1",
+  name: "Konjunktiv (Subjunctive Mood)",
+  rule: "Nach bestimmten Verben/Ausdrücken (suggest, recommend, insist, it's essential/important/vital that) steht die GRUNDFORM des Verbs, unabhängig vom Subjekt.",
+  example: "I suggest that she call him immediately. It is essential that everyone be on time. The doctor recommended that he rest for a week.",
+  tips: [
+    "Der Subjunctive benutzt IMMER die Grundform, auch bei 'he/she/it': that he BE, nicht that he IS.",
+    "Typische Auslöser: suggest, recommend, insist, demand, propose, it's essential/important/vital that."
+  ],
+  resource: { hub: "bc", term: "subjunctive mood" },
+  items: [
+    mc("The manager insisted that she ___ the report again.", ["checks", "checked", "check", "checking"], 2, "Subjunctive nach 'insist that': Grundform, unabhängig vom Subjekt."),
+    mc("It is essential that everyone ___ on time tomorrow.", ["is", "be", "are", "was"], 1, "Subjunctive nach 'it is essential that': be (Grundform), nicht is."),
+    gap("The doctor recommended that he ___ (rest) for a few days.", ["rest"], "Subjunctive: Grundform ohne -s, auch bei 'he'."),
+    order(["that", "suggested", "leave", "she", "early", "I"], "I suggested that she leave early.", "Subjunctive nach 'suggest that': Grundform (leave, nicht leaves)."),
+    transform("It's important that he goes to the meeting.", ["it's important that he go to the meeting", "it is important that he go to the meeting"], "Subjunctive nach 'it's important that': Grundform (go), nicht goes."),
+    sentence("Gib einen Vorschlag/eine Empfehlung mit dem Subjunctive (suggest/recommend that + Grundform).", ["suggestion"], /\b(suggest(s|ed)?|recommend(s|ed)?|propose(s|d)?)\s+that\b/i, "I recommend that he see a doctor as soon as possible.", "suggest/recommend/propose + that + Subjekt + Grundform (Subjunctive)."),
+    sentence("Formuliere eine Notwendigkeit mit 'it is essential/important/vital that + Grundform'.", null, /\bit('s| is)\s+(essential|important|vital|crucial)\s+that\b/i, "It is vital that the medicine be taken exactly as prescribed.", "it is essential/important/vital that + Subjekt + Grundform (Subjunctive).")
+  ]
+},
+{
+  id: "c1-ellipsis-substitution",
+  level: "C1",
+  name: "Ellipse & Substitution",
+  rule: "Um Wiederholungen zu vermeiden, lässt man Wörter aus (Ellipse) oder ersetzt sie durch kurze Formen wie 'so', 'neither', 'do/does/did' (Substitution).",
+  example: "A: I love sushi. B: So do I. / A: I don't like horror films. B: Neither do I. She can swim, and so can her brother.",
+  tips: [
+    "'So + Hilfsverb + Subjekt' stimmt einer POSITIVEN Aussage zu. 'Neither/Nor + Hilfsverb + Subjekt' stimmt einer NEGATIVEN Aussage zu.",
+    "Das Hilfsverb muss zur Zeitform der ursprünglichen Aussage passen (is, was, can, does, did...)."
+  ],
+  resource: { hub: "te", term: "ellipsis substitution so neither" },
+  items: [
+    mc("A: I love hiking. B: ___.", ["So do I", "So I do", "Neither do I", "So am I"], 0, "Zustimmung zu einer positiven Aussage: So + Hilfsverb + Subjekt."),
+    mc("A: I can't drive. B: ___.", ["So can I", "Neither can I", "Neither I can", "So I can't"], 1, "Zustimmung zu einer negativen Aussage: Neither + Hilfsverb + Subjekt."),
+    gap("She was tired, and ___ (so) ___ (be) her brother.", ["so was"], "Substitution mit 'so' + Hilfsverb (was), das zur Zeitform passt."),
+    order(["too", "am", "I", "hungry"], "I am hungry too.", "'too' am Satzende für Zustimmung zu einer positiven Aussage."),
+    transform("A: I haven't finished. B: Neither I haven't.", ["neither have i"], "Nach 'Neither' folgt Hilfsverb + Subjekt (have I), nicht Subjekt + Hilfsverb wiederholt."),
+    sentence("Stimme einer positiven Aussage zu, ohne das Verb zu wiederholen (So + Hilfsverb + Subjekt).", ["agreement"], /^so\s+(do|does|did|is|are|was|were|can|could|will|have|has|had)\s+\w+/i, "So does my sister.", "So + Hilfsverb + Subjekt, um einer positiven Aussage zuzustimmen, ohne das Verb zu wiederholen."),
+    sentence("Stimme einer negativen Aussage zu, ohne das Verb zu wiederholen (Neither/Nor + Hilfsverb + Subjekt).", null, /^(neither|nor)\s+(do|does|did|is|are|was|were|can|could|will|have|has|had)\s+\w+/i, "Neither can I.", "Neither/Nor + Hilfsverb + Subjekt, um einer negativen Aussage zuzustimmen.")
+  ]
+},
+{
+  id: "c1-absolute-participle",
+  level: "C1",
+  name: "Absolute & verneinte Partizipialkonstruktionen",
+  rule: "Absolute Konstruktionen (with + Nomen + Partizip) und verneinte Partizipialsätze (Not knowing...) sind fortgeschrittene, formelle Varianten von Nebensätzen.",
+  example: "With prices rising, many families are struggling. Not knowing what to say, she stayed silent. Weather permitting, we'll have the picnic outside.",
+  tips: [
+    "'With + Nomen + Partizip' beschreibt eine begleitende Umstand-Handlung (oft Ursache).",
+    "Verneinte Partizipialsätze: Not + Partizip (-ing/-ed) am Satzanfang, gefolgt von einem Komma."
+  ],
+  resource: { hub: "bc", term: "absolute participle clauses" },
+  items: [
+    mc("___ what to do, he called his brother for advice.", ["Not knowing", "Knowing not", "Not know", "No knowing"], 0, "Verneinter Partizipialsatz: Not + -ing-Form am Satzanfang."),
+    mc("___ prices rising, many people are cutting costs.", ["Despite", "With", "Because", "Although"], 1, "Absolute Konstruktion: With + Nomen + Partizip."),
+    gap("___ (weather / permit), we'll have the ceremony outdoors.", ["Weather permitting"], "Feste absolute Konstruktion: Weather permitting."),
+    order(["say", "not", "she", "left", "what", "to", "knowing"], "Not knowing what to say, she left.", "Verneinte Partizipialkonstruktion am Satzanfang."),
+    transform("Not know what to say, I stayed quiet.", ["not knowing what to say i stayed quiet"], "Verneinte Partizipialkonstruktion braucht die -ing-Form: Not knowing, nicht Not know."),
+    sentence("Beschreibe eine begleitende Ursache mit 'With + Nomen + Partizip'.", ["cause"], /^with\s+.+\s+(rising|falling|increasing|decreasing|growing)\b/i, "With costs rising every month, the company had to cut jobs.", "With + Nomen + Partizip (-ing) beschreibt eine begleitende Ursache."),
+    sentence("Beschreibe etwas mit einem verneinten Partizipialsatz (Not + -ing, Satzanfang).", null, /^not\s+\w+ing\b.+,/i, "Not wanting to be rude, she stayed for another hour.", "Verneinter Partizipialsatz: Not + -ing-Form am Satzanfang, gefolgt von einem Komma.")
+  ]
+},
+{
+  id: "c1-modals-criticism-regret",
+  level: "C1",
+  name: "Modalverben der Kritik & des Bedauerns",
+  rule: "'should have + Partizip II' = Kritik an einer vergangenen Handlung. 'needn't have + Partizip II' = etwas wurde unnötigerweise getan. 'could have + Partizip II' = eine ungenutzte Möglichkeit.",
+  example: "You should have told me earlier! You needn't have brought a gift. I could have helped you, but you didn't ask.",
+  tips: [
+    "'should have' = Kritik/Bedauern über etwas, das man NICHT getan hat.",
+    "'needn't have' = etwas WURDE getan, war aber unnötig (anders als 'didn't need to', wo man es gar nicht erst tat)."
+  ],
+  resource: { hub: "bc", term: "modals of criticism regret" },
+  items: [
+    mc("You ___ me you were coming – I would have cooked more food!", ["should tell", "should have told", "must have told", "would tell"], 1, "Kritik an einer vergangenen Unterlassung: should have told."),
+    mc("You ___ bought a present, it really wasn't necessary!", ["shouldn't have", "needn't have", "mustn't have", "couldn't have"], 1, "Etwas wurde unnötigerweise getan: needn't have + Partizip II."),
+    gap("She ___ (could / help) you if you had asked her.", ["could have helped"], "Ungenutzte Möglichkeit in der Vergangenheit: could have + Partizip II."),
+    order(["harder", "have", "studied", "you", "should"], "You should have studied harder.", "Kritik: should have + Partizip II."),
+    transform("You should have not shouted at him like that.", ["you shouldn't have shouted at him like that"], "Verneinung von 'should have' zusammengezogen: shouldn't have, nicht should have not."),
+    sentence("Kritisiere eine vergangene Handlung/Unterlassung (should have/shouldn't have + Partizip II).", ["mistake"], /\b(should|shouldn't)\s+have\s+\w+ed\b|\b(should|shouldn't)\s+have\s+(done|gone|said|told|taken|given|known|been|seen|spent|left|bought|thought|brought|kept|sent)\b/i, "You shouldn't have spent all your money on that.", "should have/shouldn't have + Partizip II für Kritik an vergangenen Handlungen."),
+    sentence("Beschreibe etwas, das unnötigerweise getan wurde (needn't have + Partizip II).", null, /\bneedn't have\s+\w+/i, "You needn't have worried, everything worked out fine.", "needn't have + Partizip II = etwas wurde getan, war aber unnötig.")
+  ]
+},
+{
+  id: "c1-correlative-conjunctions",
+  level: "C1",
+  name: "Korrelative Konjunktionen (not only...but also / neither...nor)",
+  rule: "Korrelative Konjunktionen verbinden zwei parallele Satzteile paarweise. Nach 'not only' am Satzanfang folgt Inversion.",
+  example: "She is not only talented but also hardworking. Neither the manager nor the staff knew about the change. I don't know whether he's coming or not.",
+  tips: [
+    "Die beiden verbundenen Teile müssen GRAMMATISCH PARALLEL sein (gleiche Wortart/Form auf beiden Seiten).",
+    "'neither...nor' + Verb richtet sich nach dem NÄHEREN Subjekt (dem, das direkt vor dem Verb steht)."
+  ],
+  resource: { hub: "bc", term: "correlative conjunctions" },
+  items: [
+    mc("She is ___ intelligent ___ hardworking.", ["not only / but also", "neither / nor", "either / or", "whether / or"], 0, "Zwei positive Eigenschaften kombinieren: not only...but also."),
+    mc("___ the teacher ___ the students knew about the change.", ["Not only / but also", "Neither / nor", "Either / or", "Whether / or"], 1, "Beide verneint (keiner wusste es) → neither...nor."),
+    gap("I haven't decided ___ (whether) to accept the job or not.", ["whether"], "Alternative/Unsicherheit: whether...or."),
+    order(["but", "she", "only", "sings", "not", "also", "dances"], "She not only sings but also dances.", "not only + Verb1 + but also + Verb2 (parallel)."),
+    transform("Neither my brother or my sister likes vegetables.", ["neither my brother nor my sister likes vegetables"], "Das Gegenstück zu 'neither' ist 'nor', nicht 'or'."),
+    sentence("Verbinde zwei positive Eigenschaften/Handlungen mit 'not only...but also'.", ["pair"], /\bnot only\b.+\bbut also\b/i, "The hotel is not only affordable but also very comfortable.", "not only...but also verbindet zwei positive/parallele Satzteile."),
+    sentence("Verbinde zwei verneinte Optionen mit 'neither...nor'.", null, /\bneither\b.+\bnor\b/i, "Neither the coach nor the players were happy with the result.", "neither...nor verbindet zwei verneinte, parallele Satzteile.")
+  ]
+},
+{
+  id: "c1-hedging-distancing",
+  level: "C1",
+  name: "Hedging & Distanzierung (vorsichtige Formulierungen)",
+  rule: "Hedging-Ausdrücke (it would seem/appear that, tend to, is said to, apparently) machen Aussagen vorsichtiger/weniger direkt – typisch für akademische und formelle Sprache.",
+  example: "It would appear that the results are inconclusive. Teenagers tend to sleep later than adults. The company is said to be planning layoffs.",
+  tips: [
+    "Hedging macht eine Aussage weniger direkt/sicher – nützlich, um höflich zu klingen oder sich nicht zu 100% festzulegen.",
+    "Typische Hedging-Verben/Ausdrücke: seem, appear, tend to, would suggest, is said/thought/believed to be."
+  ],
+  resource: { hub: "bc", term: "hedging distancing language" },
+  items: [
+    mc("It ___ that the plan won't work after all.", ["would appear", "appears seem", "is appear", "would seems"], 0, "Vorsichtige Formulierung: It would appear that..."),
+    mc("Teenagers ___ to need more sleep than adults.", ["tend", "are tending", "tends", "tendency"], 0, "Allgemeine Tendenz, vorsichtig formuliert: tend to + Grundform."),
+    gap("The company ___ (be / say) to be closing its doors next year.", ["is said"], "Vorsichtige Berichtsform: is said to be."),
+    order(["tired", "to", "seem", "be", "you"], "You seem to be tired.", "Vorsichtige Beobachtung: seem to be + Adjektiv."),
+    transform("It would appears that we made a mistake.", ["it would appear that we made a mistake"], "Nach 'would' folgt die Grundform: would appear, nicht would appears."),
+    sentence("Formuliere eine vorsichtige Vermutung mit 'it would seem/appear that'.", ["cautious"], /\bit would (seem|appear) that\b/i, "It would seem that the meeting has been postponed.", "it would seem/appear that + Satz = eine vorsichtige, distanzierte Aussage."),
+    sentence("Beschreibe eine allgemeine Tendenz mit 'tend to'.", null, /\btend(s)?\s+to\s+\w+/i, "Younger students tend to adapt to new technology more quickly.", "tend to + Grundform beschreibt eine allgemeine Tendenz, ohne eine absolute Aussage zu treffen.")
+  ]
 }
 ];
-
+ 
 if (typeof module !== "undefined") { module.exports = { LEVELS, RESOURCES, STRUCTURES }; }
-
-
+ 
+ 
 // ============================================================
 // APP LOGIC — vanilla JS SPA
 // ============================================================
-
+ 
 // ---------- storage helpers ----------
 async function storageGetRaw(key, shared) {
   try { const r = await window.storage.get(key, !!shared); return r ? r.value : null; }
@@ -711,7 +1386,7 @@ async function listKeys(prefix, shared) {
   try { const r = await window.storage.list(prefix, !!shared); return r ? r.keys : []; }
   catch (e) { return []; }
 }
-
+ 
 // ---------- small utils ----------
 function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 8); }
 function genCode() {
@@ -741,7 +1416,7 @@ function levelColor(lvl) {
   return { A2: "var(--a2)", B1: "var(--b1)", B2: "var(--b2)", C1: "var(--c1)" }[lvl] || "var(--text)";
 }
 function structureById(id) { return STRUCTURES.find(s => s.id === id); }
-
+ 
 // ---------- scoring ----------
 // returns { status: 'correct'|'incorrect'|'review', studentAnswerDisplay, modelAnswerDisplay }
 function scoreMC(item, selIndex) {
@@ -796,7 +1471,7 @@ function scoreValueForStatus(status) {
   if (status === "review") return 0.5;
   return 0;
 }
-
+ 
 // ---------- level computation ----------
 function computeLevelResult(answers, structureIds) {
   // aggregate per structure
@@ -812,7 +1487,7 @@ function computeLevelResult(answers, structureIds) {
     const { sum, total } = byStructure[id];
     structureResults[id] = { percent: total ? Math.round((sum / total) * 100) : 0, sum, total };
   });
-
+ 
   // aggregate per level (avg percent of structures at that level that were tested)
   const levelOrder = ["A2", "B1", "B2", "C1"];
   const levelPercents = {};
@@ -822,7 +1497,7 @@ function computeLevelResult(answers, structureIds) {
     const avg = ids.reduce((s, id) => s + structureResults[id].percent, 0) / ids.length;
     levelPercents[lvl] = Math.round(avg);
   });
-
+ 
   const THRESHOLD = 60;
   let achieved = null;
   let lowestTestedFailed = null;
@@ -838,17 +1513,17 @@ function computeLevelResult(answers, structureIds) {
   const overallPercent = structureIds.length
     ? Math.round(structureIds.reduce((s, id) => s + structureResults[id].percent, 0) / structureIds.length)
     : 0;
-
+ 
   return { structureResults, levelPercents, achieved, lowestTestedFailed, overallPercent };
 }
-
+ 
 function buildFeedback(structureResults, structureIds) {
   const arr = structureIds.map(id => ({ id, ...structureResults[id], meta: structureById(id) })).filter(s => s.meta);
   const weak = arr.filter(s => s.percent < 70).sort((a, b) => a.percent - b.percent).slice(0, 5);
   const strong = arr.filter(s => s.percent >= 85).sort((a, b) => b.percent - a.percent).slice(0, 4);
   return { weak, strong };
 }
-
+ 
 // ============================================================
 // STATE + RENDER
 // ============================================================
@@ -871,10 +1546,10 @@ const state = {
   test: null,
   finalResult: null
 };
-
+ 
 const app = document.getElementById("app");
 function render() { app.innerHTML = renderScreen(); attachHandlers(); }
-
+ 
 function renderScreen() {
   switch (state.screen) {
     case "landing": return screenLanding();
@@ -889,7 +1564,7 @@ function renderScreen() {
     default: return screenLanding();
   }
 }
-
+ 
 function topbar(showBack, backAction) {
   return `
     <div class="topbar">
@@ -900,7 +1575,7 @@ function topbar(showBack, backAction) {
       ${showBack ? `<button class="ghost-btn" data-action="${backAction}">&larr; Zurück</button>` : ""}
     </div>`;
 }
-
+ 
 // ============================================================
 // SCREEN: Landing
 // ============================================================
@@ -931,7 +1606,7 @@ function screenLanding() {
     <footer class="app-foot">Grammatikinhalte orientieren sich am English Grammar Profile (CEFR) und gängigen Referenzen wie Test-English.com und dem British Council.</footer>
   `;
 }
-
+ 
 // ============================================================
 // SCREEN: Student join
 // ============================================================
@@ -956,7 +1631,7 @@ function screenStudentJoin() {
     </div>
   `;
 }
-
+ 
 // ============================================================
 // SCREEN: Student intro
 // ============================================================
@@ -987,7 +1662,7 @@ function screenStudentIntro() {
     </div>
   `;
 }
-
+ 
 // ============================================================
 // SCREEN: Student test (exercise engine)
 // ============================================================
@@ -996,7 +1671,7 @@ function completedItemsCount() {
   const t = state.test;
   return t.structIdx * 7 + Math.max(0, t.itemIdx);
 }
-
+ 
 function screenStudentTest() {
   const t = state.test;
   const structIds = t.structureIds;
@@ -1010,16 +1685,16 @@ function screenStudentTest() {
       <span class="rung-dot" style="background:${i < t.structIdx ? levelColor(s.level) : ""}"></span><span class="rung-check">✓</span>
     </div>`;
   }).join("");
-
+ 
   const progressPct = Math.round((completedItemsCount() / totalItemsCount()) * 100);
-
+ 
   let bodyHtml;
   if (t.itemIdx === -1) {
     bodyHtml = structureIntro(struct);
   } else {
     bodyHtml = exerciseView(struct, t.itemIdx, t.checked, t.lastResult, t.lastRawAnswer);
   }
-
+ 
   return `
     <div class="test-hud">
       <div class="hud-stat mono" style="color:var(--accent)">⚡ ${t.xp} XP</div>
@@ -1033,7 +1708,7 @@ function screenStudentTest() {
     </div>
   `;
 }
-
+ 
 function structureIntro(struct) {
   return `
     <div class="intro-card" style="margin-top:10px;">
@@ -1048,13 +1723,13 @@ function structureIntro(struct) {
     </div>
   `;
 }
-
+ 
 function exerciseView(struct, itemIdx, checked, lastResult, lastRawAnswer) {
   const item = struct.items[itemIdx];
   const kicker = `Aufgabe ${itemIdx + 1} / 7 · ${escapeHtml(struct.name)}`;
   let inputHtml = "";
   let feedback = "";
-
+ 
   if (item.type === "mc") {
     inputHtml = `<div class="exercise-prompt">${renderPromptWithBlank(item.prompt)}</div>
       <div class="mc-options" id="mcOptions">
@@ -1096,7 +1771,7 @@ function exerciseView(struct, itemIdx, checked, lastResult, lastRawAnswer) {
         <textarea id="textAnswer" placeholder="Schreib deinen Satz auf Englisch…" ${checked ? "disabled" : ""}>${escapeHtml(val)}</textarea>
       </div>`;
   }
-
+ 
   if (checked && lastResult) {
     const statusClass = lastResult.status === "correct" ? "correct" : lastResult.status === "review" ? "review" : "incorrect";
     const title = lastResult.status === "correct" ? "Richtig! ✓" : lastResult.status === "review" ? "Wird von deiner Lehrkraft geprüft" : "Nicht ganz ✗";
@@ -1111,14 +1786,14 @@ function exerciseView(struct, itemIdx, checked, lastResult, lastRawAnswer) {
   } else {
     feedback = `<button class="btn btn-primary" style="margin-top:26px;" data-action="checkItem">Antwort prüfen</button>`;
   }
-
+ 
   return `<div class="exercise-kicker">${kicker}</div>${inputHtml}${feedback}`;
 }
-
+ 
 function renderPromptWithBlank(prompt) {
   return escapeHtml(prompt).replace(/___+/g, '<span class="blank">&nbsp;</span>');
 }
-
+ 
 // ============================================================
 // EXERCISE INTERACTIONS (direct DOM, no full re-render)
 // ============================================================
@@ -1128,7 +1803,7 @@ function wireExerciseInteractions() {
   const struct = structureById(t.structureIds[t.structIdx]);
   const item = struct.items[t.itemIdx];
   if (t.checked) return;
-
+ 
   if (item.type === "mc") {
     document.querySelectorAll("#mcOptions .mc-opt").forEach(btn => {
       btn.addEventListener("click", () => {
@@ -1140,13 +1815,13 @@ function wireExerciseInteractions() {
     const bank = document.getElementById("bankZone");
     const slots = document.getElementById("slotsZone");
     if (!bank || !slots) return;
-
+ 
     function moveToNextSlot(chip) {
       const emptySlot = Array.from(slots.children).find(s => s.children.length === 0);
       if (emptySlot) { emptySlot.appendChild(chip); chip.classList.add("placed"); }
     }
     function moveToBank(chip) { bank.appendChild(chip); chip.classList.remove("placed"); }
-
+ 
     function wireChip(chip) {
       chip.setAttribute("tabindex", "0");
       chip.setAttribute("role", "button");
@@ -1166,7 +1841,7 @@ function wireExerciseInteractions() {
       chip.addEventListener("dragend", () => chip.classList.remove("dragging"));
     }
     Array.from(bank.children).forEach(wireChip);
-
+ 
     [bank, slots].forEach(zone => {
       zone.addEventListener("dragover", e => e.preventDefault());
       zone.addEventListener("drop", e => {
@@ -1179,7 +1854,7 @@ function wireExerciseInteractions() {
     });
   }
 }
-
+ 
 // ============================================================
 // GAMIFICATION FX
 // ============================================================
@@ -1198,13 +1873,13 @@ function showToast(text) {
   document.body.appendChild(el);
   setTimeout(() => el.remove(), 1800);
 }
-
+ 
 // ============================================================
 // ACTIONS
 // ============================================================
 function goLanding() { Object.assign(state, { screen: "landing", error: null }); render(); }
 function goStudentJoin() { state.screen = "studentJoin"; state.joinError = null; render(); }
-
+ 
 async function submitJoin() {
   const codeEl = document.getElementById("joinCodeInput");
   const nameEl = document.getElementById("joinNameInput");
@@ -1220,7 +1895,7 @@ async function submitJoin() {
   state.screen = "studentIntro";
   render();
 }
-
+ 
 function startTest() {
   state.test = {
     code: state.currentGroup.code,
@@ -1240,13 +1915,13 @@ function startTest() {
   state.screen = "studentTest";
   render();
 }
-
+ 
 function beginStructureItems() {
   state.test.itemIdx = 0;
   state.test.checked = false;
   render();
 }
-
+ 
 function readCurrentAnswerRaw(item) {
   if (item.type === "mc") {
     const sel = document.querySelector("#mcOptions .mc-opt.selected");
@@ -1264,23 +1939,23 @@ function readCurrentAnswerRaw(item) {
   }
   return null;
 }
-
+ 
 function checkItem() {
   const t = state.test;
   const struct = structureById(t.structureIds[t.structIdx]);
   const item = struct.items[t.itemIdx];
   const raw = readCurrentAnswerRaw(item);
-
+ 
   let result;
   if (item.type === "mc") result = scoreMC(item, raw);
   else if (item.type === "gap" || item.type === "transform") result = scoreGapLike(item, raw);
   else if (item.type === "order") result = scoreOrder(item, raw);
   else if (item.type === "sentence") result = scoreSentence(item, raw);
-
+ 
   const xp = xpForResult(item.type, result.status);
   t.xp += xp;
   if (result.status === "correct") t.streak += 1; else if (result.status === "incorrect") t.streak = 0;
-
+ 
   t.answers.push({
     structureId: struct.id,
     itemIndex: t.itemIdx,
@@ -1291,14 +1966,14 @@ function checkItem() {
     modelAnswerDisplay: result.modelAnswerDisplay,
     explanation: item.explanation
   });
-
+ 
   t.checked = true;
   t.lastResult = result;
   t.lastRawAnswer = raw;
   render();
   showXpPop(xp);
 }
-
+ 
 async function nextItem() {
   const t = state.test;
   t.checked = false;
@@ -1316,7 +1991,7 @@ async function nextItem() {
   }
   render();
 }
-
+ 
 function quitTest() {
   if (confirm("Test wirklich abbrechen? Dein Fortschritt geht verloren.")) {
     state.test = null;
@@ -1324,13 +1999,13 @@ function quitTest() {
     render();
   }
 }
-
+ 
 async function finishTest() {
   const t = state.test;
   t.finishedAt = new Date().toISOString();
   const levelResult = computeLevelResult(t.answers, t.structureIds);
   const feedback = buildFeedback(levelResult.structureResults, t.structureIds);
-
+ 
   const submission = {
     studentId: t.studentId,
     studentName: t.studentName,
@@ -1346,15 +2021,15 @@ async function finishTest() {
     lowestTestedFailed: levelResult.lowestTestedFailed,
     overallPercent: levelResult.overallPercent
   };
-
+ 
   await setJSON("submission:" + t.code + ":" + t.studentId, submission, true);
-
+ 
   state.finalResult = { submission, feedback };
   state.test = null;
   state.screen = "studentResults";
   render();
 }
-
+ 
 // ---------- results screen (shared between student + teacher view) ----------
 function screenResults(result, isTeacherView) {
   if (!result) return `${topbar(true, isTeacherView ? "goTeacherGroup" : "goLanding")}<div class="shell empty-state">Keine Daten gefunden.</div>`;
@@ -1364,7 +2039,7 @@ function screenResults(result, isTeacherView) {
   const angleMap = { A2: -60, B1: -20, B2: 20, C1: 60 };
   const angle = sub.achievedLevel ? angleMap[sub.achievedLevel] : -80;
   const levelLabel = sub.achievedLevel ? sub.achievedLevel : (sub.lowestTestedFailed ? "unter " + sub.lowestTestedFailed : "—");
-
+ 
   const barsHtml = sub.structureIds.map(id => {
     const meta = structureById(id);
     const r = sub.structureResults[id];
@@ -1375,7 +2050,7 @@ function screenResults(result, isTeacherView) {
       <div class="bar-pct mono">${r.percent}%</div>
     </div>`;
   }).join("");
-
+ 
   function recCard(item, strong) {
     const meta = item.meta;
     const res = meta.resource ? RESOURCES[meta.resource.hub] : null;
@@ -1385,7 +2060,7 @@ function screenResults(result, isTeacherView) {
       ${!strong && res ? `<a class="rec-link" href="${res.url}" target="_blank" rel="noopener">🔗 Übungen: ${escapeHtml(res.name)}</a>` : ""}
     </div>`;
   }
-
+ 
   const reviewHtml = sub.structureIds.map(id => {
     const meta = structureById(id);
     const items = sub.answers.filter(a => a.structureId === id).sort((a, b) => a.itemIndex - b.itemIndex);
@@ -1402,7 +2077,7 @@ function screenResults(result, isTeacherView) {
       }).join("")}
     </details>`;
   }).join("");
-
+ 
   return `
     ${topbar(true, isTeacherView ? "goTeacherGroup" : "goLanding")}
     <div class="shell">
@@ -1421,33 +2096,33 @@ function screenResults(result, isTeacherView) {
           <div class="dial-pct">Gesamt: ${sub.overallPercent}% richtig · ${sub.xp} XP</div>
         </div>
       </div>
-
+ 
       <div class="card" style="margin-bottom:24px;">
         <h3 style="margin-bottom:16px;">Ergebnis pro Struktur</h3>
         ${barsHtml}
       </div>
-
+ 
       ${feedback.weak.length ? `<div class="card" style="margin-bottom:24px;">
         <h3 style="margin-bottom:6px;">Das kannst du als Nächstes üben</h3>
         <p class="muted" style="margin-bottom:18px; font-size:14px;">Eine differenzierte, wertschätzende Einschätzung – niemand beherrscht alles auf Anhieb.</p>
         ${feedback.weak.map(w => recCard(w, false)).join("")}
       </div>` : ""}
-
+ 
       ${feedback.strong.length ? `<div class="card" style="margin-bottom:24px;">
         <h3 style="margin-bottom:16px;">Das beherrschst du schon richtig gut</h3>
         ${feedback.strong.map(s => recCard(s, true)).join("")}
       </div>` : ""}
-
+ 
       <div class="card">
         <h3 style="margin-bottom:16px;">Alle Aufgaben im Detail</h3>
         ${reviewHtml}
       </div>
-
+ 
       ${!isTeacherView ? `<button class="btn btn-secondary btn-block" style="margin-top:24px;" data-action="goLanding">Fertig</button>` : ""}
     </div>
   `;
 }
-
+ 
 // ============================================================
 // TEACHER: dashboard / create / group detail
 // ============================================================
@@ -1465,7 +2140,7 @@ async function goTeacherHome() {
   state.loading = false;
   render();
 }
-
+ 
 function screenTeacherDashboard() {
   if (state.loading) return `${topbar(true, "goLanding")}<div class="shell empty-state">Lade deine Gruppen…</div>`;
   const groups = state.teacherGroups;
@@ -1476,7 +2151,7 @@ function screenTeacherDashboard() {
         <h2>Deine Gruppen</h2>
         <button class="btn btn-primary" data-action="goTeacherCreate">+ Neue Gruppe</button>
       </div>
-
+ 
       ${groups.length === 0 ? `<div class="empty-state"><div class="icon">📡</div><p>Du hast hier noch keine Gruppe angelegt. Leg deine erste Gruppe an, um loszulegen.</p></div>` : `
       <div class="group-grid">
         ${groups.map(g => `
@@ -1490,7 +2165,7 @@ function screenTeacherDashboard() {
           </div>
         `).join("")}
       </div>`}
-
+ 
       <div class="card" style="margin-top:30px; max-width:480px;">
         <h3 style="margin-bottom:12px; font-size:16px;">Gruppe von einem anderen Gerät öffnen</h3>
         <div class="stack gap-12">
@@ -1503,18 +2178,18 @@ function screenTeacherDashboard() {
     </div>
   `;
 }
-
+ 
 function goTeacherCreate() {
   state.createDraft = { name: "", targetLevel: "B1", structureIds: [] };
   state.screen = "teacherCreate";
   render();
 }
-
+ 
 function screenTeacherCreate() {
   const d = state.createDraft;
   const grouped = { A2: [], B1: [], B2: [], C1: [] };
   STRUCTURES.forEach(s => grouped[s.level].push(s));
-
+ 
   const pickedList = d.structureIds.map((id, idx) => {
     const s = structureById(id);
     return `<div class="order-item">
@@ -1526,12 +2201,12 @@ function screenTeacherCreate() {
       <button class="btn-icon" data-action="removeStruct" data-id="${id}" title="Entfernen">✕</button>
     </div>`;
   }).join("") || `<p class="muted" style="font-size:14px;">Noch keine Struktur ausgewählt.</p>`;
-
+ 
   return `
     ${topbar(true, "goTeacherHome")}
     <div class="shell">
       <h2 style="margin-bottom:22px;">Neue Gruppe anlegen</h2>
-
+ 
       <div class="card stack gap-16" style="margin-bottom:22px;">
         <div>
           <label class="field-label">Gruppenname</label>
@@ -1544,7 +2219,7 @@ function screenTeacherCreate() {
           </div>
         </div>
       </div>
-
+ 
       <div class="struct-pick-grid">
         <div class="card">
           <h3 style="margin-bottom:14px;">Grammatikstrukturen wählen</h3>
@@ -1563,13 +2238,13 @@ function screenTeacherCreate() {
           ${pickedList}
         </div>
       </div>
-
+ 
       ${state.error ? `<p style="color:var(--bad); margin-top:16px;">${escapeHtml(state.error)}</p>` : ""}
       <button class="btn btn-primary btn-block" style="margin-top:26px;" data-action="submitCreateGroup" ${state.loading ? "disabled" : ""}>${state.loading ? "Erstelle Gruppe…" : "Gruppe erstellen"}</button>
     </div>
   `;
 }
-
+ 
 function toggleStruct(id) {
   const d = state.createDraft;
   const idx = d.structureIds.indexOf(id);
@@ -1588,7 +2263,7 @@ function removeStruct(id) {
   const d = state.createDraft; d.structureIds = d.structureIds.filter(x => x !== id); render();
 }
 function setTargetLevel(level) { state.createDraft.targetLevel = level; render(); }
-
+ 
 async function submitCreateGroup() {
   const nameEl = document.getElementById("groupNameInput");
   const d = state.createDraft;
@@ -1596,23 +2271,23 @@ async function submitCreateGroup() {
   if (!d.name) { state.error = "Bitte gib einen Gruppennamen ein."; render(); return; }
   if (d.structureIds.length === 0) { state.error = "Bitte wähle mindestens eine Grammatikstruktur aus."; render(); return; }
   state.error = null; state.loading = true; render();
-
+ 
   let code = genCode();
   let existing = await getJSON("group:" + code, true);
   let tries = 0;
   while (existing && tries < 5) { code = genCode(); existing = await getJSON("group:" + code, true); tries++; }
-
+ 
   const adminToken = uid();
   const group = {
     code, name: d.name, targetLevel: d.targetLevel, structureIds: d.structureIds,
     adminToken, createdAt: new Date().toISOString()
   };
   await setJSON("group:" + code, group, true);
-
+ 
   const myGroups = (await getJSON("myGroups", false)) || [];
   myGroups.unshift({ code, name: d.name, targetLevel: d.targetLevel, structureIds: d.structureIds, adminToken, createdAt: group.createdAt });
   await setJSON("myGroups", myGroups, false);
-
+ 
   state.loading = false;
   state.currentGroup = group;
   state.currentGroup.submissionCount = 0;
@@ -1620,14 +2295,14 @@ async function submitCreateGroup() {
   state.currentSubmissions = [];
   render();
 }
-
+ 
 async function openMyGroup(code) {
   const groups = (await getJSON("myGroups", false)) || [];
   const g = groups.find(x => x.code === code);
   if (!g) return;
   await loadTeacherGroup(g.code, g);
 }
-
+ 
 async function openGroupByToken() {
   const code = (state.openGroupCodeInput || "").trim().toUpperCase();
   const token = (state.openGroupTokenInput || "").trim();
@@ -1636,7 +2311,7 @@ async function openGroupByToken() {
   state.error = null;
   await loadTeacherGroup(code, group);
 }
-
+ 
 async function loadTeacherGroup(code, groupMeta) {
   state.loading = true; state.screen = "teacherGroup"; render();
   const group = await getJSON("group:" + code, true) || groupMeta;
@@ -1652,15 +2327,15 @@ async function loadTeacherGroup(code, groupMeta) {
   state.loading = false;
   render();
 }
-
+ 
 function screenTeacherGroup() {
   if (state.loading) return `${topbar(true, "goTeacherHome")}<div class="shell empty-state">Lade Gruppendaten…</div>`;
   const g = state.currentGroup;
   const subs = state.currentSubmissions;
-
+ 
   const distribution = { A2: 0, B1: 0, B2: 0, C1: 0, none: 0 };
   subs.forEach(s => { if (s.achievedLevel) distribution[s.achievedLevel]++; else distribution.none++; });
-
+ 
   return `
     ${topbar(true, "goTeacherHome")}
     <div class="shell">
@@ -1673,7 +2348,7 @@ function screenTeacherGroup() {
         <button class="btn-icon" data-action="copyCode" title="Code kopieren">⧉</button>
         <span class="muted" style="font-size:13px;">Teile diesen Code mit deinen Schüler:innen.</span>
       </div>
-
+ 
       <div class="card" style="margin-bottom:24px;">
         <h3 style="margin-bottom:14px;">Niveau-Verteilung</h3>
         <div class="row gap-16 wrap">
@@ -1681,7 +2356,7 @@ function screenTeacherGroup() {
           <div class="row gap-8"><span class="tag" style="background:var(--surface-3); color:var(--text-muted)">unter Niveau</span><b>${distribution.none}</b></div>
         </div>
       </div>
-
+ 
       <div class="card">
         <h3 style="margin-bottom:14px;">Einreichungen (${subs.length})</h3>
         ${subs.length === 0 ? `<div class="empty-state"><div class="icon">🕐</div><p>Noch keine Schüler:in hat den Test abgeschlossen.</p></div>` : `
@@ -1703,7 +2378,7 @@ function screenTeacherGroup() {
     </div>
   `;
 }
-
+ 
 function openSubmission(studentId) {
   const sub = state.currentSubmissions.find(s => s.studentId === studentId);
   if (!sub) return;
@@ -1712,14 +2387,14 @@ function openSubmission(studentId) {
   state.screen = "teacherStudent";
   render();
 }
-
+ 
 function copyCode() {
   const g = state.currentGroup;
   const text = g.code;
   if (navigator.clipboard) navigator.clipboard.writeText(text).then(() => showToast("Code kopiert: " + text)).catch(() => showToast("Code: " + text));
   else showToast("Code: " + text);
 }
-
+ 
 // ============================================================
 // EVENT DELEGATION
 // ============================================================
@@ -1728,7 +2403,7 @@ const ACTIONS = {
   submitJoin, startTest, beginStructureItems, checkItem, nextItem, quitTest,
   submitCreateGroup, openGroupByToken, copyCode
 };
-
+ 
 function attachHandlers() {
   app.querySelectorAll("[data-action]").forEach(el => {
     const action = el.dataset.action;
@@ -1744,7 +2419,7 @@ function attachHandlers() {
     });
   });
   wireExerciseInteractions();
-
+ 
   const groupNameInput = document.getElementById("groupNameInput");
   if (groupNameInput) {
     groupNameInput.addEventListener("input", e => { state.createDraft.name = e.target.value; });
@@ -1757,7 +2432,7 @@ function attachHandlers() {
   if (openTokenInput) {
     openTokenInput.addEventListener("input", e => { state.openGroupTokenInput = e.target.value; });
   }
-
+ 
   // dial animation trigger (angle stored in data attribute)
   const needle = document.getElementById("dialNeedle");
   if (needle) {
@@ -1767,12 +2442,12 @@ function attachHandlers() {
     });
   }
 }
-
+ 
 // ============================================================
 // INIT
 // ============================================================
 render();
-
+ 
 </script>
 </body>
 </html>
