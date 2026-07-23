@@ -19,7 +19,7 @@
     --text: #F1F3FF;
     --text-muted: #9AA3C9;
     --text-dim: #6B7299;
- 
+
     --a2: #5EEAD4;
     --a2-dim: rgba(94,234,212,0.16);
     --b1: #8CF26B;
@@ -28,24 +28,24 @@
     --b2-dim: rgba(255,182,72,0.16);
     --c1: #FF6B8B;
     --c1-dim: rgba(255,107,139,0.16);
- 
+
     --accent: #FFB648;
     --accent-2: #5EEAD4;
     --good: #8CF26B;
     --bad: #FF6B6B;
     --review: #C9A6FF;
- 
+
     --radius-sm: 10px;
     --radius: 16px;
     --radius-lg: 24px;
- 
+
     --font-display: 'Space Grotesk', sans-serif;
     --font-body: 'Inter', sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
- 
+
     --shadow-card: 0 8px 30px rgba(0,0,0,0.35);
   }
- 
+
   *{ box-sizing:border-box; }
   html,body{ margin:0; padding:0; }
   body{
@@ -57,17 +57,17 @@
     line-height: 1.5;
   }
   #app{ min-height:100vh; display:flex; flex-direction:column; }
- 
+
   h1,h2,h3,h4{ font-family: var(--font-display); font-weight:700; margin:0; letter-spacing:-0.01em; }
   p{ margin:0; }
   a{ color: var(--accent-2); }
   button{ font-family: var(--font-body); }
   ::selection{ background: var(--accent); color:#12142A; }
- 
+
   :focus-visible{ outline: 2px solid var(--accent-2); outline-offset: 2px; }
- 
+
   .mono{ font-family: var(--font-mono); }
- 
+
   /* ---------- layout helpers ---------- */
   .shell{ max-width: 1080px; margin: 0 auto; padding: 28px 20px 60px; width:100%; flex:1; }
   .shell-narrow{ max-width: 720px; margin:0 auto; padding: 28px 20px 60px; width:100%; flex:1; }
@@ -79,7 +79,7 @@
   .muted{ color:var(--text-muted); }
   .dim{ color:var(--text-dim); }
   .center-text{ text-align:center; }
- 
+
   /* ---------- topbar ---------- */
   .topbar{
     display:flex; align-items:center; justify-content:space-between;
@@ -89,14 +89,14 @@
   .brand-mark{ width:30px; height:30px; border-radius:9px; background:conic-gradient(from 200deg, var(--a2), var(--b1), var(--b2), var(--c1), var(--a2)); position:relative; flex:none; }
   .brand-mark::after{ content:""; position:absolute; inset:5px; background:var(--bg); border-radius:6px; }
   .brand small{ display:block; font-family:var(--font-body); font-weight:500; font-size:11px; color:var(--text-dim); letter-spacing:0.03em; }
- 
+
   .ghost-btn{
     background:transparent; border:1px solid var(--border-strong); color:var(--text);
     padding:9px 16px; border-radius:99px; font-size:14px; font-weight:600; cursor:pointer;
     transition:.15s;
   }
   .ghost-btn:hover{ border-color:var(--accent-2); color:var(--accent-2); }
- 
+
   /* ---------- buttons ---------- */
   .btn{
     display:inline-flex; align-items:center; justify-content:center; gap:8px;
@@ -114,7 +114,7 @@
   .btn-icon{ width:38px; height:38px; padding:0; border-radius:10px; background:var(--surface-3); border:1px solid var(--border); color:var(--text); cursor:pointer; display:inline-flex; align-items:center; justify-content:center; }
   .btn-icon:hover{ border-color:var(--accent-2); }
   .btn-danger-ghost{ background:transparent; color:var(--bad); border:1px solid rgba(255,107,107,0.35); border-radius:99px; padding:9px 16px; font-weight:600; font-size:13px; cursor:pointer; }
- 
+
   /* ---------- cards ---------- */
   .card{ background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); padding:26px; box-shadow:var(--shadow-card); }
   .card-flat{ background:var(--surface-2); border:1px solid var(--border); border-radius:var(--radius); padding:18px; }
@@ -123,7 +123,7 @@
   .tag-B1{ background:var(--b1-dim); color:var(--b1); }
   .tag-B2{ background:var(--b2-dim); color:var(--b2); }
   .tag-C1{ background:var(--c1-dim); color:var(--c1); }
- 
+
   input[type=text], input[type=search], textarea, select{
     background:var(--surface-2); border:1px solid var(--border-strong); color:var(--text);
     border-radius:12px; padding:13px 15px; font-size:15px; font-family:var(--font-body); width:100%;
@@ -131,7 +131,7 @@
   textarea{ resize:vertical; min-height:80px; line-height:1.5; }
   input::placeholder, textarea::placeholder{ color:var(--text-dim); }
   label.field-label{ font-size:13px; font-weight:600; color:var(--text-muted); margin-bottom:7px; display:block; }
- 
+
   /* ---------- landing ---------- */
   .hero{ text-align:center; padding: 40px 10px 10px; }
   .hero h1{ font-size:44px; line-height:1.05; }
@@ -147,7 +147,7 @@
   .role-card.student .role-icon{ background:var(--a2-dim); }
   .role-card.teacher .role-icon{ background:var(--c1-dim); }
   .role-card h3{ font-size:20px; margin-bottom:6px; }
- 
+
   /* ---------- signal ladder (signature element) ---------- */
   .ladder-wrap{ position:relative; width:64px; flex:none; }
   .ladder-track{ position:absolute; left:31px; top:6px; bottom:6px; width:2px; background:var(--border); }
@@ -163,7 +163,7 @@
   .rung.done .rung-dot{ background:#0D0F20; }
   .rung-check{ font-size:11px; color:#0D0F20; font-weight:900; display:none; }
   .rung.done .rung-check{ display:block; } .rung.done .rung-dot{ display:none; }
- 
+
   /* ---------- test top hud ---------- */
   .test-hud{ display:flex; align-items:center; gap:16px; padding:16px 22px; border-bottom:1px solid var(--border); background:rgba(18,20,42,0.7); backdrop-filter:blur(6px); position:sticky; top:0; z-index:10; }
   .hud-progress{ flex:1; height:8px; background:var(--surface-2); border-radius:99px; overflow:hidden; }
@@ -171,24 +171,24 @@
   .hud-stat{ font-family:var(--font-mono); font-size:14px; font-weight:600; display:flex; align-items:center; gap:6px; white-space:nowrap; }
   .streak-flame{ filter: grayscale(1); opacity:.4; transition:.2s; }
   .streak-flame.hot{ filter:none; opacity:1; }
- 
+
   /* ---------- exercise area ---------- */
   .test-body{ display:flex; gap:28px; flex:1; }
   .test-main{ flex:1; min-width:0; padding: 30px 24px 60px; }
   @media (max-width:800px){ .test-body{ flex-direction:column-reverse; } .ladder-wrap{ width:100%; height:56px; } .ladder-track{ display:none; } .rung{ display:none; } }
- 
+
   .structure-badge{ display:flex; align-items:center; gap:10px; margin-bottom:22px; }
   .exercise-kicker{ font-family:var(--font-mono); font-size:12px; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:10px; }
   .exercise-prompt{ font-family:var(--font-display); font-size:26px; font-weight:600; line-height:1.35; margin-bottom:26px; }
   .exercise-prompt .blank{ display:inline-block; min-width:60px; border-bottom:3px solid var(--accent); }
- 
+
   .mc-options{ display:flex; flex-direction:column; gap:12px; max-width:520px; }
   .mc-opt{ background:var(--surface-2); border:2px solid var(--border); border-radius:14px; padding:15px 18px; text-align:left; font-size:16px; color:var(--text); cursor:pointer; transition:.15s; font-family:var(--font-body); }
   .mc-opt:hover{ border-color:var(--border-strong); }
   .mc-opt.selected{ border-color:var(--accent); background:var(--b2-dim); }
   .mc-opt.correct{ border-color:var(--good); background:var(--b1-dim); }
   .mc-opt.incorrect{ border-color:var(--bad); background:rgba(255,107,107,0.12); }
- 
+
   .chip-zone{ display:flex; flex-wrap:wrap; gap:10px; min-height:52px; padding:14px; background:var(--surface-2); border:1.5px dashed var(--border-strong); border-radius:14px; }
   .slot{ min-width:70px; min-height:44px; border-radius:10px; background:rgba(255,255,255,0.03); display:flex; align-items:center; justify-content:center; }
   .word-chip{
@@ -199,11 +199,11 @@
   .word-chip.placed{ background: linear-gradient(135deg, var(--accent), #FF8F5E); color:#1A1400; border-color:transparent; }
   .word-chip.dragging{ opacity:0.4; }
   .bank-zone{ margin-top:14px; }
- 
+
   .free-input{ max-width:560px; }
   .cue-words{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px; }
   .cue-word{ background:var(--surface-3); padding:6px 12px; border-radius:8px; font-family:var(--font-mono); font-size:13px; color:var(--accent-2); }
- 
+
   .feedback-box{ margin-top:22px; padding:18px 20px; border-radius:14px; max-width:560px; animation: pop .25s ease; }
   @keyframes pop{ from{ transform:scale(0.96); opacity:0; } to{ transform:scale(1); opacity:1; } }
   .feedback-box.correct{ background:rgba(140,242,107,0.1); border:1px solid rgba(140,242,107,0.35); }
@@ -213,28 +213,28 @@
   .feedback-title.correct{ color:var(--good); } .feedback-title.incorrect{ color:var(--bad); } .feedback-title.review{ color:var(--review); }
   .model-answer{ margin-top:10px; font-size:14px; color:var(--text-muted); }
   .model-answer b{ color:var(--text); }
- 
+
   .xp-pop{ position:fixed; top:20px; right:24px; background:var(--surface-3); border:1px solid var(--accent); color:var(--accent); font-family:var(--font-mono); font-weight:700; padding:10px 18px; border-radius:99px; z-index:100; animation: floatup 1.6s ease forwards; }
   @keyframes floatup{ 0%{ opacity:0; transform:translateY(8px);} 15%{opacity:1; transform:translateY(0);} 80%{opacity:1;} 100%{opacity:0; transform:translateY(-14px);} }
- 
+
   .toast-banner{ position:fixed; top:20px; left:50%; transform:translateX(-50%); background:var(--surface-3); border:1px solid var(--border-strong); padding:14px 26px; border-radius:99px; z-index:100; font-weight:700; box-shadow:var(--shadow-card); animation: pop .3s ease; }
- 
+
   .intro-card{ text-align:center; max-width:600px; margin: 40px auto; }
   .intro-card .icon-orb{ width:84px; height:84px; border-radius:24px; margin:0 auto 20px; display:flex; align-items:center; justify-content:center; font-size:34px; }
- 
+
   /* ---------- teacher ---------- */
   .group-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(260px,1fr)); gap:18px; margin-top:20px; }
   .group-card{ cursor:pointer; transition:.15s; }
   .group-card:hover{ border-color:var(--border-strong); transform:translateY(-2px); }
   .code-pill{ font-family:var(--font-mono); background:var(--surface-3); padding:5px 12px; border-radius:8px; font-size:13px; letter-spacing:0.06em; }
- 
+
   .level-picker{ display:flex; gap:10px; flex-wrap:wrap; }
   .level-opt{ flex:1; min-width:110px; border:2px solid var(--border); background:var(--surface-2); border-radius:14px; padding:14px; text-align:center; cursor:pointer; }
   .level-opt.sel-A2.active{ border-color:var(--a2); background:var(--a2-dim); }
   .level-opt.sel-B1.active{ border-color:var(--b1); background:var(--b1-dim); }
   .level-opt.sel-B2.active{ border-color:var(--b2); background:var(--b2-dim); }
   .level-opt.sel-C1.active{ border-color:var(--c1); background:var(--c1-dim); }
- 
+
   .struct-pick-grid{ display:grid; grid-template-columns:1fr 1fr; gap:24px; align-items:start; }
   @media (max-width:760px){ .struct-pick-grid{ grid-template-columns:1fr; } }
   .struct-item{ display:flex; align-items:center; gap:12px; padding:12px 14px; border-radius:12px; border:1px solid var(--border); margin-bottom:8px; cursor:pointer; }
@@ -244,19 +244,19 @@
   .checkbox.on{ background:var(--accent); border-color:var(--accent); color:#1A1400; font-weight:900; font-size:12px; }
   .order-item{ display:flex; align-items:center; gap:10px; background:var(--surface-2); border:1px solid var(--border); border-radius:12px; padding:10px 12px; margin-bottom:8px; }
   .order-idx{ font-family:var(--font-mono); color:var(--text-dim); font-size:13px; width:20px; }
- 
+
   table.data-table{ width:100%; border-collapse:collapse; }
   table.data-table th{ text-align:left; font-size:12px; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-dim); padding:10px 12px; border-bottom:1px solid var(--border); }
   table.data-table td{ padding:12px; border-bottom:1px solid var(--border); font-size:14px; }
   table.data-table tr.row-click{ cursor:pointer; }
   table.data-table tr.row-click:hover td{ background:rgba(255,255,255,0.02); }
- 
+
   .bar-row{ display:flex; align-items:center; gap:12px; margin-bottom:12px; }
   .bar-label{ width:230px; flex:none; font-size:13px; }
   .bar-track{ flex:1; height:10px; background:var(--surface-2); border-radius:99px; overflow:hidden; }
   .bar-fill{ height:100%; border-radius:99px; transition:width .6s ease; }
   .bar-pct{ width:44px; text-align:right; font-family:var(--font-mono); font-size:13px; flex:none; }
- 
+
   /* ---------- tuner dial ---------- */
   .dial-wrap{ display:flex; flex-direction:column; align-items:center; margin: 10px auto 30px; }
   .dial{ width:240px; height:150px; position:relative; }
@@ -266,13 +266,13 @@
   .dial-readout{ margin-top:14px; text-align:center; }
   .dial-level{ font-family:var(--font-display); font-size:40px; font-weight:700; }
   .dial-pct{ font-family:var(--font-mono); color:var(--text-muted); font-size:15px; }
- 
+
   .rec-card{ border-left:4px solid var(--accent); padding-left:16px; margin-bottom:18px; }
   .rec-card.strong{ border-left-color:var(--good); }
   .rec-card ul{ margin:8px 0 0; padding-left:18px; color:var(--text-muted); font-size:14px; }
   .rec-card ul li{ margin-bottom:4px; }
   .rec-link{ display:inline-flex; align-items:center; gap:6px; margin-top:8px; font-size:13px; font-weight:600; text-decoration:none; }
- 
+
   details.review-structure{ border:1px solid var(--border); border-radius:14px; margin-bottom:12px; overflow:hidden; }
   details.review-structure summary{ padding:16px 20px; cursor:pointer; list-style:none; display:flex; align-items:center; justify-content:space-between; }
   details.review-structure summary::-webkit-details-marker{ display:none; }
@@ -281,15 +281,15 @@
   .review-item .a-row{ display:flex; gap:8px; align-items:flex-start; font-size:14px; margin-bottom:4px; }
   .status-icon{ flex:none; width:20px; }
   .status-icon.ok{ color:var(--good); } .status-icon.bad{ color:var(--bad); } .status-icon.rev{ color:var(--review); }
- 
+
   footer.app-foot{ text-align:center; padding:20px; color:var(--text-dim); font-size:12px; }
- 
+
   .empty-state{ text-align:center; padding:50px 20px; color:var(--text-muted); }
   .empty-state .icon{ font-size:38px; margin-bottom:12px; }
- 
+
   .modal-backdrop{ position:fixed; inset:0; background:rgba(10,11,24,0.72); backdrop-filter:blur(3px); display:flex; align-items:center; justify-content:center; z-index:200; padding:20px; }
   .modal{ background:var(--surface); border:1px solid var(--border-strong); border-radius:var(--radius-lg); padding:28px; max-width:440px; width:100%; box-shadow:var(--shadow-card); }
- 
+
   @media (prefers-reduced-motion: reduce){
     *{ animation-duration:0.001ms !important; transition-duration:0.001ms !important; }
   }
@@ -305,21 +305,21 @@
 // Your English Pal grammar-by-level index, and Tracktest CEFR
 // grammar requirement lists.
 // ============================================================
- 
+
 const LEVELS = [
   { id: "A2", label: "A2 – Elementary", color: "var(--a2)" },
   { id: "B1", label: "B1 – Intermediate", color: "var(--b1)" },
   { id: "B2", label: "B2 – Upper-Intermediate", color: "var(--b2)" },
   { id: "C1", label: "C1 – Advanced", color: "var(--c1)" }
 ];
- 
+
 const RESOURCES = {
   bc: { name: "British Council – LearnEnglish Teens", url: "https://learnenglishteens.britishcouncil.org/grammar-vocabulary" },
   te: { name: "Test-English.com Grammatik-Übersicht", url: "https://test-english.com/grammar-points/contents/" },
   ego: { name: "ego4u.com Grammatik", url: "https://www.ego4u.com/en/cram-up/grammar" },
   eh: { name: "Englisch-hilfen.de Grammatik", url: "https://www.englisch-hilfen.de/en/grammar_list/alle.htm" }
 };
- 
+
 // helper to keep item objects short to write
 function mc(prompt, options, answerIndex, explanation) {
   return { type: "mc", prompt, options, answerIndex, explanation };
@@ -336,7 +336,7 @@ function transform(prompt, accepted, explanation) {
 function sentence(prompt, cueWords, regex, modelAnswer, explanation) {
   return { type: "sentence", prompt, cueWords: cueWords || null, regex, modelAnswer, explanation };
 }
- 
+
 const STRUCTURES = [
 // ---------------- A2 ----------------
 {
@@ -423,7 +423,7 @@ const STRUCTURES = [
     sentence("Triff eine spontane Entscheidung mit 'will' (z.B. jemandem helfen).", null, /\b(will|'ll)\b/i, "I'll help you carry that bag.", "will für spontane Entscheidungen im Moment des Sprechens.")
   ]
 },
- 
+
 {
   id: "a2-modal-ability-permission",
   level: "A2",
@@ -655,7 +655,7 @@ const STRUCTURES = [
     sentence("Schreibe einen Vorschlag mit 'Let's' für eine Aktivität mit Freunden.", null, /^let's\b/i, "Let's go to the cinema this weekend.", "Let's + Grundform für Vorschläge, an denen man selbst teilnimmt.")
   ]
 },
- 
+
 // ---------------- B1 ----------------
 {
   id: "b1-present-perfect",
@@ -741,7 +741,7 @@ const STRUCTURES = [
     sentence("Beschreibe eine Person, die du kennst, mit einem defining relative clause (who).", null, /\bwho\b/i, "I have a neighbour who plays the guitar every evening.", "Relativsatz mit 'who' für Personen, ohne Komma.")
   ]
 },
- 
+
 {
   id: "b1-present-perfect-continuous",
   level: "B1",
@@ -910,7 +910,7 @@ const STRUCTURES = [
     sentence("Beschreibe etwas, das du vermeidest zu tun oder gerade beendet hast (avoid/finish + Gerund).", null, /\b(avoid(s|ed)?|finish(es|ed)?|enjoy(s|ed)?|suggest(s|ed)?)\s+\w+ing\b/i, "I try to avoid eating fast food during the week.", "avoid/finish/enjoy/suggest + Gerund (-ing-Form).")
   ]
 },
- 
+
 // ---------------- B2 ----------------
 {
   id: "b2-conditional-3-mixed",
@@ -996,7 +996,7 @@ const STRUCTURES = [
     sentence("Schreibe einen Satz über etwas, das du kürzlich entschieden hast zu tun (decide + to-Infinitiv).", null, /\bdecided?\s+to\s+\w+/i, "I decided to join the school football team.", "'decide' steht mit to-Infinitiv.")
   ]
 },
- 
+
 {
   id: "b2-passive-all-tenses",
   level: "B2",
@@ -1144,7 +1144,7 @@ const STRUCTURES = [
     sentence("Widerspreche einer Erwartung mit emphatischem 'did' (Vergangenheit).", null, /\bdid\s+\w+/i, "I did finish my homework, I just forgot to bring it.", "Emphatic did + Grundform betont eine vergangene Handlung im Widerspruch zu einer Erwartung.")
   ]
 },
- 
+
 // ---------------- C1 ----------------
 {
   id: "c1-inversion",
@@ -1357,14 +1357,14 @@ const STRUCTURES = [
   ]
 }
 ];
- 
+
 if (typeof module !== "undefined") { module.exports = { LEVELS, RESOURCES, STRUCTURES }; }
- 
- 
+
+
 // ============================================================
 // APP LOGIC — vanilla JS SPA
 // ============================================================
- 
+
 // ---------- storage helpers ----------
 async function storageGetRaw(key, shared) {
   try { const r = await window.storage.get(key, !!shared); return r ? r.value : null; }
@@ -1386,7 +1386,7 @@ async function listKeys(prefix, shared) {
   try { const r = await window.storage.list(prefix, !!shared); return r ? r.keys : []; }
   catch (e) { return []; }
 }
- 
+
 // ---------- small utils ----------
 function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 8); }
 function genCode() {
@@ -1416,7 +1416,7 @@ function levelColor(lvl) {
   return { A2: "var(--a2)", B1: "var(--b1)", B2: "var(--b2)", C1: "var(--c1)" }[lvl] || "var(--text)";
 }
 function structureById(id) { return STRUCTURES.find(s => s.id === id); }
- 
+
 // ---------- scoring ----------
 // returns { status: 'correct'|'incorrect'|'review', studentAnswerDisplay, modelAnswerDisplay }
 function scoreMC(item, selIndex) {
@@ -1471,7 +1471,7 @@ function scoreValueForStatus(status) {
   if (status === "review") return 0.5;
   return 0;
 }
- 
+
 // ---------- level computation ----------
 function computeLevelResult(answers, structureIds) {
   // aggregate per structure
@@ -1487,7 +1487,7 @@ function computeLevelResult(answers, structureIds) {
     const { sum, total } = byStructure[id];
     structureResults[id] = { percent: total ? Math.round((sum / total) * 100) : 0, sum, total };
   });
- 
+
   // aggregate per level (avg percent of structures at that level that were tested)
   const levelOrder = ["A2", "B1", "B2", "C1"];
   const levelPercents = {};
@@ -1497,7 +1497,7 @@ function computeLevelResult(answers, structureIds) {
     const avg = ids.reduce((s, id) => s + structureResults[id].percent, 0) / ids.length;
     levelPercents[lvl] = Math.round(avg);
   });
- 
+
   const THRESHOLD = 60;
   let achieved = null;
   let lowestTestedFailed = null;
@@ -1513,17 +1513,17 @@ function computeLevelResult(answers, structureIds) {
   const overallPercent = structureIds.length
     ? Math.round(structureIds.reduce((s, id) => s + structureResults[id].percent, 0) / structureIds.length)
     : 0;
- 
+
   return { structureResults, levelPercents, achieved, lowestTestedFailed, overallPercent };
 }
- 
+
 function buildFeedback(structureResults, structureIds) {
   const arr = structureIds.map(id => ({ id, ...structureResults[id], meta: structureById(id) })).filter(s => s.meta);
   const weak = arr.filter(s => s.percent < 70).sort((a, b) => a.percent - b.percent).slice(0, 5);
   const strong = arr.filter(s => s.percent >= 85).sort((a, b) => b.percent - a.percent).slice(0, 4);
   return { weak, strong };
 }
- 
+
 // ============================================================
 // STATE + RENDER
 // ============================================================
@@ -1546,10 +1546,10 @@ const state = {
   test: null,
   finalResult: null
 };
- 
+
 const app = document.getElementById("app");
 function render() { app.innerHTML = renderScreen(); attachHandlers(); }
- 
+
 function renderScreen() {
   switch (state.screen) {
     case "landing": return screenLanding();
@@ -1564,7 +1564,7 @@ function renderScreen() {
     default: return screenLanding();
   }
 }
- 
+
 function topbar(showBack, backAction) {
   return `
     <div class="topbar">
@@ -1575,7 +1575,7 @@ function topbar(showBack, backAction) {
       ${showBack ? `<button class="ghost-btn" data-action="${backAction}">&larr; Zurück</button>` : ""}
     </div>`;
 }
- 
+
 // ============================================================
 // SCREEN: Landing
 // ============================================================
@@ -1606,7 +1606,7 @@ function screenLanding() {
     <footer class="app-foot">Grammatikinhalte orientieren sich am English Grammar Profile (CEFR) und gängigen Referenzen wie Test-English.com und dem British Council.</footer>
   `;
 }
- 
+
 // ============================================================
 // SCREEN: Student join
 // ============================================================
@@ -1631,7 +1631,7 @@ function screenStudentJoin() {
     </div>
   `;
 }
- 
+
 // ============================================================
 // SCREEN: Student intro
 // ============================================================
@@ -1662,7 +1662,7 @@ function screenStudentIntro() {
     </div>
   `;
 }
- 
+
 // ============================================================
 // SCREEN: Student test (exercise engine)
 // ============================================================
@@ -1671,7 +1671,7 @@ function completedItemsCount() {
   const t = state.test;
   return t.structIdx * 7 + Math.max(0, t.itemIdx);
 }
- 
+
 function screenStudentTest() {
   const t = state.test;
   const structIds = t.structureIds;
@@ -1685,16 +1685,16 @@ function screenStudentTest() {
       <span class="rung-dot" style="background:${i < t.structIdx ? levelColor(s.level) : ""}"></span><span class="rung-check">✓</span>
     </div>`;
   }).join("");
- 
+
   const progressPct = Math.round((completedItemsCount() / totalItemsCount()) * 100);
- 
+
   let bodyHtml;
   if (t.itemIdx === -1) {
     bodyHtml = structureIntro(struct);
   } else {
     bodyHtml = exerciseView(struct, t.itemIdx, t.checked, t.lastResult, t.lastRawAnswer);
   }
- 
+
   return `
     <div class="test-hud">
       <div class="hud-stat mono" style="color:var(--accent)">⚡ ${t.xp} XP</div>
@@ -1708,7 +1708,7 @@ function screenStudentTest() {
     </div>
   `;
 }
- 
+
 function structureIntro(struct) {
   return `
     <div class="intro-card" style="margin-top:10px;">
@@ -1723,13 +1723,13 @@ function structureIntro(struct) {
     </div>
   `;
 }
- 
+
 function exerciseView(struct, itemIdx, checked, lastResult, lastRawAnswer) {
   const item = struct.items[itemIdx];
   const kicker = `Aufgabe ${itemIdx + 1} / 7 · ${escapeHtml(struct.name)}`;
   let inputHtml = "";
   let feedback = "";
- 
+
   if (item.type === "mc") {
     inputHtml = `<div class="exercise-prompt">${renderPromptWithBlank(item.prompt)}</div>
       <div class="mc-options" id="mcOptions">
@@ -1771,7 +1771,7 @@ function exerciseView(struct, itemIdx, checked, lastResult, lastRawAnswer) {
         <textarea id="textAnswer" placeholder="Schreib deinen Satz auf Englisch…" ${checked ? "disabled" : ""}>${escapeHtml(val)}</textarea>
       </div>`;
   }
- 
+
   if (checked && lastResult) {
     const statusClass = lastResult.status === "correct" ? "correct" : lastResult.status === "review" ? "review" : "incorrect";
     const title = lastResult.status === "correct" ? "Richtig! ✓" : lastResult.status === "review" ? "Wird von deiner Lehrkraft geprüft" : "Nicht ganz ✗";
@@ -1786,14 +1786,14 @@ function exerciseView(struct, itemIdx, checked, lastResult, lastRawAnswer) {
   } else {
     feedback = `<button class="btn btn-primary" style="margin-top:26px;" data-action="checkItem">Antwort prüfen</button>`;
   }
- 
+
   return `<div class="exercise-kicker">${kicker}</div>${inputHtml}${feedback}`;
 }
- 
+
 function renderPromptWithBlank(prompt) {
   return escapeHtml(prompt).replace(/___+/g, '<span class="blank">&nbsp;</span>');
 }
- 
+
 // ============================================================
 // EXERCISE INTERACTIONS (direct DOM, no full re-render)
 // ============================================================
@@ -1803,7 +1803,7 @@ function wireExerciseInteractions() {
   const struct = structureById(t.structureIds[t.structIdx]);
   const item = struct.items[t.itemIdx];
   if (t.checked) return;
- 
+
   if (item.type === "mc") {
     document.querySelectorAll("#mcOptions .mc-opt").forEach(btn => {
       btn.addEventListener("click", () => {
@@ -1815,13 +1815,13 @@ function wireExerciseInteractions() {
     const bank = document.getElementById("bankZone");
     const slots = document.getElementById("slotsZone");
     if (!bank || !slots) return;
- 
+
     function moveToNextSlot(chip) {
       const emptySlot = Array.from(slots.children).find(s => s.children.length === 0);
       if (emptySlot) { emptySlot.appendChild(chip); chip.classList.add("placed"); }
     }
     function moveToBank(chip) { bank.appendChild(chip); chip.classList.remove("placed"); }
- 
+
     function wireChip(chip) {
       chip.setAttribute("tabindex", "0");
       chip.setAttribute("role", "button");
@@ -1841,7 +1841,7 @@ function wireExerciseInteractions() {
       chip.addEventListener("dragend", () => chip.classList.remove("dragging"));
     }
     Array.from(bank.children).forEach(wireChip);
- 
+
     [bank, slots].forEach(zone => {
       zone.addEventListener("dragover", e => e.preventDefault());
       zone.addEventListener("drop", e => {
@@ -1854,7 +1854,7 @@ function wireExerciseInteractions() {
     });
   }
 }
- 
+
 // ============================================================
 // GAMIFICATION FX
 // ============================================================
@@ -1873,13 +1873,13 @@ function showToast(text) {
   document.body.appendChild(el);
   setTimeout(() => el.remove(), 1800);
 }
- 
+
 // ============================================================
 // ACTIONS
 // ============================================================
 function goLanding() { Object.assign(state, { screen: "landing", error: null }); render(); }
 function goStudentJoin() { state.screen = "studentJoin"; state.joinError = null; render(); }
- 
+
 async function submitJoin() {
   const codeEl = document.getElementById("joinCodeInput");
   const nameEl = document.getElementById("joinNameInput");
@@ -1895,7 +1895,7 @@ async function submitJoin() {
   state.screen = "studentIntro";
   render();
 }
- 
+
 function startTest() {
   state.test = {
     code: state.currentGroup.code,
@@ -1915,13 +1915,13 @@ function startTest() {
   state.screen = "studentTest";
   render();
 }
- 
+
 function beginStructureItems() {
   state.test.itemIdx = 0;
   state.test.checked = false;
   render();
 }
- 
+
 function readCurrentAnswerRaw(item) {
   if (item.type === "mc") {
     const sel = document.querySelector("#mcOptions .mc-opt.selected");
@@ -1939,23 +1939,23 @@ function readCurrentAnswerRaw(item) {
   }
   return null;
 }
- 
+
 function checkItem() {
   const t = state.test;
   const struct = structureById(t.structureIds[t.structIdx]);
   const item = struct.items[t.itemIdx];
   const raw = readCurrentAnswerRaw(item);
- 
+
   let result;
   if (item.type === "mc") result = scoreMC(item, raw);
   else if (item.type === "gap" || item.type === "transform") result = scoreGapLike(item, raw);
   else if (item.type === "order") result = scoreOrder(item, raw);
   else if (item.type === "sentence") result = scoreSentence(item, raw);
- 
+
   const xp = xpForResult(item.type, result.status);
   t.xp += xp;
   if (result.status === "correct") t.streak += 1; else if (result.status === "incorrect") t.streak = 0;
- 
+
   t.answers.push({
     structureId: struct.id,
     itemIndex: t.itemIdx,
@@ -1966,14 +1966,14 @@ function checkItem() {
     modelAnswerDisplay: result.modelAnswerDisplay,
     explanation: item.explanation
   });
- 
+
   t.checked = true;
   t.lastResult = result;
   t.lastRawAnswer = raw;
   render();
   showXpPop(xp);
 }
- 
+
 async function nextItem() {
   const t = state.test;
   t.checked = false;
@@ -1991,7 +1991,7 @@ async function nextItem() {
   }
   render();
 }
- 
+
 function quitTest() {
   if (confirm("Test wirklich abbrechen? Dein Fortschritt geht verloren.")) {
     state.test = null;
@@ -1999,13 +1999,13 @@ function quitTest() {
     render();
   }
 }
- 
+
 async function finishTest() {
   const t = state.test;
   t.finishedAt = new Date().toISOString();
   const levelResult = computeLevelResult(t.answers, t.structureIds);
   const feedback = buildFeedback(levelResult.structureResults, t.structureIds);
- 
+
   const submission = {
     studentId: t.studentId,
     studentName: t.studentName,
@@ -2021,15 +2021,15 @@ async function finishTest() {
     lowestTestedFailed: levelResult.lowestTestedFailed,
     overallPercent: levelResult.overallPercent
   };
- 
+
   await setJSON("submission:" + t.code + ":" + t.studentId, submission, true);
- 
+
   state.finalResult = { submission, feedback };
   state.test = null;
   state.screen = "studentResults";
   render();
 }
- 
+
 // ---------- results screen (shared between student + teacher view) ----------
 function screenResults(result, isTeacherView) {
   if (!result) return `${topbar(true, isTeacherView ? "goTeacherGroup" : "goLanding")}<div class="shell empty-state">Keine Daten gefunden.</div>`;
@@ -2039,7 +2039,7 @@ function screenResults(result, isTeacherView) {
   const angleMap = { A2: -60, B1: -20, B2: 20, C1: 60 };
   const angle = sub.achievedLevel ? angleMap[sub.achievedLevel] : -80;
   const levelLabel = sub.achievedLevel ? sub.achievedLevel : (sub.lowestTestedFailed ? "unter " + sub.lowestTestedFailed : "—");
- 
+
   const barsHtml = sub.structureIds.map(id => {
     const meta = structureById(id);
     const r = sub.structureResults[id];
@@ -2050,7 +2050,7 @@ function screenResults(result, isTeacherView) {
       <div class="bar-pct mono">${r.percent}%</div>
     </div>`;
   }).join("");
- 
+
   function recCard(item, strong) {
     const meta = item.meta;
     const res = meta.resource ? RESOURCES[meta.resource.hub] : null;
@@ -2060,7 +2060,7 @@ function screenResults(result, isTeacherView) {
       ${!strong && res ? `<a class="rec-link" href="${res.url}" target="_blank" rel="noopener">🔗 Übungen: ${escapeHtml(res.name)}</a>` : ""}
     </div>`;
   }
- 
+
   const reviewHtml = sub.structureIds.map(id => {
     const meta = structureById(id);
     const items = sub.answers.filter(a => a.structureId === id).sort((a, b) => a.itemIndex - b.itemIndex);
@@ -2077,7 +2077,7 @@ function screenResults(result, isTeacherView) {
       }).join("")}
     </details>`;
   }).join("");
- 
+
   return `
     ${topbar(true, isTeacherView ? "goTeacherGroup" : "goLanding")}
     <div class="shell">
@@ -2096,33 +2096,33 @@ function screenResults(result, isTeacherView) {
           <div class="dial-pct">Gesamt: ${sub.overallPercent}% richtig · ${sub.xp} XP</div>
         </div>
       </div>
- 
+
       <div class="card" style="margin-bottom:24px;">
         <h3 style="margin-bottom:16px;">Ergebnis pro Struktur</h3>
         ${barsHtml}
       </div>
- 
+
       ${feedback.weak.length ? `<div class="card" style="margin-bottom:24px;">
         <h3 style="margin-bottom:6px;">Das kannst du als Nächstes üben</h3>
         <p class="muted" style="margin-bottom:18px; font-size:14px;">Eine differenzierte, wertschätzende Einschätzung – niemand beherrscht alles auf Anhieb.</p>
         ${feedback.weak.map(w => recCard(w, false)).join("")}
       </div>` : ""}
- 
+
       ${feedback.strong.length ? `<div class="card" style="margin-bottom:24px;">
         <h3 style="margin-bottom:16px;">Das beherrschst du schon richtig gut</h3>
         ${feedback.strong.map(s => recCard(s, true)).join("")}
       </div>` : ""}
- 
+
       <div class="card">
         <h3 style="margin-bottom:16px;">Alle Aufgaben im Detail</h3>
         ${reviewHtml}
       </div>
- 
+
       ${!isTeacherView ? `<button class="btn btn-secondary btn-block" style="margin-top:24px;" data-action="goLanding">Fertig</button>` : ""}
     </div>
   `;
 }
- 
+
 // ============================================================
 // TEACHER: dashboard / create / group detail
 // ============================================================
@@ -2140,7 +2140,7 @@ async function goTeacherHome() {
   state.loading = false;
   render();
 }
- 
+
 function screenTeacherDashboard() {
   if (state.loading) return `${topbar(true, "goLanding")}<div class="shell empty-state">Lade deine Gruppen…</div>`;
   const groups = state.teacherGroups;
@@ -2151,7 +2151,7 @@ function screenTeacherDashboard() {
         <h2>Deine Gruppen</h2>
         <button class="btn btn-primary" data-action="goTeacherCreate">+ Neue Gruppe</button>
       </div>
- 
+
       ${groups.length === 0 ? `<div class="empty-state"><div class="icon">📡</div><p>Du hast hier noch keine Gruppe angelegt. Leg deine erste Gruppe an, um loszulegen.</p></div>` : `
       <div class="group-grid">
         ${groups.map(g => `
@@ -2165,7 +2165,7 @@ function screenTeacherDashboard() {
           </div>
         `).join("")}
       </div>`}
- 
+
       <div class="card" style="margin-top:30px; max-width:480px;">
         <h3 style="margin-bottom:12px; font-size:16px;">Gruppe von einem anderen Gerät öffnen</h3>
         <div class="stack gap-12">
@@ -2178,18 +2178,18 @@ function screenTeacherDashboard() {
     </div>
   `;
 }
- 
+
 function goTeacherCreate() {
   state.createDraft = { name: "", targetLevel: "B1", structureIds: [] };
   state.screen = "teacherCreate";
   render();
 }
- 
+
 function screenTeacherCreate() {
   const d = state.createDraft;
   const grouped = { A2: [], B1: [], B2: [], C1: [] };
   STRUCTURES.forEach(s => grouped[s.level].push(s));
- 
+
   const pickedList = d.structureIds.map((id, idx) => {
     const s = structureById(id);
     return `<div class="order-item">
@@ -2201,12 +2201,12 @@ function screenTeacherCreate() {
       <button class="btn-icon" data-action="removeStruct" data-id="${id}" title="Entfernen">✕</button>
     </div>`;
   }).join("") || `<p class="muted" style="font-size:14px;">Noch keine Struktur ausgewählt.</p>`;
- 
+
   return `
     ${topbar(true, "goTeacherHome")}
     <div class="shell">
       <h2 style="margin-bottom:22px;">Neue Gruppe anlegen</h2>
- 
+
       <div class="card stack gap-16" style="margin-bottom:22px;">
         <div>
           <label class="field-label">Gruppenname</label>
@@ -2219,7 +2219,7 @@ function screenTeacherCreate() {
           </div>
         </div>
       </div>
- 
+
       <div class="struct-pick-grid">
         <div class="card">
           <h3 style="margin-bottom:14px;">Grammatikstrukturen wählen</h3>
@@ -2238,13 +2238,13 @@ function screenTeacherCreate() {
           ${pickedList}
         </div>
       </div>
- 
+
       ${state.error ? `<p style="color:var(--bad); margin-top:16px;">${escapeHtml(state.error)}</p>` : ""}
       <button class="btn btn-primary btn-block" style="margin-top:26px;" data-action="submitCreateGroup" ${state.loading ? "disabled" : ""}>${state.loading ? "Erstelle Gruppe…" : "Gruppe erstellen"}</button>
     </div>
   `;
 }
- 
+
 function toggleStruct(id) {
   const d = state.createDraft;
   const idx = d.structureIds.indexOf(id);
@@ -2263,7 +2263,7 @@ function removeStruct(id) {
   const d = state.createDraft; d.structureIds = d.structureIds.filter(x => x !== id); render();
 }
 function setTargetLevel(level) { state.createDraft.targetLevel = level; render(); }
- 
+
 async function submitCreateGroup() {
   const nameEl = document.getElementById("groupNameInput");
   const d = state.createDraft;
@@ -2271,23 +2271,23 @@ async function submitCreateGroup() {
   if (!d.name) { state.error = "Bitte gib einen Gruppennamen ein."; render(); return; }
   if (d.structureIds.length === 0) { state.error = "Bitte wähle mindestens eine Grammatikstruktur aus."; render(); return; }
   state.error = null; state.loading = true; render();
- 
+
   let code = genCode();
   let existing = await getJSON("group:" + code, true);
   let tries = 0;
   while (existing && tries < 5) { code = genCode(); existing = await getJSON("group:" + code, true); tries++; }
- 
+
   const adminToken = uid();
   const group = {
     code, name: d.name, targetLevel: d.targetLevel, structureIds: d.structureIds,
     adminToken, createdAt: new Date().toISOString()
   };
   await setJSON("group:" + code, group, true);
- 
+
   const myGroups = (await getJSON("myGroups", false)) || [];
   myGroups.unshift({ code, name: d.name, targetLevel: d.targetLevel, structureIds: d.structureIds, adminToken, createdAt: group.createdAt });
   await setJSON("myGroups", myGroups, false);
- 
+
   state.loading = false;
   state.currentGroup = group;
   state.currentGroup.submissionCount = 0;
@@ -2295,14 +2295,14 @@ async function submitCreateGroup() {
   state.currentSubmissions = [];
   render();
 }
- 
+
 async function openMyGroup(code) {
   const groups = (await getJSON("myGroups", false)) || [];
   const g = groups.find(x => x.code === code);
   if (!g) return;
   await loadTeacherGroup(g.code, g);
 }
- 
+
 async function openGroupByToken() {
   const code = (state.openGroupCodeInput || "").trim().toUpperCase();
   const token = (state.openGroupTokenInput || "").trim();
@@ -2311,7 +2311,7 @@ async function openGroupByToken() {
   state.error = null;
   await loadTeacherGroup(code, group);
 }
- 
+
 async function loadTeacherGroup(code, groupMeta) {
   state.loading = true; state.screen = "teacherGroup"; render();
   const group = await getJSON("group:" + code, true) || groupMeta;
@@ -2327,15 +2327,15 @@ async function loadTeacherGroup(code, groupMeta) {
   state.loading = false;
   render();
 }
- 
+
 function screenTeacherGroup() {
   if (state.loading) return `${topbar(true, "goTeacherHome")}<div class="shell empty-state">Lade Gruppendaten…</div>`;
   const g = state.currentGroup;
   const subs = state.currentSubmissions;
- 
+
   const distribution = { A2: 0, B1: 0, B2: 0, C1: 0, none: 0 };
   subs.forEach(s => { if (s.achievedLevel) distribution[s.achievedLevel]++; else distribution.none++; });
- 
+
   return `
     ${topbar(true, "goTeacherHome")}
     <div class="shell">
@@ -2348,7 +2348,7 @@ function screenTeacherGroup() {
         <button class="btn-icon" data-action="copyCode" title="Code kopieren">⧉</button>
         <span class="muted" style="font-size:13px;">Teile diesen Code mit deinen Schüler:innen.</span>
       </div>
- 
+
       <div class="card" style="margin-bottom:24px;">
         <h3 style="margin-bottom:14px;">Niveau-Verteilung</h3>
         <div class="row gap-16 wrap">
@@ -2356,7 +2356,7 @@ function screenTeacherGroup() {
           <div class="row gap-8"><span class="tag" style="background:var(--surface-3); color:var(--text-muted)">unter Niveau</span><b>${distribution.none}</b></div>
         </div>
       </div>
- 
+
       <div class="card">
         <h3 style="margin-bottom:14px;">Einreichungen (${subs.length})</h3>
         ${subs.length === 0 ? `<div class="empty-state"><div class="icon">🕐</div><p>Noch keine Schüler:in hat den Test abgeschlossen.</p></div>` : `
@@ -2378,7 +2378,7 @@ function screenTeacherGroup() {
     </div>
   `;
 }
- 
+
 function openSubmission(studentId) {
   const sub = state.currentSubmissions.find(s => s.studentId === studentId);
   if (!sub) return;
@@ -2387,14 +2387,14 @@ function openSubmission(studentId) {
   state.screen = "teacherStudent";
   render();
 }
- 
+
 function copyCode() {
   const g = state.currentGroup;
   const text = g.code;
   if (navigator.clipboard) navigator.clipboard.writeText(text).then(() => showToast("Code kopiert: " + text)).catch(() => showToast("Code: " + text));
   else showToast("Code: " + text);
 }
- 
+
 // ============================================================
 // EVENT DELEGATION
 // ============================================================
@@ -2403,7 +2403,7 @@ const ACTIONS = {
   submitJoin, startTest, beginStructureItems, checkItem, nextItem, quitTest,
   submitCreateGroup, openGroupByToken, copyCode
 };
- 
+
 function attachHandlers() {
   app.querySelectorAll("[data-action]").forEach(el => {
     const action = el.dataset.action;
@@ -2419,7 +2419,7 @@ function attachHandlers() {
     });
   });
   wireExerciseInteractions();
- 
+
   const groupNameInput = document.getElementById("groupNameInput");
   if (groupNameInput) {
     groupNameInput.addEventListener("input", e => { state.createDraft.name = e.target.value; });
@@ -2432,7 +2432,7 @@ function attachHandlers() {
   if (openTokenInput) {
     openTokenInput.addEventListener("input", e => { state.openGroupTokenInput = e.target.value; });
   }
- 
+
   // dial animation trigger (angle stored in data attribute)
   const needle = document.getElementById("dialNeedle");
   if (needle) {
@@ -2442,12 +2442,12 @@ function attachHandlers() {
     });
   }
 }
- 
+
 // ============================================================
 // INIT
 // ============================================================
 render();
- 
+
 </script>
 </body>
 </html>
