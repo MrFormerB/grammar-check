@@ -1365,9 +1365,9 @@ if (typeof module !== "undefined") { module.exports = { LEVELS, RESOURCES, STRUC
 // APP LOGIC — vanilla JS SPA
 // ============================================================
 
-// ---------- storage helpers (using backend with fallback) ----------
+// ---------- storage helpers (using backend with persistent fallback) ----------
 const BACKEND_URL = localStorage.getItem('backendUrl') || 'http://localhost:5000';
-const localStorageFallback = {}; // Fallback wenn Backend nicht erreichbar ist
+const STORAGE_PREFIX = 'app_storage_';
 
 async function checkBackendConnection() {
   try {
@@ -1387,7 +1387,9 @@ checkBackendConnection().then(result => { backendAvailable = result; });
 async function storageGetRaw(key, shared) {
   try {
     if (!backendAvailable) {
-      return localStorageFallback[key] || null;
+      // Persistent Fallback: Verwende Browser localStorage
+      const stored = localStorage.getItem(STORAGE_PREFIX + key);
+      return stored || null;
     }
     const url = new URL(BACKEND_URL + '/api/storage/get');
     url.searchParams.set('key', key);
@@ -1396,15 +1398,24 @@ async function storageGetRaw(key, shared) {
     const timeout = setTimeout(() => controller.abort(), 5000);
     const r = await fetch(url, { headers: getAuthHeaders(), signal: controller.signal });
     clearTimeout(timeout);
-    if (!r.ok) return localStorageFallback[key] || null;
+    if (!r.ok) {
+      const stored = localStorage.getItem(STORAGE_PREFIX + key);
+      return stored || null;
+    }
     const data = await r.json();
     return data.value || null;
   }
-  catch (e) { console.warn("storage get failed, using fallback", key, e); return localStorageFallback[key] || null; }
+  catch (e) { 
+    console.warn("storage get failed, using localStorage fallback", key, e); 
+    const stored = localStorage.getItem(STORAGE_PREFIX + key);
+    return stored || null;
+  }
 }
 async function storageSetRaw(key, value, shared) {
   try {
-    localStorageFallback[key] = value;
+    // Immer auch lokal speichern (Fallback)
+    localStorage.setItem(STORAGE_PREFIX + key, value);
+    
     if (!backendAvailable) {
       return true;
     }
@@ -1419,7 +1430,10 @@ async function storageSetRaw(key, value, shared) {
     clearTimeout(timeout);
     return r.ok;
   }
-  catch (e) { console.warn("storage set failed, using fallback", key, e); return true; }
+  catch (e) { 
+    console.warn("storage set failed, using localStorage fallback", key, e); 
+    return true; 
+  }
 }
 async function getJSON(key, shared) {
   const raw = await storageGetRaw(key, shared);
@@ -1431,15 +1445,53 @@ async function setJSON(key, obj, shared) {
 }
 async function listKeys(prefix, shared) {
   try {
+    if (!backendAvailable) {
+      // Fallback: Durchsuche localStorage
+      const keys = [];
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && key.startsWith(STORAGE_PREFIX + prefix)) {
+          const cleanKey = key.substring(STORAGE_PREFIX.length);
+          keys.push(cleanKey);
+        }
+      }
+      return keys;
+    }
+    
     const url = new URL(BACKEND_URL + '/api/storage/list');
     url.searchParams.set('prefix', prefix);
     url.searchParams.set('shared', shared ? 'true' : 'false');
-    const r = await fetch(url, { headers: getAuthHeaders() });
-    if (!r.ok) return [];
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 5000);
+    const r = await fetch(url, { headers: getAuthHeaders(), signal: controller.signal });
+    clearTimeout(timeout);
+    if (!r.ok) {
+      // Fallback: Durchsuche localStorage
+      const keys = [];
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && key.startsWith(STORAGE_PREFIX + prefix)) {
+          const cleanKey = key.substring(STORAGE_PREFIX.length);
+          keys.push(cleanKey);
+        }
+      }
+      return keys;
+    }
     const data = await r.json();
     return data.keys || [];
   }
-  catch (e) { console.error("listKeys failed", e); return []; }
+  catch (e) { 
+    console.warn("listKeys failed, using localStorage fallback", e); 
+    const keys = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith(STORAGE_PREFIX + prefix)) {
+        const cleanKey = key.substring(STORAGE_PREFIX.length);
+        keys.push(cleanKey);
+      }
+    }
+    return keys;
+  }
 }
 
 function getAuthHeaders() {
