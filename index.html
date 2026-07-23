@@ -1365,13 +1365,30 @@ if (typeof module !== "undefined") { module.exports = { LEVELS, RESOURCES, STRUC
 // APP LOGIC — vanilla JS SPA
 // ============================================================
 
-// ---------- storage helpers ----------
+// ---------- storage helpers (using backend) ----------
+const BACKEND_URL = localStorage.getItem('backendUrl') || 'http://localhost:5000';
+
 async function storageGetRaw(key, shared) {
-  try { const r = await window.storage.get(key, !!shared); return r ? r.value : null; }
-  catch (e) { return null; }
+  try {
+    const url = new URL(BACKEND_URL + '/api/storage/get');
+    url.searchParams.set('key', key);
+    url.searchParams.set('shared', shared ? 'true' : 'false');
+    const r = await fetch(url, { headers: getAuthHeaders() });
+    if (!r.ok) return null;
+    const data = await r.json();
+    return data.value || null;
+  }
+  catch (e) { console.error("storage get failed", key, e); return null; }
 }
 async function storageSetRaw(key, value, shared) {
-  try { return await window.storage.set(key, value, !!shared); }
+  try {
+    const r = await fetch(BACKEND_URL + '/api/storage/set', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
+      body: JSON.stringify({ key, value, shared: !!shared })
+    });
+    return r.ok;
+  }
   catch (e) { console.error("storage set failed", key, e); return null; }
 }
 async function getJSON(key, shared) {
@@ -1383,8 +1400,22 @@ async function setJSON(key, obj, shared) {
   return storageSetRaw(key, JSON.stringify(obj), shared);
 }
 async function listKeys(prefix, shared) {
-  try { const r = await window.storage.list(prefix, !!shared); return r ? r.keys : []; }
-  catch (e) { return []; }
+  try {
+    const url = new URL(BACKEND_URL + '/api/storage/list');
+    url.searchParams.set('prefix', prefix);
+    url.searchParams.set('shared', shared ? 'true' : 'false');
+    const r = await fetch(url, { headers: getAuthHeaders() });
+    if (!r.ok) return [];
+    const data = await r.json();
+    return data.keys || [];
+  }
+  catch (e) { console.error("listKeys failed", e); return []; }
+}
+
+function getAuthHeaders() {
+  const token = localStorage.getItem('authToken');
+  if (!token) return {};
+  return { 'Authorization': 'Bearer ' + token };
 }
 
 // ---------- small utils ----------
@@ -1531,6 +1562,9 @@ const state = {
   screen: "landing",
   loading: false,
   error: null,
+  // auth
+  teacherId: localStorage.getItem('teacherId') || null,
+  authToken: localStorage.getItem('authToken') || null,
   // teacher
   teacherGroups: [],
   createDraft: null,
@@ -1539,6 +1573,11 @@ const state = {
   currentSubmission: null,
   openGroupCodeInput: "",
   openGroupTokenInput: "",
+  loginUsername: "",
+  loginPassword: "",
+  registerUsername: "",
+  registerPassword: "",
+  registerPasswordConfirm: "",
   // student
   joinCode: "",
   joinName: "",
@@ -1553,6 +1592,8 @@ function render() { app.innerHTML = renderScreen(); attachHandlers(); }
 function renderScreen() {
   switch (state.screen) {
     case "landing": return screenLanding();
+    case "teacherLogin": return screenTeacherLogin();
+    case "teacherRegister": return screenTeacherRegister();
     case "studentJoin": return screenStudentJoin();
     case "studentIntro": return screenStudentIntro();
     case "studentTest": return screenStudentTest();
@@ -1566,13 +1607,17 @@ function renderScreen() {
 }
 
 function topbar(showBack, backAction) {
+  const showLogout = state.teacherId && state.authToken;
   return `
     <div class="topbar">
       <div class="brand" style="cursor:pointer" data-action="goLanding">
         <div class="brand-mark"></div>
         <div>Frequency<small>Dein Englisch-Level-Check</small></div>
       </div>
-      ${showBack ? `<button class="ghost-btn" data-action="${backAction}">&larr; Zurück</button>` : ""}
+      <div style="display:flex; gap:12px; align-items:center;">
+        ${showBack ? `<button class="ghost-btn" data-action="${backAction}">&larr; Zurück</button>` : ""}
+        ${showLogout ? `<button class="ghost-btn" data-action="submitLogout">Abmelden</button>` : ""}
+      </div>
     </div>`;
 }
 
@@ -1599,13 +1644,73 @@ function screenLanding() {
           <p class="muted">Lege Gruppen an, wähle Grammatikstrukturen aus und sieh dir die Ergebnisse deiner Klasse an.</p>
         </div>
       </div>
-      <div class="card-flat muted" style="margin-top:34px; font-size:13px;">
-        <b>Hinweis:</b> Diese Demo speichert Gruppen- und Testdaten über die geteilte Speicherfunktion dieses Artefakts. Jede Person mit Zugriff auf diese Seite und einen Gruppen-Code kann technisch auf die zugehörigen Daten zugreifen – für den Klassenzimmer-Einsatz ausreichend, aber kein Ersatz für ein echtes Backend mit Login.
-      </div>
     </div>
     <footer class="app-foot">Grammatikinhalte orientieren sich am English Grammar Profile (CEFR) und gängigen Referenzen wie Test-English.com und dem British Council.</footer>
   `;
 }
+
+// ============================================================
+// SCREEN: Teacher Login
+// ============================================================
+function screenTeacherLogin() {
+  return `
+    ${topbar(true, "goLanding")}
+    <div class="shell-narrow">
+      <h2 style="font-size:28px; margin-bottom:8px;">Lehrkraft-Login</h2>
+      <p class="muted" style="margin-bottom:26px;">Melde dich an, um deine Gruppen zu verwalten.</p>
+      ${state.error ? `<div class="card-flat" style="background:var(--c1-dim); border-color:var(--c1); color:var(--c1); margin-bottom:20px;">${escapeHtml(state.error)}</div>` : ""}
+      <div class="card stack gap-16">
+        <div>
+          <label class="field-label">Benutzername</label>
+          <input type="text" id="loginUsername" placeholder="Dein Benutzername" value="${escapeHtml(state.loginUsername)}">
+        </div>
+        <div>
+          <label class="field-label">Passwort</label>
+          <input type="password" id="loginPassword" placeholder="Dein Passwort" value="${escapeHtml(state.loginPassword)}">
+        </div>
+        <button class="btn btn-primary btn-block" data-action="submitLogin" ${state.loading ? "disabled" : ""}>${state.loading ? "Wird angemeldet…" : "Anmelden"}</button>
+      </div>
+      <p style="margin-top:20px; text-align:center; font-size:14px;">
+        Noch kein Konto? 
+        <a href="#" data-action="goTeacherRegister" style="color:var(--accent-2);">Registrieren</a>
+      </p>
+    </div>
+  `;
+}
+
+// ============================================================
+// SCREEN: Teacher Register
+// ============================================================
+function screenTeacherRegister() {
+  return `
+    ${topbar(true, "goLanding")}
+    <div class="shell-narrow">
+      <h2 style="font-size:28px; margin-bottom:8px;">Neues Konto erstellen</h2>
+      <p class="muted" style="margin-bottom:26px;">Registriere dich, um Gruppen anzulegen und zu verwalten.</p>
+      ${state.error ? `<div class="card-flat" style="background:var(--c1-dim); border-color:var(--c1); color:var(--c1); margin-bottom:20px;">${escapeHtml(state.error)}</div>` : ""}
+      <div class="card stack gap-16">
+        <div>
+          <label class="field-label">Benutzername</label>
+          <input type="text" id="registerUsername" placeholder="Dein Benutzername" value="${escapeHtml(state.registerUsername)}">
+        </div>
+        <div>
+          <label class="field-label">Passwort</label>
+          <input type="password" id="registerPassword" placeholder="Mindestens 6 Zeichen" value="${escapeHtml(state.registerPassword)}">
+        </div>
+        <div>
+          <label class="field-label">Passwort wiederholen</label>
+          <input type="password" id="registerPasswordConfirm" placeholder="Passwort nochmal eingeben" value="${escapeHtml(state.registerPasswordConfirm)}">
+        </div>
+        <button class="btn btn-primary btn-block" data-action="submitRegister" ${state.loading ? "disabled" : ""}>${state.loading ? "Wird registriert…" : "Registrieren"}</button>
+      </div>
+      <p style="margin-top:20px; text-align:center; font-size:14px;">
+        Bereits registriert? 
+        <a href="#" data-action="goTeacherLogin" style="color:var(--accent-2);">Anmelden</a>
+      </p>
+    </div>
+  `;
+}
+
 
 // ============================================================
 // SCREEN: Student join
@@ -1879,6 +1984,132 @@ function showToast(text) {
 // ============================================================
 function goLanding() { Object.assign(state, { screen: "landing", error: null }); render(); }
 function goStudentJoin() { state.screen = "studentJoin"; state.joinError = null; render(); }
+function goTeacherLogin() { state.screen = "teacherLogin"; state.error = null; render(); }
+function goTeacherRegister() { state.screen = "teacherRegister"; state.error = null; render(); }
+
+async function submitLogin() {
+  const usernameEl = document.getElementById("loginUsername");
+  const passwordEl = document.getElementById("loginPassword");
+  const username = (usernameEl.value || "").trim();
+  const password = (passwordEl.value || "").trim();
+  
+  state.loginUsername = username;
+  state.loginPassword = password;
+  
+  if (!username || !password) {
+    state.error = "Bitte fülle alle Felder aus.";
+    render();
+    return;
+  }
+  
+  state.loading = true;
+  state.error = null;
+  render();
+  
+  try {
+    const response = await fetch(BACKEND_URL + '/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password })
+    });
+    
+    if (!response.ok) {
+      const data = await response.json();
+      state.error = data.error || "Login fehlgeschlagen. Bitte versuche es erneut.";
+      state.loading = false;
+      render();
+      return;
+    }
+    
+    const data = await response.json();
+    state.teacherId = data.teacher_id;
+    state.authToken = data.teacher_id + ":" + data.session_token;
+    localStorage.setItem('teacherId', state.teacherId);
+    localStorage.setItem('authToken', state.authToken);
+    
+    state.loading = false;
+    state.loginUsername = "";
+    state.loginPassword = "";
+    await goTeacherHome();
+  } catch (e) {
+    state.error = "Verbindung fehlgeschlagen: " + e.message;
+    state.loading = false;
+    render();
+  }
+}
+
+async function submitRegister() {
+  const usernameEl = document.getElementById("registerUsername");
+  const passwordEl = document.getElementById("registerPassword");
+  const confirmEl = document.getElementById("registerPasswordConfirm");
+  const username = (usernameEl.value || "").trim();
+  const password = (passwordEl.value || "").trim();
+  const confirm = (confirmEl.value || "").trim();
+  
+  state.registerUsername = username;
+  state.registerPassword = password;
+  state.registerPasswordConfirm = confirm;
+  
+  if (!username || !password || !confirm) {
+    state.error = "Bitte fülle alle Felder aus.";
+    render();
+    return;
+  }
+  
+  if (password !== confirm) {
+    state.error = "Die Passwörter stimmen nicht überein.";
+    render();
+    return;
+  }
+  
+  state.loading = true;
+  state.error = null;
+  render();
+  
+  try {
+    const response = await fetch(BACKEND_URL + '/api/auth/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password })
+    });
+    
+    if (!response.ok) {
+      const data = await response.json();
+      state.error = data.error || "Registrierung fehlgeschlagen.";
+      state.loading = false;
+      render();
+      return;
+    }
+    
+    const data = await response.json();
+    state.teacherId = data.teacher_id;
+    state.authToken = data.teacher_id + ":" + data.session_token;
+    localStorage.setItem('teacherId', state.teacherId);
+    localStorage.setItem('authToken', state.authToken);
+    
+    state.loading = false;
+    state.registerUsername = "";
+    state.registerPassword = "";
+    state.registerPasswordConfirm = "";
+    await goTeacherHome();
+  } catch (e) {
+    state.error = "Verbindung fehlgeschlagen: " + e.message;
+    state.loading = false;
+    render();
+  }
+}
+
+function submitLogout() {
+  localStorage.removeItem('teacherId');
+  localStorage.removeItem('authToken');
+  state.teacherId = null;
+  state.authToken = null;
+  state.screen = "landing";
+  state.error = null;
+  state.loginUsername = "";
+  state.loginPassword = "";
+  render();
+}
 
 async function submitJoin() {
   const codeEl = document.getElementById("joinCodeInput");
@@ -2127,11 +2358,18 @@ function screenResults(result, isTeacherView) {
 // TEACHER: dashboard / create / group detail
 // ============================================================
 async function goTeacherHome() {
+  if (!state.teacherId || !state.authToken) {
+    state.screen = "teacherLogin";
+    state.error = null;
+    render();
+    return;
+  }
   state.screen = "teacherDashboard";
   state.loading = true;
   state.error = null;
   render();
-  const groups = (await getJSON("myGroups", false)) || [];
+  const groupsKey = "teacher:" + state.teacherId + ":myGroups";
+  const groups = (await getJSON(groupsKey, false)) || [];
   for (const g of groups) {
     const keys = await listKeys("submission:" + g.code + ":", true);
     g.submissionCount = keys.length;
@@ -2280,13 +2518,14 @@ async function submitCreateGroup() {
   const adminToken = uid();
   const group = {
     code, name: d.name, targetLevel: d.targetLevel, structureIds: d.structureIds,
-    adminToken, createdAt: new Date().toISOString()
+    adminToken, createdAt: new Date().toISOString(), teacherId: state.teacherId
   };
   await setJSON("group:" + code, group, true);
 
-  const myGroups = (await getJSON("myGroups", false)) || [];
+  const groupsKey = "teacher:" + state.teacherId + ":myGroups";
+  const myGroups = (await getJSON(groupsKey, false)) || [];
   myGroups.unshift({ code, name: d.name, targetLevel: d.targetLevel, structureIds: d.structureIds, adminToken, createdAt: group.createdAt });
-  await setJSON("myGroups", myGroups, false);
+  await setJSON(groupsKey, myGroups, false);
 
   state.loading = false;
   state.currentGroup = group;
@@ -2297,7 +2536,8 @@ async function submitCreateGroup() {
 }
 
 async function openMyGroup(code) {
-  const groups = (await getJSON("myGroups", false)) || [];
+  const groupsKey = "teacher:" + state.teacherId + ":myGroups";
+  const groups = (await getJSON(groupsKey, false)) || [];
   const g = groups.find(x => x.code === code);
   if (!g) return;
   await loadTeacherGroup(g.code, g);
@@ -2399,15 +2639,16 @@ function copyCode() {
 // EVENT DELEGATION
 // ============================================================
 const ACTIONS = {
-  goLanding, goStudentJoin, goTeacherHome, goTeacherCreate,
-  submitJoin, startTest, beginStructureItems, checkItem, nextItem, quitTest,
+  goLanding, goStudentJoin, goTeacherHome, goTeacherLogin, goTeacherRegister, goTeacherCreate,
+  submitJoin, submitLogin, submitRegister, submitLogout, startTest, beginStructureItems, checkItem, nextItem, quitTest,
   submitCreateGroup, openGroupByToken, copyCode
 };
 
 function attachHandlers() {
   app.querySelectorAll("[data-action]").forEach(el => {
     const action = el.dataset.action;
-    el.addEventListener("click", () => {
+    el.addEventListener("click", (e) => {
+      e.preventDefault();
       if (action === "toggleStruct") return toggleStruct(el.dataset.id);
       if (action === "moveStructUp") return moveStructUp(el.dataset.id);
       if (action === "moveStructDown") return moveStructDown(el.dataset.id);
@@ -2432,6 +2673,28 @@ function attachHandlers() {
   if (openTokenInput) {
     openTokenInput.addEventListener("input", e => { state.openGroupTokenInput = e.target.value; });
   }
+
+  const loginUsername = document.getElementById("loginUsername");
+  if (loginUsername) {
+    loginUsername.addEventListener("input", e => { state.loginUsername = e.target.value; });
+  }
+  const loginPassword = document.getElementById("loginPassword");
+  if (loginPassword) {
+    loginPassword.addEventListener("input", e => { state.loginPassword = e.target.value; });
+  }
+  const registerUsername = document.getElementById("registerUsername");
+  if (registerUsername) {
+    registerUsername.addEventListener("input", e => { state.registerUsername = e.target.value; });
+  }
+  const registerPassword = document.getElementById("registerPassword");
+  if (registerPassword) {
+    registerPassword.addEventListener("input", e => { state.registerPassword = e.target.value; });
+  }
+  const registerPasswordConfirm = document.getElementById("registerPasswordConfirm");
+  if (registerPasswordConfirm) {
+    registerPasswordConfirm.addEventListener("input", e => { state.registerPasswordConfirm = e.target.value; });
+  }
+
 
   // dial animation trigger (angle stored in data attribute)
   const needle = document.getElementById("dialNeedle");
