@@ -1365,31 +1365,48 @@ if (typeof module !== "undefined") { module.exports = { LEVELS, RESOURCES, STRUC
 // APP LOGIC — vanilla JS SPA
 // ============================================================
 
-// ---------- storage helpers (using backend) ----------
-const BACKEND_URL = localStorage.getItem('backendUrl') || 'http://localhost:5000';
+// ---------- Supabase authentication and storage ----------
+const SUPABASE_URL = 'https://jmualdggnbxfofcbztda.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImptdWFsZGdnbmJ4Zm9mY2J6dGRhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg4NjU5OTUsImV4cCI6MjEwNDQ0MTk5NX0.T6_jC62g1dX1DHxGO9BbF683FSHD4IQp78-RG5oA-MM';
+const SUPABASE_REST_URL = SUPABASE_URL + '/rest/v1/app_storage';
+
+function supabaseHeaders(json = false) {
+  const headers = { apikey: SUPABASE_ANON_KEY };
+  const token = localStorage.getItem('authToken');
+  headers.Authorization = 'Bearer ' + (token || SUPABASE_ANON_KEY);
+  if (json) headers['Content-Type'] = 'application/json';
+  return headers;
+}
 
 async function storageGetRaw(key, shared) {
   try {
-    const url = new URL(BACKEND_URL + '/api/storage/get');
-    url.searchParams.set('key', key);
-    url.searchParams.set('shared', shared ? 'true' : 'false');
-    const r = await fetch(url, { headers: getAuthHeaders() });
-    if (!r.ok) return null;
-    const data = await r.json();
-    return data.value || null;
+    const url = new URL(SUPABASE_REST_URL);
+    url.searchParams.set('key', 'eq.' + key);
+    url.searchParams.set('shared', 'eq.' + (shared ? 'true' : 'false'));
+    const r = await fetch(url, { headers: supabaseHeaders() });
+    if (!r.ok) throw new Error('Supabase storage read failed (' + r.status + ')');
+    const rows = await r.json();
+    return rows[0] ? JSON.stringify(rows[0].value) : null;
   }
   catch (e) { console.error("storage get failed", key, e); return null; }
 }
 async function storageSetRaw(key, value, shared) {
   try {
-    const r = await fetch(BACKEND_URL + '/api/storage/set', {
+    const payload = {
+      key,
+      value: JSON.parse(value),
+      shared: !!shared,
+      owner_id: shared ? null : state.teacherId
+    };
+    const r = await fetch(SUPABASE_REST_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
-      body: JSON.stringify({ key, value, shared: !!shared })
+      headers: { ...supabaseHeaders(true), Prefer: 'resolution=merge-duplicates' },
+      body: JSON.stringify(payload)
     });
-    return r.ok;
+    if (!r.ok) throw new Error('Supabase storage write failed (' + r.status + ')');
+    return true;
   }
-  catch (e) { console.error("storage set failed", key, e); return null; }
+  catch (e) { console.error("storage set failed", key, e); return false; }
 }
 async function getJSON(key, shared) {
   const raw = await storageGetRaw(key, shared);
@@ -1401,13 +1418,13 @@ async function setJSON(key, obj, shared) {
 }
 async function listKeys(prefix, shared) {
   try {
-    const url = new URL(BACKEND_URL + '/api/storage/list');
-    url.searchParams.set('prefix', prefix);
-    url.searchParams.set('shared', shared ? 'true' : 'false');
-    const r = await fetch(url, { headers: getAuthHeaders() });
-    if (!r.ok) return [];
-    const data = await r.json();
-    return data.keys || [];
+    const url = new URL(SUPABASE_REST_URL);
+    url.searchParams.set('key', 'like.' + prefix + '%');
+    url.searchParams.set('shared', 'eq.' + (shared ? 'true' : 'false'));
+    url.searchParams.set('select', 'key');
+    const r = await fetch(url, { headers: supabaseHeaders() });
+    if (!r.ok) throw new Error('Supabase storage list failed (' + r.status + ')');
+    return (await r.json()).map(row => row.key);
   }
   catch (e) { console.error("listKeys failed", e); return []; }
 }
@@ -1661,8 +1678,8 @@ function screenTeacherLogin() {
       ${state.error ? `<div class="card-flat" style="background:var(--c1-dim); border-color:var(--c1); color:var(--c1); margin-bottom:20px;">${escapeHtml(state.error)}</div>` : ""}
       <div class="card stack gap-16">
         <div>
-          <label class="field-label">Benutzername</label>
-          <input type="text" id="loginUsername" placeholder="Dein Benutzername" value="${escapeHtml(state.loginUsername)}">
+          <label class="field-label">E-Mail-Adresse</label>
+          <input type="email" id="loginUsername" placeholder="name@beispiel.de" value="${escapeHtml(state.loginUsername)}">
         </div>
         <div>
           <label class="field-label">Passwort</label>
@@ -1690,8 +1707,8 @@ function screenTeacherRegister() {
       ${state.error ? `<div class="card-flat" style="background:var(--c1-dim); border-color:var(--c1); color:var(--c1); margin-bottom:20px;">${escapeHtml(state.error)}</div>` : ""}
       <div class="card stack gap-16">
         <div>
-          <label class="field-label">Benutzername</label>
-          <input type="text" id="registerUsername" placeholder="Dein Benutzername" value="${escapeHtml(state.registerUsername)}">
+          <label class="field-label">E-Mail-Adresse</label>
+          <input type="email" id="registerUsername" placeholder="name@beispiel.de" value="${escapeHtml(state.registerUsername)}">
         </div>
         <div>
           <label class="field-label">Passwort</label>
@@ -2007,23 +2024,23 @@ async function submitLogin() {
   render();
   
   try {
-    const response = await fetch(BACKEND_URL + '/api/auth/login', {
+    const response = await fetch(SUPABASE_URL + '/auth/v1/token?grant_type=password', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password })
+      headers: supabaseHeaders(true),
+      body: JSON.stringify({ email: username, password })
     });
     
     if (!response.ok) {
       const data = await response.json();
-      state.error = data.error || "Login fehlgeschlagen. Bitte versuche es erneut.";
+      state.error = data.error_description || data.msg || "Login fehlgeschlagen. Bitte versuche es erneut.";
       state.loading = false;
       render();
       return;
     }
     
     const data = await response.json();
-    state.teacherId = data.teacher_id;
-    state.authToken = data.teacher_id + ":" + data.session_token;
+    state.teacherId = data.user.id;
+    state.authToken = data.access_token;
     localStorage.setItem('teacherId', state.teacherId);
     localStorage.setItem('authToken', state.authToken);
     
@@ -2067,23 +2084,35 @@ async function submitRegister() {
   render();
   
   try {
-    const response = await fetch(BACKEND_URL + '/api/auth/register', {
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(username)) {
+      state.error = "Bitte gib eine gültige E-Mail-Adresse ein.";
+      state.loading = false;
+      render();
+      return;
+    }
+    const response = await fetch(SUPABASE_URL + '/auth/v1/signup', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password })
+      headers: supabaseHeaders(true),
+      body: JSON.stringify({ email: username, password })
     });
     
     if (!response.ok) {
       const data = await response.json();
-      state.error = data.error || "Registrierung fehlgeschlagen.";
+      state.error = data.msg || data.error_description || "Registrierung fehlgeschlagen.";
       state.loading = false;
       render();
       return;
     }
     
     const data = await response.json();
-    state.teacherId = data.teacher_id;
-    state.authToken = data.teacher_id + ":" + data.session_token;
+    if (!data.user || !data.access_token) {
+      state.error = "Konto erstellt. Bitte bestätige zuerst die E-Mail-Adresse und melde dich danach an.";
+      state.loading = false;
+      render();
+      return;
+    }
+    state.teacherId = data.user.id;
+    state.authToken = data.access_token;
     localStorage.setItem('teacherId', state.teacherId);
     localStorage.setItem('authToken', state.authToken);
     
