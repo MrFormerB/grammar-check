@@ -2091,6 +2091,16 @@ async function submitRegister() {
       render();
       return;
     }
+    const cooldownKey = "registrationAttempt:" + username.toLowerCase();
+    const lastAttempt = Number(localStorage.getItem(cooldownKey) || 0);
+    const cooldownRemaining = Math.ceil((lastAttempt + 60000 - Date.now()) / 1000);
+    if (cooldownRemaining > 0) {
+      state.error = `Bitte warte ${cooldownRemaining} Sekunden, bevor du die Registrierung erneut versuchst.`;
+      state.loading = false;
+      render();
+      return;
+    }
+    localStorage.setItem(cooldownKey, String(Date.now()));
     const response = await fetch(SUPABASE_URL + '/auth/v1/signup', {
       method: 'POST',
       headers: supabaseHeaders(true),
@@ -2103,7 +2113,14 @@ async function submitRegister() {
     
     if (!response.ok) {
       const data = await response.json();
-      state.error = data.msg || data.error_description || "Registrierung fehlgeschlagen.";
+      const errorText = `${data.msg || ""} ${data.error_description || ""}`.toLowerCase();
+      if (response.status === 429 || errorText.includes("rate limit")) {
+        state.error = "Supabase hat den E-Mail-Versand vorübergehend begrenzt. Warte bitte bis zu einer Stunde und verwende danach dieselbe E-Mail-Adresse zum Anmelden. Deaktiviere alternativ in Supabase unter Authentication → Providers → Email die E-Mail-Bestätigung.";
+      } else if (errorText.includes("already registered")) {
+        state.error = "Diese E-Mail-Adresse ist bereits registriert. Bitte melde dich an.";
+      } else {
+        state.error = data.msg || data.error_description || "Registrierung fehlgeschlagen.";
+      }
       state.loading = false;
       render();
       return;
