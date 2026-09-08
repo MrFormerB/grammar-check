@@ -11,13 +11,14 @@ import hashlib
 import hmac
 import secrets
 from datetime import datetime
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from functools import wraps
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
-DB_PATH = "grammar_check.db"
+CORS(app)  # Enable CORS for local development and separate frontend hosting
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_PATH = os.environ.get("GRAMMAR_CHECK_DB", os.path.join(BASE_DIR, "grammar_check.db"))
 
 # Initialize database
 def init_db():
@@ -113,6 +114,11 @@ def require_auth(f):
     return decorated
 
 # API Endpoints
+
+@app.route('/')
+def index():
+    """Serve the frontend so every device can use the same backend URL."""
+    return send_from_directory(BASE_DIR, 'index.html')
 
 @app.route('/api/auth/register', methods=['POST'])
 def register():
@@ -254,4 +260,7 @@ def health():
 
 if __name__ == '__main__':
     init_db()
-    app.run(debug=False, host='127.0.0.1', port=5000)
+    host = os.environ.get('GRAMMAR_CHECK_HOST', '0.0.0.0')
+    # Port 5000 is commonly occupied by macOS AirPlay Receiver.
+    port = int(os.environ.get('GRAMMAR_CHECK_PORT', '8000'))
+    app.run(debug=False, host=host, port=port)

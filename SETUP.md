@@ -27,6 +27,17 @@ Das Haupt-Problem war, dass angelegte Gruppen nicht abgespeichert wurden. Die Ur
 
 ## Installation und Start
 
+### Supabase einmalig einrichten
+1. Öffne im Supabase-Projekt den **SQL Editor**.
+2. Kopiere den Inhalt von `supabase-schema.sql` hinein und führe ihn aus.
+3. Unter **Authentication → Providers → Email** muss die E-Mail-Registrierung
+   aktiviert sein. Für Tests kann die E-Mail-Bestätigung deaktiviert werden;
+   andernfalls muss die Lehrkraft den Bestätigungslink anklicken.
+
+Die GitHub-Pages-Anwendung verwendet danach Supabase direkt. Lehrkräfte melden
+sich mit ihrer E-Mail-Adresse an. Schüler benötigen kein Konto; Gruppen-Code
+und Admin-Schlüssel bleiben die Zugangsberechtigungen für gemeinsame Daten.
+
 ### Schritt 1: Abhängigkeiten installieren
 ```bash
 pip install -r requirements.txt
@@ -36,10 +47,25 @@ pip install -r requirements.txt
 ```bash
 python backend.py
 ```
-Der Backend läuft dann unter `http://localhost:5000`
+Das Backend läuft dann auf allen Netzwerk-Schnittstellen unter Port `8000`.
 
-### Schritt 3: Frontend öffnen
-Öffne die `index.html` Datei in einem Browser
+### Schritt 3: Anwendung öffnen
+Auf demselben Computer: `http://localhost:8000`
+
+Auf einem anderen Gerät im gleichen Netzwerk:
+1. Ermittle die lokale IP-Adresse des Computers, auf dem das Backend läuft
+   (z. B. `192.168.178.25`).
+2. Öffne auf dem anderen Gerät `http://192.168.178.25:8000`.
+
+Die Anwendung verwendet dann automatisch genau diesen Host für Registrierung,
+Login, Gruppen und Schüler-Ergebnisse. Die HTML-Datei sollte nicht mehr per
+`file://` geöffnet werden, weil `localhost` auf einem anderen Gerät immer auf
+dieses andere Gerät selbst zeigt.
+
+Falls ein anderer Port benötigt wird:
+```bash
+GRAMMAR_CHECK_PORT=8080 python backend.py
+```
 
 ## Funktionsweise
 
