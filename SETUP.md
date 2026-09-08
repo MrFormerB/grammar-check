@@ -31,8 +31,11 @@ Das Haupt-Problem war, dass angelegte Gruppen nicht abgespeichert wurden. Die Ur
 1. Öffne im Supabase-Projekt den **SQL Editor**.
 2. Kopiere den Inhalt von `supabase-schema.sql` hinein und führe ihn aus.
 3. Unter **Authentication → Providers → Email** muss die E-Mail-Registrierung
-   aktiviert sein. Für Tests kann die E-Mail-Bestätigung deaktiviert werden;
-   andernfalls muss die Lehrkraft den Bestätigungslink anklicken.
+   aktiviert sein. Für die Nutzung ohne E-Mail-Versand deaktiviere dort
+   **Confirm email**. Dann kann die Lehrkraft sich direkt nach der Registrierung
+   anmelden und der Supabase-E-Mail-Ratelimit wird nicht ausgelöst.
+   Wenn **Confirm email** aktiviert bleibt, darf die Registrierung nicht mehrfach
+   hintereinander wiederholt werden; Supabase begrenzt den E-Mail-Versand.
 4. Unter **Authentication → URL Configuration** als **Site URL** eintragen:
    `https://mrformerb.github.io/grammar-check/`
 5. Dieselbe Adresse unter **Redirect URLs** hinzufügen.
