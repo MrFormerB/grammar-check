@@ -33,6 +33,9 @@ Das Haupt-Problem war, dass angelegte Gruppen nicht abgespeichert wurden. Die Ur
 3. Unter **Authentication → Providers → Email** muss die E-Mail-Registrierung
    aktiviert sein. Für Tests kann die E-Mail-Bestätigung deaktiviert werden;
    andernfalls muss die Lehrkraft den Bestätigungslink anklicken.
+4. Unter **Authentication → URL Configuration** als **Site URL** eintragen:
+   `https://mrformerb.github.io/grammar-check/`
+5. Dieselbe Adresse unter **Redirect URLs** hinzufügen.
 
 Die GitHub-Pages-Anwendung verwendet danach Supabase direkt. Lehrkräfte melden
 sich mit ihrer E-Mail-Adresse an. Schüler benötigen kein Konto; Gruppen-Code

@@ -1369,6 +1369,7 @@ if (typeof module !== "undefined") { module.exports = { LEVELS, RESOURCES, STRUC
 const SUPABASE_URL = 'https://jmualdggnbxfofcbztda.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImptdWFsZGdnbmJ4Zm9mY2J6dGRhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg4NjU5OTUsImV4cCI6MjEwNDQ0MTk5NX0.T6_jC62g1dX1DHxGO9BbF683FSHD4IQp78-RG5oA-MM';
 const SUPABASE_REST_URL = SUPABASE_URL + '/rest/v1/app_storage';
+const PUBLIC_APP_URL = 'https://mrformerb.github.io/grammar-check/';
 
 function supabaseHeaders(json = false) {
   const headers = { apikey: SUPABASE_ANON_KEY };
@@ -2093,7 +2094,11 @@ async function submitRegister() {
     const response = await fetch(SUPABASE_URL + '/auth/v1/signup', {
       method: 'POST',
       headers: supabaseHeaders(true),
-      body: JSON.stringify({ email: username, password })
+      body: JSON.stringify({
+        email: username,
+        password,
+        options: { emailRedirectTo: PUBLIC_APP_URL }
+      })
     });
     
     if (!response.ok) {
@@ -2738,7 +2743,38 @@ function attachHandlers() {
 // ============================================================
 // INIT
 // ============================================================
-render();
+async function initAuth() {
+  const params = new URLSearchParams(window.location.hash.replace(/^#/, ""));
+  const accessToken = params.get("access_token");
+  const authError = params.get("error_description");
+
+  if (authError) {
+    window.history.replaceState({}, document.title, window.location.pathname);
+    state.error = "E-Mail-Bestätigung fehlgeschlagen: " + authError.replace(/\+/g, " ");
+    render();
+    return;
+  }
+
+  if (accessToken) {
+    let tokenUserId = null;
+    try {
+      tokenUserId = JSON.parse(atob(accessToken.split(".")[1])).sub;
+    } catch (e) {
+      tokenUserId = null;
+    }
+    state.authToken = accessToken;
+    state.teacherId = tokenUserId || params.get("user_id") || localStorage.getItem("teacherId");
+    localStorage.setItem("authToken", accessToken);
+    if (state.teacherId) localStorage.setItem("teacherId", state.teacherId);
+    window.history.replaceState({}, document.title, window.location.pathname);
+    await goTeacherHome();
+    return;
+  }
+
+  render();
+}
+
+initAuth();
 
 </script>
 </body>
