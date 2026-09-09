@@ -1358,6 +1358,19 @@ const STRUCTURES = [
 }
 ];
 
+const REMOVED_STRUCTURE_IDS = new Set([
+  "b2-wish-if-only",
+  "b2-so-such-that",
+  "b2-emphatic-do",
+  "c1-cleft",
+  "c1-inversion",
+  "c1-ellipsis-substitution",
+  "c1-hedging-distancing"
+]);
+for (let i = STRUCTURES.length - 1; i >= 0; i--) {
+  if (REMOVED_STRUCTURE_IDS.has(STRUCTURES[i].id)) STRUCTURES.splice(i, 1);
+}
+
 if (typeof module !== "undefined") { module.exports = { LEVELS, RESOURCES, STRUCTURES }; }
 
 
