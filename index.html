@@ -1467,6 +1467,7 @@ function normalize(str) {
   return String(str || "").trim().toLowerCase().replace(/[.,!?;:]/g, "").replace(/\s+/g, " ").trim();
 }
 const CONTRACTION_EXPANSIONS = {
+  "ain't": "am not", "could've": "could have", "couldn't've": "could not have",
   "aren't": "are not", "can't": "cannot", "couldn't": "could not",
   "didn't": "did not", "doesn't": "does not", "don't": "do not",
   "hadn't": "had not", "hasn't": "has not", "haven't": "have not",
@@ -1475,20 +1476,33 @@ const CONTRACTION_EXPANSIONS = {
   "isn't": "is not", "it'd": "it would", "it'll": "it will",
   "it's": "it is", "mustn't": "must not", "shan't": "shall not",
   "she'd": "she would", "she'll": "she will", "she's": "she is",
-  "shouldn't": "should not", "that's": "that is", "there's": "there is",
+  "let's": "let us", "might've": "might have", "must've": "must have",
+  "should've": "should have", "shouldn't": "should not", "that's": "that is", "there's": "there is",
   "they'd": "they would", "they'll": "they will", "they're": "they are",
   "they've": "they have", "wasn't": "was not", "we'd": "we would",
   "we'll": "we will", "we're": "we are", "we've": "we have",
-  "weren't": "were not", "what's": "what is", "won't": "will not",
-  "wouldn't": "would not", "you'd": "you would", "you'll": "you will",
-  "you're": "you are", "you've": "you have"
+  "weren't": "were not", "what's": "what is", "who's": "who is",
+  "won't": "will not", "would've": "would have", "wouldn't": "would not",
+  "you'd": "you would", "you'll": "you will", "you're": "you are",
+  "you've": "you have"
 };
 function normalizeEnglish(str) {
-  let value = normalize(str).replace(/[’]/g, "'");
-  Object.entries(CONTRACTION_EXPANSIONS).forEach(([short, long]) => {
-    value = value.replace(new RegExp(`\\b${short.replace("'", "['’]")}\\b`, "g"), long);
-  });
-  return value;
+  let value = String(str || "").toLowerCase().replace(/[’]/g, "'").trim();
+  Object.entries(CONTRACTION_EXPANSIONS)
+    .sort(([a], [b]) => b.length - a.length)
+    .forEach(([short, long]) => {
+      value = value.replace(new RegExp(`(^|\\s)${short.replace("'", "['’]")}(?=\\s|$|[.,!?;:])`, "g"), `$1${long}`);
+    });
+  return value
+    .replace(/[.,!?;:]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+function matchesPattern(regex, value) {
+  regex.lastIndex = 0;
+  const matched = regex.test(value);
+  regex.lastIndex = 0;
+  return matched;
 }
 function matchesAnswer(expected, actual) {
   return normalizeEnglish(expected) === normalizeEnglish(actual);
@@ -1541,7 +1555,7 @@ function scoreSentence(item, value) {
   let status = "incorrect";
   if (wordCount >= 3) {
     const expanded = normalizeEnglish(v);
-    const matches = item.regex.test(v) || item.regex.test(expanded);
+    const matches = matchesPattern(item.regex, v) || matchesPattern(item.regex, expanded);
     status = matches ? "correct" : "review";
   }
   return {
