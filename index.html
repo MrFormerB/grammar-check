@@ -1659,7 +1659,12 @@ function scoreSentence(item, value) {
   const v = (value || "").trim();
   const wordCount = v.split(/\s+/).filter(Boolean).length;
   let status = "incorrect";
-  const spelling = findKnownSpellingErrors(v);
+  const spelling = [...new Map(
+    findKnownSpellingErrors(v)
+      .concat(findSpellingErrors(item.modelAnswer, v))
+      .concat(findContextualSpellingErrors(item.modelAnswer, v))
+      .map(error => [error.typed + ":" + error.correct, error])
+  ).values()];
   if (wordCount >= 3) {
     const expanded = normalizeEnglish(v);
     const matches = matchesPattern(item.regex, v) || matchesPattern(item.regex, expanded);
