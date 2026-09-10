@@ -1486,6 +1486,13 @@ const CONTRACTION_EXPANSIONS = {
   "you'd": "you would", "you'll": "you will", "you're": "you are",
   "you've": "you have"
 };
+const COMMON_SPELLING_CORRECTIONS = {
+  accomodate: "accommodate", adress: "address", becuase: "because",
+  definately: "definitely", embarass: "embarrass", enviroment: "environment",
+  goverment: "government", independant: "independent", occurence: "occurrence",
+  occured: "occurred", recieve: "receive", responsability: "responsibility",
+  seperate: "separate", succesful: "successful", tommorow: "tomorrow"
+};
 function normalizeEnglish(str) {
   let value = String(str || "").toLowerCase().replace(/[’]/g, "'").trim();
   Object.entries(CONTRACTION_EXPANSIONS)
@@ -1503,6 +1510,49 @@ function matchesPattern(regex, value) {
   const matched = regex.test(value);
   regex.lastIndex = 0;
   return matched;
+}
+function wordTokens(value) {
+  return normalizeEnglish(value).match(/[a-z]+(?:'[a-z]+)?/g) || [];
+}
+function spellingDistance(a, b) {
+  const previous = Array.from({ length: b.length + 1 }, (_, i) => i);
+  for (let i = 1; i <= a.length; i++) {
+    const current = [i];
+    for (let j = 1; j <= b.length; j++) {
+      current[j] = Math.min(
+        current[j - 1] + 1,
+        previous[j] + 1,
+        previous[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)
+      );
+    }
+    for (let j = 0; j <= b.length; j++) previous[j] = current[j];
+  }
+  return previous[b.length];
+}
+function findSpellingErrors(expected, actual) {
+  const expectedWords = wordTokens(expected);
+  const actualWords = wordTokens(actual);
+  if (expectedWords.length !== actualWords.length) return [];
+  const errors = [];
+  actualWords.forEach((word, index) => {
+    const target = expectedWords[index];
+    if (word !== target && spellingDistance(word, target) === 1) {
+      errors.push({ typed: word, correct: target });
+    }
+  });
+  return errors;
+}
+function findKnownSpellingErrors(actual) {
+  return wordTokens(actual).flatMap(word =>
+    COMMON_SPELLING_CORRECTIONS[word]
+      ? [{ typed: word, correct: COMMON_SPELLING_CORRECTIONS[word] }]
+      : []
+  );
+}
+function bestSpellingMatch(expectedAnswers, actual) {
+  return expectedAnswers
+    .map(expected => ({ expected, errors: findSpellingErrors(expected, actual) }))
+    .sort((a, b) => a.errors.length - b.errors.length)[0] || { expected: "", errors: [] };
 }
 function matchesAnswer(expected, actual) {
   return normalizeEnglish(expected) === normalizeEnglish(actual);
@@ -1534,34 +1584,48 @@ function scoreMC(item, selIndex) {
 function scoreGapLike(item, value) {
   const v = (value || "").trim();
   const correct = v.length > 0 && item.accepted.some(a => matchesAnswer(a, v));
+  const spelling = [...new Map(
+    (correct ? [] : bestSpellingMatch(item.accepted, v).errors)
+      .concat(findKnownSpellingErrors(v))
+      .map(error => [error.typed + ":" + error.correct, error])
+  ).values()];
   return {
-    status: correct ? "correct" : "incorrect",
+    status: correct ? "correct" : spelling.length ? "review" : "incorrect",
     studentAnswerDisplay: v.length ? v : "(keine Antwort)",
-    modelAnswerDisplay: item.accepted[0]
+    modelAnswerDisplay: item.accepted[0],
+    spellingErrors: spelling
   };
 }
 function scoreOrder(item, words) {
   const joined = (words || []).join(" ");
   const correct = words && words.length > 0 && matchesAnswer(item.correct, joined);
+  const spelling = [...new Map(
+    (correct ? [] : findSpellingErrors(item.correct, joined))
+      .concat(findKnownSpellingErrors(joined))
+      .map(error => [error.typed + ":" + error.correct, error])
+  ).values()];
   return {
-    status: correct ? "correct" : "incorrect",
+    status: correct ? "correct" : spelling.length ? "review" : "incorrect",
     studentAnswerDisplay: words && words.length ? joined : "(keine Antwort)",
-    modelAnswerDisplay: item.correct
+    modelAnswerDisplay: item.correct,
+    spellingErrors: spelling
   };
 }
 function scoreSentence(item, value) {
   const v = (value || "").trim();
   const wordCount = v.split(/\s+/).filter(Boolean).length;
   let status = "incorrect";
+  const spelling = findKnownSpellingErrors(v);
   if (wordCount >= 3) {
     const expanded = normalizeEnglish(v);
     const matches = matchesPattern(item.regex, v) || matchesPattern(item.regex, expanded);
-    status = matches ? "correct" : "review";
+    status = matches ? (spelling.length ? "review" : "correct") : "review";
   }
   return {
     status,
     studentAnswerDisplay: v.length ? v : "(keine Antwort)",
-    modelAnswerDisplay: item.modelAnswer
+    modelAnswerDisplay: item.modelAnswer,
+    spellingErrors: spelling
   };
 }
 const XP_BY_TYPE = { mc: 10, gap: 15, order: 15, transform: 20, sentence: 25 };
@@ -2308,6 +2372,7 @@ function checkItem() {
     status: result.status,
     studentAnswerDisplay: result.studentAnswerDisplay,
     modelAnswerDisplay: result.modelAnswerDisplay,
+    spellingErrors: result.spellingErrors || [],
     explanation: item.explanation
   });
 
@@ -2349,6 +2414,9 @@ async function finishTest() {
   t.finishedAt = new Date().toISOString();
   const levelResult = computeLevelResult(t.answers, t.structureIds);
   const feedback = buildFeedback(levelResult.structureResults, t.structureIds);
+  const spellingErrors = t.answers.flatMap(answer =>
+    (answer.spellingErrors || []).map(error => ({ ...error, structureId: answer.structureId, prompt: answer.prompt }))
+  );
 
   const submission = {
     studentId: t.studentId,
@@ -2363,7 +2431,8 @@ async function finishTest() {
     levelPercents: levelResult.levelPercents,
     achievedLevel: levelResult.achieved,
     lowestTestedFailed: levelResult.lowestTestedFailed,
-    overallPercent: levelResult.overallPercent
+    overallPercent: levelResult.overallPercent,
+    spellingErrors
   };
 
   await setJSON("submission:" + t.code + ":" + t.studentId, submission, true);
@@ -2421,6 +2490,22 @@ function screenResults(result, isTeacherView) {
       }).join("")}
     </details>`;
   }).join("");
+  const spellingErrors = sub.spellingErrors || sub.answers.flatMap(answer =>
+    (answer.spellingErrors || []).map(error => ({ ...error, prompt: answer.prompt }))
+  );
+  const spellingHtml = spellingErrors.length ? `
+    <div class="card" style="margin-bottom:24px; border-color:var(--b2);">
+      <h3 style="margin-bottom:8px;">Rechtschreibfehler</h3>
+      <p class="muted" style="margin-bottom:14px;">Nimm diese Wörter bitte in deine Vokabelkartei auf und übe ihre richtige Schreibweise.</p>
+      <div class="stack gap-8">
+        ${spellingErrors.map(error => `
+          <div class="row between" style="padding:8px 0; border-bottom:1px solid var(--border);">
+            <span><del>${escapeHtml(error.typed)}</del> → <b>${escapeHtml(error.correct)}</b></span>
+            ${error.prompt ? `<span class="muted" style="font-size:12px;">${escapeHtml(error.prompt)}</span>` : ""}
+          </div>
+        `).join("")}
+      </div>
+    </div>` : "";
 
   return `
     ${topbar(true, isTeacherView ? "goTeacherGroup" : "goLanding")}
@@ -2456,6 +2541,8 @@ function screenResults(result, isTeacherView) {
         <h3 style="margin-bottom:16px;">Das beherrschst du schon richtig gut</h3>
         ${feedback.strong.map(s => recCard(s, true)).join("")}
       </div>` : ""}
+
+      ${spellingHtml}
 
       <div class="card">
         <h3 style="margin-bottom:16px;">Alle Aufgaben im Detail</h3>
