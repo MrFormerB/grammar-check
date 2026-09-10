@@ -1466,6 +1466,33 @@ function escapeHtml(str) {
 function normalize(str) {
   return String(str || "").trim().toLowerCase().replace(/[.,!?;:]/g, "").replace(/\s+/g, " ").trim();
 }
+const CONTRACTION_EXPANSIONS = {
+  "aren't": "are not", "can't": "cannot", "couldn't": "could not",
+  "didn't": "did not", "doesn't": "does not", "don't": "do not",
+  "hadn't": "had not", "hasn't": "has not", "haven't": "have not",
+  "he'd": "he would", "he'll": "he will", "he's": "he is",
+  "i'd": "i would", "i'll": "i will", "i'm": "i am", "i've": "i have",
+  "isn't": "is not", "it'd": "it would", "it'll": "it will",
+  "it's": "it is", "mustn't": "must not", "shan't": "shall not",
+  "she'd": "she would", "she'll": "she will", "she's": "she is",
+  "shouldn't": "should not", "that's": "that is", "there's": "there is",
+  "they'd": "they would", "they'll": "they will", "they're": "they are",
+  "they've": "they have", "wasn't": "was not", "we'd": "we would",
+  "we'll": "we will", "we're": "we are", "we've": "we have",
+  "weren't": "were not", "what's": "what is", "won't": "will not",
+  "wouldn't": "would not", "you'd": "you would", "you'll": "you will",
+  "you're": "you are", "you've": "you have"
+};
+function normalizeEnglish(str) {
+  let value = normalize(str).replace(/[’]/g, "'");
+  Object.entries(CONTRACTION_EXPANSIONS).forEach(([short, long]) => {
+    value = value.replace(new RegExp(`\\b${short.replace("'", "['’]")}\\b`, "g"), long);
+  });
+  return value;
+}
+function matchesAnswer(expected, actual) {
+  return normalizeEnglish(expected) === normalizeEnglish(actual);
+}
 function shuffle(arr) {
   const a = arr.slice();
   for (let i = a.length - 1; i > 0; i--) {
@@ -1492,7 +1519,7 @@ function scoreMC(item, selIndex) {
 }
 function scoreGapLike(item, value) {
   const v = (value || "").trim();
-  const correct = v.length > 0 && item.accepted.some(a => normalize(a) === normalize(v));
+  const correct = v.length > 0 && item.accepted.some(a => matchesAnswer(a, v));
   return {
     status: correct ? "correct" : "incorrect",
     studentAnswerDisplay: v.length ? v : "(keine Antwort)",
@@ -1501,7 +1528,7 @@ function scoreGapLike(item, value) {
 }
 function scoreOrder(item, words) {
   const joined = (words || []).join(" ");
-  const correct = words && words.length > 0 && normalize(joined) === normalize(item.correct);
+  const correct = words && words.length > 0 && matchesAnswer(item.correct, joined);
   return {
     status: correct ? "correct" : "incorrect",
     studentAnswerDisplay: words && words.length ? joined : "(keine Antwort)",
@@ -1513,7 +1540,9 @@ function scoreSentence(item, value) {
   const wordCount = v.split(/\s+/).filter(Boolean).length;
   let status = "incorrect";
   if (wordCount >= 3) {
-    status = item.regex.test(v) ? "correct" : "review";
+    const expanded = normalizeEnglish(v);
+    const matches = item.regex.test(v) || item.regex.test(expanded);
+    status = matches ? "correct" : "review";
   }
   return {
     status,
@@ -1785,6 +1814,12 @@ function screenStudentIntro() {
       <div class="card">
         <h3 style="margin-bottom:14px;">Das erwartet dich</h3>
         <p class="muted" style="margin-bottom:16px;">${structs.length} Grammatikstrukturen, je 7 Aufgaben mit steigendem Schwierigkeitsgrad. Die letzten beiden Aufgaben pro Struktur bittendich, einen eigenen Satz zu bilden.</p>
+        <div class="card-flat" style="margin-bottom:16px; background:var(--a2-dim); border-color:var(--a2);">
+          <b>Hinweis zu getippten Antworten:</b>
+          Bei Lückentexten, Umformungen und eigenen Sätzen werden Langformen
+          (z. B. <i>do not</i>, <i>she is</i>) und Kurzformen
+          (z. B. <i>don't</i>, <i>she's</i>) gleichwertig akzeptiert.
+        </div>
         <div class="stack gap-8">
           ${structs.map((s, i) => `
             <div class="row between" style="padding:10px 0; border-bottom:1px solid var(--border);">
@@ -2352,7 +2387,7 @@ function screenResults(result, isTeacherView) {
     return `<div class="rec-card ${strong ? "strong" : ""}">
       <div class="row between"><b>${escapeHtml(meta.name)}</b><span class="mono muted">${item.percent}%</span></div>
       ${!strong ? `<ul>${meta.tips.map(t => `<li>${escapeHtml(t)}</li>`).join("")}</ul>` : `<p class="muted" style="font-size:14px; margin-top:4px;">Sehr sicher beherrscht – weiter so!</p>`}
-      ${!strong && res ? `<a class="rec-link" href="${res.url}" target="_blank" rel="noopener">🔗 Übungen: ${escapeHtml(res.name)}</a>` : ""}
+      ${!strong && res ? `<a class="rec-link" href="${res.url}" target="_blank" rel="noopener">🔗 Übungen zu ${escapeHtml(meta.name)}: ${escapeHtml(res.name)}</a>` : ""}
     </div>`;
   }
 
