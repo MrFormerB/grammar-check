@@ -1557,6 +1557,13 @@ function bestSpellingMatch(expectedAnswers, actual) {
 function matchesAnswer(expected, actual) {
   return normalizeEnglish(expected) === normalizeEnglish(actual);
 }
+function containsAnswer(expected, actual) {
+  const expectedText = normalizeEnglish(expected);
+  const actualText = normalizeEnglish(actual);
+  if (!expectedText || !actualText) return false;
+  return actualText === expectedText ||
+    (` ${actualText} `).includes(` ${expectedText} `);
+}
 function shuffle(arr) {
   const a = arr.slice();
   for (let i = a.length - 1; i > 0; i--) {
@@ -1583,7 +1590,7 @@ function scoreMC(item, selIndex) {
 }
 function scoreGapLike(item, value) {
   const v = (value || "").trim();
-  const correct = v.length > 0 && item.accepted.some(a => matchesAnswer(a, v));
+  const correct = v.length > 0 && item.accepted.some(a => containsAnswer(a, v));
   const spelling = [...new Map(
     (correct ? [] : bestSpellingMatch(item.accepted, v).errors)
       .concat(findKnownSpellingErrors(v))
