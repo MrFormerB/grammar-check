@@ -319,6 +319,18 @@ const RESOURCES = {
   ego: { name: "ego4u.com Grammatik", url: "https://www.ego4u.com/en/cram-up/grammar" },
   eh: { name: "Englisch-hilfen.de Grammatik", url: "https://www.englisch-hilfen.de/en/grammar_list/alle.htm" }
 };
+const SPECIFIC_EXERCISES = {
+  "a2-simple-continuous": { name: "Present Simple / Continuous Übungen", url: "https://www.englisch-hilfen.de/en/exercises/tenses/simple_present_progressive.htm" },
+  "a2-past-simple": { name: "Simple Past Übungen", url: "https://www.englisch-hilfen.de/en/grammar/simple_past_form.htm" },
+  "a2-comparatives": { name: "Comparative und Superlative Übungen", url: "https://www.englisch-hilfen.de/en/grammar/adjectives.htm" },
+  "b1-present-perfect": { name: "Present Perfect Übungen", url: "https://www.englisch-hilfen.de/en/grammar/present_perfect_form.htm" },
+  "b1-conditionals-12": { name: "First und Second Conditional Übungen", url: "https://www.englisch-hilfen.de/en/grammar/conditional_simple.htm" },
+  "b2-passive-all-tenses": { name: "Passivübungen", url: "https://www.englisch-hilfen.de/en/grammar/active_passive.htm" },
+  "b2-advanced-relative-clauses": { name: "Relativsätze Übungen", url: "https://www.englisch-hilfen.de/en/grammar/relative_clauses.htm" },
+  "b2-contrast-clauses": { name: "Kontrast-Konjunktionen Übungen", url: "https://www.englisch-hilfen.de/en/grammar/conjunctions.htm" },
+  "c1-participle-clauses": { name: "Participle Clauses Übungen", url: "https://www.englisch-hilfen.de/en/grammar/participles_form.htm" },
+  "c1-subjunctive": { name: "Subjunctive Übungen", url: "https://www.englisch-hilfen.de/en/grammar/subjunctive.htm" }
+};
 
 // helper to keep item objects short to write
 function mc(prompt, options, answerIndex, explanation) {
@@ -1542,6 +1554,26 @@ function findSpellingErrors(expected, actual) {
   });
   return errors;
 }
+function findContextualSpellingErrors(expected, actual) {
+  const expectedWords = wordTokens(expected);
+  const actualWords = wordTokens(actual);
+  if (!expectedWords.length || actualWords.length < expectedWords.length) return [];
+  let best = null;
+  for (let start = 0; start <= actualWords.length - expectedWords.length; start++) {
+    const errors = [];
+    let distance = 0;
+    expectedWords.forEach((target, offset) => {
+      const typed = actualWords[start + offset];
+      const currentDistance = spellingDistance(typed, target);
+      distance += currentDistance;
+      if (currentDistance === 1) errors.push({ typed, correct: target });
+    });
+    if (errors.length && distance === errors.length && (!best || distance < best.distance)) {
+      best = { distance, errors };
+    }
+  }
+  return best ? best.errors : [];
+}
 function findKnownSpellingErrors(actual) {
   return wordTokens(actual).flatMap(word =>
     COMMON_SPELLING_CORRECTIONS[word]
@@ -1551,7 +1583,12 @@ function findKnownSpellingErrors(actual) {
 }
 function bestSpellingMatch(expectedAnswers, actual) {
   return expectedAnswers
-    .map(expected => ({ expected, errors: findSpellingErrors(expected, actual) }))
+    .map(expected => ({
+      expected,
+      errors: findSpellingErrors(expected, actual).length
+        ? findSpellingErrors(expected, actual)
+        : findContextualSpellingErrors(expected, actual)
+    }))
     .sort((a, b) => a.errors.length - b.errors.length)[0] || { expected: "", errors: [] };
 }
 function matchesAnswer(expected, actual) {
@@ -2473,7 +2510,8 @@ function screenResults(result, isTeacherView) {
 
   function recCard(item, strong) {
     const meta = item.meta;
-    const res = meta.resource ? RESOURCES[meta.resource.hub] : null;
+    const res = SPECIFIC_EXERCISES[meta.id] ||
+      (meta.resource ? RESOURCES[meta.resource.hub] : null);
     return `<div class="rec-card ${strong ? "strong" : ""}">
       <div class="row between"><b>${escapeHtml(meta.name)}</b><span class="mono muted">${item.percent}%</span></div>
       ${!strong ? `<ul>${meta.tips.map(t => `<li>${escapeHtml(t)}</li>`).join("")}</ul>` : `<p class="muted" style="font-size:14px; margin-top:4px;">Sehr sicher beherrscht – weiter so!</p>`}
