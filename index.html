@@ -1395,6 +1395,21 @@ const SUPABASE_URL = 'https://jmualdggnbxfofcbztda.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImptdWFsZGdnbmJ4Zm9mY2J6dGRhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg4NjU5OTUsImV4cCI6MjEwNDQ0MTk5NX0.T6_jC62g1dX1DHxGO9BbF683FSHD4IQp78-RG5oA-MM';
 const SUPABASE_REST_URL = SUPABASE_URL + '/rest/v1/app_storage';
 const PUBLIC_APP_URL = 'https://mrformerb.github.io/grammar-check/';
+let supabaseServiceError = null;
+
+function supabaseErrorMessage(error) {
+  if (error instanceof TypeError || /failed to fetch|networkerror|load failed/i.test(String(error?.message || error))) {
+    return "Der Supabase-Dienst ist nicht erreichbar. Prüfe in Supabase, ob das Projekt aktiv (nicht pausiert) ist, und lade diese Seite danach neu.";
+  }
+  const message = String(error?.message || error);
+  if (/storage .*failed \(404\)/i.test(message)) {
+    return "Die Supabase-Tabelle app_storage fehlt. Führe die SQL-Migration aus dem Repository im Supabase SQL Editor aus.";
+  }
+  if (/storage .*failed \((401|403)\)/i.test(message)) {
+    return "Supabase verweigert den Datenzugriff. Prüfe, ob die app_storage-RLS-Regeln und Tabellenrechte eingerichtet wurden.";
+  }
+  return message;
+}
 
 function supabaseHeaders(json = false) {
   const headers = { apikey: SUPABASE_ANON_KEY };
@@ -1404,17 +1419,73 @@ function supabaseHeaders(json = false) {
   return headers;
 }
 
+function saveAuthSession(data) {
+  state.teacherId = data.user.id;
+  state.authToken = data.access_token;
+  localStorage.setItem('teacherId', state.teacherId);
+  localStorage.setItem('authToken', state.authToken);
+  if (data.refresh_token) localStorage.setItem('refreshToken', data.refresh_token);
+}
+
+async function refreshAuthSession() {
+  const refreshToken = localStorage.getItem('refreshToken');
+  if (!refreshToken) return false;
+  const response = await fetch(SUPABASE_URL + '/auth/v1/token?grant_type=refresh_token', {
+    method: 'POST',
+    headers: { apikey: SUPABASE_ANON_KEY, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ refresh_token: refreshToken })
+  });
+  if (!response.ok) {
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('teacherId');
+    state.teacherId = null;
+    state.authToken = null;
+    return false;
+  }
+  saveAuthSession(await response.json());
+  return true;
+}
+
+async function fetchSupabase(url, options = {}) {
+  let response = await fetch(url, options);
+  if (response.status === 401 && state.teacherId) {
+    if (localStorage.getItem('refreshToken')) {
+      if (await refreshAuthSession()) {
+        const headers = new Headers(options.headers || {});
+        headers.set('Authorization', 'Bearer ' + state.authToken);
+        response = await fetch(url, { ...options, headers });
+      } else {
+        throw new Error("Deine Anmeldung ist abgelaufen. Bitte melde dich erneut an.");
+      }
+    } else {
+      throw new Error("Deine Anmeldung ist abgelaufen. Bitte melde dich erneut an.");
+    }
+  }
+  if (!response.ok) {
+    let detail = '';
+    try {
+      const body = await response.clone().json();
+      detail = body.message || body.msg || body.error_description || '';
+    } catch (e) {
+      detail = '';
+    }
+    throw new Error(`${url.toString().includes('/rest/v1/') ? 'Supabase storage' : 'Supabase Auth'} request failed (${response.status})${detail ? ': ' + detail : ''}`);
+  }
+  supabaseServiceError = null;
+  return response;
+}
+
 async function storageGetRaw(key, shared) {
   try {
     const url = new URL(SUPABASE_REST_URL);
     url.searchParams.set('key', 'eq.' + key);
     url.searchParams.set('shared', 'eq.' + (shared ? 'true' : 'false'));
-    const r = await fetch(url, { headers: supabaseHeaders() });
-    if (!r.ok) throw new Error('Supabase storage read failed (' + r.status + ')');
+    const r = await fetchSupabase(url, { headers: supabaseHeaders() });
     const rows = await r.json();
     return rows[0] ? JSON.stringify(rows[0].value) : null;
   }
-  catch (e) { console.error("storage get failed", key, e); return null; }
+  catch (e) { supabaseServiceError = supabaseErrorMessage(e); console.error("storage get failed", key, e); return null; }
 }
 async function storageSetRaw(key, value, shared) {
   try {
@@ -1424,15 +1495,14 @@ async function storageSetRaw(key, value, shared) {
       shared: !!shared,
       owner_id: shared ? null : state.teacherId
     };
-    const r = await fetch(SUPABASE_REST_URL, {
+    const r = await fetchSupabase(SUPABASE_REST_URL, {
       method: 'POST',
       headers: { ...supabaseHeaders(true), Prefer: 'resolution=merge-duplicates' },
       body: JSON.stringify(payload)
     });
-    if (!r.ok) throw new Error('Supabase storage write failed (' + r.status + ')');
     return true;
   }
-  catch (e) { console.error("storage set failed", key, e); return false; }
+  catch (e) { supabaseServiceError = supabaseErrorMessage(e); console.error("storage set failed", key, e); return false; }
 }
 async function getJSON(key, shared) {
   const raw = await storageGetRaw(key, shared);
@@ -1448,11 +1518,10 @@ async function listKeys(prefix, shared) {
     url.searchParams.set('key', 'like.' + prefix + '%');
     url.searchParams.set('shared', 'eq.' + (shared ? 'true' : 'false'));
     url.searchParams.set('select', 'key');
-    const r = await fetch(url, { headers: supabaseHeaders() });
-    if (!r.ok) throw new Error('Supabase storage list failed (' + r.status + ')');
+    const r = await fetchSupabase(url, { headers: supabaseHeaders() });
     return (await r.json()).map(row => row.key);
   }
-  catch (e) { console.error("listKeys failed", e); return []; }
+  catch (e) { supabaseServiceError = supabaseErrorMessage(e); console.error("listKeys failed", e); return []; }
 }
 
 function getAuthHeaders() {
@@ -2215,17 +2284,14 @@ async function submitLogin() {
     }
     
     const data = await response.json();
-    state.teacherId = data.user.id;
-    state.authToken = data.access_token;
-    localStorage.setItem('teacherId', state.teacherId);
-    localStorage.setItem('authToken', state.authToken);
+    saveAuthSession(data);
     
     state.loading = false;
     state.loginUsername = "";
     state.loginPassword = "";
     await goTeacherHome();
   } catch (e) {
-    state.error = "Verbindung fehlgeschlagen: " + e.message;
+    state.error = supabaseErrorMessage(e);
     state.loading = false;
     render();
   }
@@ -2308,10 +2374,7 @@ async function submitRegister() {
       render();
       return;
     }
-    state.teacherId = data.user.id;
-    state.authToken = data.access_token;
-    localStorage.setItem('teacherId', state.teacherId);
-    localStorage.setItem('authToken', state.authToken);
+    saveAuthSession(data);
     
     state.loading = false;
     state.registerUsername = "";
@@ -2319,7 +2382,7 @@ async function submitRegister() {
     state.registerPasswordConfirm = "";
     await goTeacherHome();
   } catch (e) {
-    state.error = "Verbindung fehlgeschlagen: " + e.message;
+    state.error = supabaseErrorMessage(e);
     state.loading = false;
     render();
   }
@@ -2328,6 +2391,7 @@ async function submitRegister() {
 function submitLogout() {
   localStorage.removeItem('teacherId');
   localStorage.removeItem('authToken');
+  localStorage.removeItem('refreshToken');
   state.teacherId = null;
   state.authToken = null;
   state.screen = "landing";
@@ -2347,7 +2411,11 @@ async function submitJoin() {
   state.loading = true; state.joinError = null; render();
   const group = await getJSON("group:" + code, true);
   state.loading = false;
-  if (!group) { state.joinError = "Diesen Gruppen-Code konnten wir nicht finden. Bitte prüfe die Eingabe."; render(); return; }
+  if (!group) {
+    state.joinError = supabaseServiceError || "Diesen Gruppen-Code konnten wir nicht finden. Bitte prüfe die Eingabe.";
+    render();
+    return;
+  }
   state.currentGroup = group;
   state.screen = "studentIntro";
   render();
@@ -2484,7 +2552,9 @@ async function finishTest() {
     spellingErrors
   };
 
-  await setJSON("submission:" + t.code + ":" + t.studentId, submission, true);
+  const saved = await setJSON("submission:" + t.code + ":" + t.studentId, submission, true);
+  state.resultSaveError = saved ? null :
+    (supabaseServiceError || "Dein Ergebnis konnte nicht online gespeichert werden. Bitte informiere deine Lehrkraft.");
 
   state.finalResult = { submission, feedback };
   state.test = null;
@@ -2561,6 +2631,7 @@ function screenResults(result, isTeacherView) {
     ${topbar(true, isTeacherView ? "goTeacherGroup" : "goLanding")}
     <div class="shell">
       ${isTeacherView ? `<h2 style="margin-bottom:6px;">${escapeHtml(sub.studentName)}</h2><p class="muted" style="margin-bottom:20px;">Eingereicht am ${new Date(sub.finishedAt).toLocaleString("de-DE")}</p>` : `<h2 style="text-align:center; margin-bottom:6px;">Dein Ergebnis, ${escapeHtml(sub.studentName)}!</h2>`}
+      ${!isTeacherView && state.resultSaveError ? `<div class="feedback-box incorrect" style="margin-bottom:20px;"><div class="feedback-title incorrect">Ergebnis nicht gespeichert</div>${escapeHtml(state.resultSaveError)}</div>` : ""}
       <div class="dial-wrap">
         <div class="dial">
           <svg viewBox="0 0 240 130">
@@ -2625,6 +2696,7 @@ async function goTeacherHome() {
     g.submissionCount = keys.length;
   }
   state.teacherGroups = groups;
+  if (supabaseServiceError) state.error = supabaseServiceError;
   state.loading = false;
   render();
 }
@@ -2639,6 +2711,7 @@ function screenTeacherDashboard() {
         <h2>Deine Gruppen</h2>
         <button class="btn btn-primary" data-action="goTeacherCreate">+ Neue Gruppe</button>
       </div>
+      ${state.error ? `<div class="feedback-box incorrect" style="margin-bottom:18px;"><div class="feedback-title incorrect">Verbindung zum Datendienst fehlgeschlagen</div>${escapeHtml(state.error)}</div>` : ""}
 
       ${groups.length === 0 ? `<div class="empty-state"><div class="icon">📡</div><p>Du hast hier noch keine Gruppe angelegt. Leg deine erste Gruppe an, um loszulegen.</p></div>` : `
       <div class="group-grid">
@@ -2770,12 +2843,24 @@ async function submitCreateGroup() {
     code, name: d.name, targetLevel: d.targetLevel, structureIds: d.structureIds,
     adminToken, createdAt: new Date().toISOString(), teacherId: state.teacherId
   };
-  await setJSON("group:" + code, group, true);
+  const sharedGroupSaved = await setJSON("group:" + code, group, true);
+  if (!sharedGroupSaved) {
+    state.loading = false;
+    state.error = supabaseServiceError || "Die Gruppe konnte nicht online gespeichert werden.";
+    render();
+    return;
+  }
 
   const groupsKey = "teacher:" + state.teacherId + ":myGroups";
   const myGroups = (await getJSON(groupsKey, false)) || [];
   myGroups.unshift({ code, name: d.name, targetLevel: d.targetLevel, structureIds: d.structureIds, adminToken, createdAt: group.createdAt });
-  await setJSON(groupsKey, myGroups, false);
+  const teacherGroupsSaved = await setJSON(groupsKey, myGroups, false);
+  if (!teacherGroupsSaved) {
+    state.loading = false;
+    state.error = supabaseServiceError || "Die Gruppe wurde erstellt, konnte aber nicht mit deinem Lehrkraftkonto verknüpft werden.";
+    render();
+    return;
+  }
 
   state.loading = false;
   state.currentGroup = group;
@@ -2797,13 +2882,19 @@ async function openGroupByToken() {
   const code = (state.openGroupCodeInput || "").trim().toUpperCase();
   const token = (state.openGroupTokenInput || "").trim();
   const group = await getJSON("group:" + code, true);
-  if (!group || group.adminToken !== token) { state.error = "Code oder Admin-Schlüssel stimmen nicht."; render(); return; }
+  if (!group) {
+    state.error = supabaseServiceError || "Code oder Admin-Schlüssel stimmen nicht.";
+    render();
+    return;
+  }
+  if (group.adminToken !== token) { state.error = "Code oder Admin-Schlüssel stimmen nicht."; render(); return; }
   state.error = null;
   await loadTeacherGroup(code, group);
 }
 
 async function loadTeacherGroup(code, groupMeta) {
   state.loading = true; state.screen = "teacherGroup"; render();
+  state.error = null;
   const group = await getJSON("group:" + code, true) || groupMeta;
   const keys = await listKeys("submission:" + code + ":", true);
   const subs = [];
@@ -2814,6 +2905,7 @@ async function loadTeacherGroup(code, groupMeta) {
   subs.sort((a, b) => new Date(b.finishedAt) - new Date(a.finishedAt));
   state.currentGroup = group;
   state.currentSubmissions = subs;
+  state.error = supabaseServiceError;
   state.loading = false;
   render();
 }
@@ -2829,6 +2921,7 @@ function screenTeacherGroup() {
   return `
     ${topbar(true, "goTeacherHome")}
     <div class="shell">
+      ${state.error ? `<div class="feedback-box incorrect" style="margin-bottom:18px;"><div class="feedback-title incorrect">Verbindung zum Datendienst fehlgeschlagen</div>${escapeHtml(state.error)}</div>` : ""}
       <div class="row between wrap" style="margin-bottom:6px;">
         <h2>${escapeHtml(g.name)}</h2>
         <span class="tag tag-${g.targetLevel}">Ziel: ${g.targetLevel}</span>
@@ -2982,6 +3075,8 @@ async function initAuth() {
     state.teacherId = tokenUserId || params.get("user_id") || localStorage.getItem("teacherId");
     localStorage.setItem("authToken", accessToken);
     if (state.teacherId) localStorage.setItem("teacherId", state.teacherId);
+    const refreshToken = params.get("refresh_token");
+    if (refreshToken) localStorage.setItem("refreshToken", refreshToken);
     window.history.replaceState({}, document.title, window.location.pathname);
     await goTeacherHome();
     return;

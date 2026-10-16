@@ -29,7 +29,11 @@ Das Haupt-Problem war, dass angelegte Gruppen nicht abgespeichert wurden. Die Ur
 
 ### Supabase einmalig einrichten
 1. Öffne im Supabase-Projekt den **SQL Editor**.
-2. Kopiere den Inhalt von `supabase-schema.sql` hinein und führe ihn aus.
+2. Für ein neues Projekt kopiere den Inhalt von `supabase-schema.sql` hinein
+   und führe ihn aus. Wenn `app_storage` bereits existiert, führe stattdessen
+   die Migration `supabase/migrations/20261016070000_grant_app_storage_access.sql`
+   aus, damit Schülerzugriffe ohne Konto die Gruppen lesen und Ergebnisse
+   speichern dürfen.
 3. Unter **Authentication → Providers → Email** muss die E-Mail-Registrierung
    aktiviert sein. Für die Nutzung ohne E-Mail-Versand deaktiviere dort
    **Confirm email**. Dann kann die Lehrkraft sich direkt nach der Registrierung
@@ -39,6 +43,10 @@ Das Haupt-Problem war, dass angelegte Gruppen nicht abgespeichert wurden. Die Ur
 4. Unter **Authentication → URL Configuration** als **Site URL** eintragen:
    `https://mrformerb.github.io/grammar-check/`
 5. Dieselbe Adresse unter **Redirect URLs** hinzufügen.
+6. Stelle sicher, dass das Supabase-Projekt im Dashboard den Status **Active**
+   hat. Pausierte Projekte nehmen keine Verbindungen von keinem Gerät an;
+   wähle im Supabase-Dashboard **Restore/Resume project** und warte, bis es
+   wieder aktiv ist.
 
 Die GitHub-Pages-Anwendung verwendet danach Supabase direkt. Lehrkräfte melden
 sich mit ihrer E-Mail-Adresse an. Schüler benötigen kein Konto; Gruppen-Code
