@@ -10,6 +10,7 @@ create table if not exists public.app_storage (
 );
 
 alter table public.app_storage enable row level security;
+grant select, insert, update, delete on public.app_storage to anon, authenticated;
 
 drop policy if exists "shared storage is readable" on public.app_storage;
 create policy "shared storage is readable"
@@ -34,3 +35,5 @@ create policy "authenticated storage is deletable"
 
 create index if not exists app_storage_shared_key_idx
   on public.app_storage (shared, key);
+
+notify pgrst, 'reload schema';
