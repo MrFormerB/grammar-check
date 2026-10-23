@@ -2914,6 +2914,7 @@ function screenTeacherGroup() {
   if (state.loading) return `${topbar(true, "goTeacherHome")}<div class="shell empty-state">Lade Gruppendaten…</div>`;
   const g = state.currentGroup;
   const subs = state.currentSubmissions;
+  const selectedStructures = g.structureIds.map(structureById).filter(Boolean);
 
   const distribution = { A2: 0, B1: 0, B2: 0, C1: 0, none: 0 };
   subs.forEach(s => { if (s.achievedLevel) distribution[s.achievedLevel]++; else distribution.none++; });
@@ -2930,6 +2931,18 @@ function screenTeacherGroup() {
         <span class="code-pill">Code: ${g.code}</span>
         <button class="btn-icon" data-action="copyCode" title="Code kopieren">⧉</button>
         <span class="muted" style="font-size:13px;">Teile diesen Code mit deinen Schüler:innen.</span>
+      </div>
+
+      <div class="card" style="margin-bottom:24px;">
+        <h3 style="margin-bottom:14px;">Ausgewählte Strukturen (${selectedStructures.length})</h3>
+        <div class="stack gap-8">
+          ${selectedStructures.map((structure, index) => `
+            <div class="row between" style="padding:8px 0; border-bottom:1px solid var(--border);">
+              <span>${index + 1}. ${escapeHtml(structure.name)}</span>
+              <span class="tag tag-${structure.level}">${structure.level}</span>
+            </div>
+          `).join("")}
+        </div>
       </div>
 
       <div class="card" style="margin-bottom:24px;">
